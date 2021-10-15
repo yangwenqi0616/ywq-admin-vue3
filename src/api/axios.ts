@@ -28,8 +28,7 @@ const errorLogic = (code: number): void => {
 };
 
 // axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-// axios.defaults.withCredentials = true;
-// 让ajax携带cookie
+// axios.defaults.withCredentials = true; // 让ajax携带cookie
 
 // 请求拦截
 // axios.interceptors.request.use(
