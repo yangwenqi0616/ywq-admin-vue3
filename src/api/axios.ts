@@ -3,11 +3,13 @@ import { ElMessage } from "element-plus";
 
 const isPro = process.env.NODE_ENV === "production";
 const baseURL = location.origin + (isPro ? process.env.VUE_APP_SERVER_DIR : "");
-const r = axios.create({baseURL}); // axios实例
-const req = axios.create({baseURL}); // axios实例
-const request = axios.create({baseURL}); // axios实例
-
-// axios.defaults.baseURL = baseURL;
+const options = {
+  baseURL,
+  timeout: 60000
+};
+const r = axios.create(options); // axios实例
+const req = axios.create(options); // axios实例
+const request = axios.create(options); // axios实例
 
 /**
  * 用于未登录情况下跳入登录页

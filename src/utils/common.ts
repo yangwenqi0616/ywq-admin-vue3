@@ -37,3 +37,26 @@ export const concatParams = (paramsObj: any): string => {
   }
   return ret.slice(0, -1);
 };
+
+// sessionStorage操作
+const TokenKey = "token";
+
+export const getToken = (): string => <string>sessionStorage.getItem(TokenKey);
+
+export const setToken = (token: string): void => {
+  sessionStorage.setItem(TokenKey, token);
+};
+
+export const removeToken = (): void => {
+  sessionStorage.removeItem(TokenKey);
+};
+
+export const getKey = (key: string): string => <string>sessionStorage.getItem(key);
+
+export const setKey = (key: string, value: string): void => {
+  sessionStorage.setItem(key, value);
+};
+
+export const removeKey = (key: string): void => {
+  sessionStorage.removeItem(key);
+};
