@@ -432,16 +432,10 @@ export default defineComponent({
       console.log("refresh");
     },
     submitForm: function (formName: any, param: any = {}) {
-      let tipMsg: any = {
-        companyEmailFrom: "邮箱",
-        personTelFrom: "手机号",
-        personPassFrom: "手机号",
-        companyFrom: "用户名"
-      };
       (this.$refs[formName] as HTMLFormElement).validate((valid: any) => {
         if (valid) {
           param["pass"] = param["pass"].trim();
-
+          this.$router.push("/dashboard");
         } else {
           console.log("loginErr");
         }
@@ -465,6 +459,7 @@ export default defineComponent({
   justify-content: center;
   height: 100%;
   align-items: center;
+  margin-top: 200px;
 }
 
 .login-wrap {
