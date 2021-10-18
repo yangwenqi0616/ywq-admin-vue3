@@ -250,17 +250,17 @@ import {
 const TIME_COUNT = 60;
 export default defineComponent({
   name: "login",
-  setup() {
-    const store = useStore();
-    const personPassFrom = ref();
-    const personTelFrom = ref();
-    const companyFrom = ref();
-    const companyEmailFrom = ref();
-    const refs: any = {
-      personPassFrom, personTelFrom, companyFrom, companyEmailFrom
-    };
-    return {refs, store};
-  },
+  // setup() {
+  //   const store = useStore();
+  //   const personPassFrom = ref();
+  //   const personTelFrom = ref();
+  //   const companyFrom = ref();
+  //   const companyEmailFrom = ref();
+  //   const refs: any = {
+  //     personPassFrom, personTelFrom, companyFrom, companyEmailFrom
+  //   };
+  //   return {refs, store};
+  // },
   data() {
     let validateName = (rule: any, value: any, callback: any) => {
       if (value === "") {
@@ -345,7 +345,8 @@ export default defineComponent({
         name: "",
         pass: "",
         code: "",
-        identifyCode: ""
+        identifyCode: "",
+        phoneCode: ""
       },
       companyFrom: {
         //企业登录
@@ -387,7 +388,7 @@ export default defineComponent({
     },
     //个人手机号登录
     submitForm2(formName: any) {
-      this.refs[formName].validate((valid: any) => {
+      (this.$refs[formName] as HTMLFormElement).validate((valid: any) => {
         if (valid) {
           console.log("个人手机号登录");
         }
@@ -437,7 +438,7 @@ export default defineComponent({
         personPassFrom: "手机号",
         companyFrom: "用户名"
       };
-      this.refs[formName].validate((valid: any) => {
+      (this.$refs[formName] as HTMLFormElement).validate((valid: any) => {
         if (valid) {
           param["pass"] = param["pass"].trim();
 
@@ -499,6 +500,10 @@ export default defineComponent({
 
   .login-input {
     width: 320px;
+  }
+
+  .el-form-item__content {
+    display: flex;
   }
 
   .login-btn {
