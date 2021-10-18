@@ -9,7 +9,7 @@ export default [
     children: [{
       path: "dashboard",
       name: "Dashboard",
-      component: () => import("@/views/dashboard/index.vue"),
+      component: () => import("../index.vue"),
       meta: {
         title: "首页",
         icon: "home",
