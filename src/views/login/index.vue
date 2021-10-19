@@ -237,6 +237,7 @@
 <script lang="ts">
 import { REG_USER_NAME, REG_EMAIL, REG_IS_PHONE } from "@/utils/reg_exp";
 import { ElMessage } from "element-plus";
+import { setToken } from "@/utils/common";
 import { useStore } from "vuex";
 import {
   computed,
@@ -436,6 +437,7 @@ export default defineComponent({
         if (valid) {
           param["pass"] = param["pass"].trim();
           this.$router.push("/dashboard");
+          setToken("111");
         } else {
           console.log("loginErr");
         }
