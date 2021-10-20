@@ -1,4 +1,4 @@
-import * as AT from "./actionType";
+import * as AT from "./action-type";
 import { getApi1 } from "@/api";
 
 // 获取验证码的token值

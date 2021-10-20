@@ -1,4 +1,5 @@
 import { ElMessage } from "element-plus";
+import store from "./store";
 import router, { addRouter, asyncRouter, resetRouter } from "./router";
 import { getToken } from "@/utils/common";
 import _ from "lodash";
@@ -71,6 +72,7 @@ const permissionView = permissionMenu(flatView);
 permissionView.push({ path: "/:pathMatch(.*)*", redirect: "/404", meta: { hidden: true } }); // 通配路由,这里与vue-router3有区别
 resetRouter();
 addRouter(permissionView);
+store.commit("loginStore/SET_PERMISSION_VIEW", permissionView); // 保存权限路由到store
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title || "ywq-admin";
@@ -94,5 +96,3 @@ router.onError((error) => {
     window.location.reload();
   }
 });
-
-export { routerMap, flatRouter, createUid, permissionMenu };

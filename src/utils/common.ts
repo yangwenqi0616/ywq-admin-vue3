@@ -38,6 +38,15 @@ export const concatParams = (paramsObj: any): string => {
   return ret.slice(0, -1);
 };
 
+/**
+ * 是否为外链地址
+ * @param {string} path
+ * @returns {Boolean}
+ */
+export const isExternal = (path: string): boolean => {
+  return /^(https?:|mailto:|tel:)/.test(path);
+};
+
 // sessionStorage操作
 const TokenKey = "token";
 
