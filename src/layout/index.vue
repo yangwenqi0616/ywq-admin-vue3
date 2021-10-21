@@ -1,10 +1,10 @@
 <template>
-  <el-container class="container-wrapper">
-    <nav-bar class="nav-wrapper"/>
+  <el-container class="app-container">
+    <div class="sidebar-container">
+      <sidebar/>
+    </div>
     <div class="main-container">
-      <div class="sidebar-container">
-        <sidebar/>
-      </div>
+      <nav-bar class="nav-wrapper"/>
       <app-main/>
     </div>
   </el-container>
@@ -27,23 +27,23 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-.container-wrapper {
+.app-container {
   display: flex;
-  flex-direction: column;
+  height: 100vh;
 
-  .nav-wrapper {
-    flex: 0 0 70px;
-    height: 70px;
-    border-bottom: 1px solid rgba(233, 235, 241, 0.3);
+  .sidebar-container {
+    flex: 0 0 210px;
   }
 
   .main-container {
-    height: calc(100vh - 70px);
+    height: 100%;
+    width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
-    .sidebar-container {
-      flex: 0 0 210px;
+    .nav-wrapper {
+      flex: 0 0 70px;
+      border-bottom: 1px solid rgba(233, 235, 241, 0.3);
     }
   }
 }
