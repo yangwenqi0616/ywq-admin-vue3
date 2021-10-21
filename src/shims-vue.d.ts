@@ -4,4 +4,9 @@ declare module "*.vue" {
   const component: DefineComponent<{}, {}, any>;
   export default component;
 }
-declare module "path"
+declare module "path";
+
+declare module "*.scss" {
+  const content: any;
+  export default content;
+}

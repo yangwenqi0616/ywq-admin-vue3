@@ -5,13 +5,14 @@
     </div>
     <div class="main-container">
       <nav-bar class="nav-wrapper"/>
-      <app-main/>
+      <tags-view class="tags-wrapper"/>
+      <app-main class="main-wrapper"/>
     </div>
   </el-container>
 </template>
 
 <script lang="ts">
-import { NavBar, Sidebar, AppMain } from "./components/helper";
+import { NavBar, Sidebar, AppMain, TagsView } from "./components/helper";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -19,7 +20,8 @@ export default defineComponent({
   components: {
     NavBar,
     Sidebar,
-    AppMain
+    AppMain,
+    TagsView
   },
   methods: {}
 });
@@ -41,9 +43,13 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
 
-    .nav-wrapper {
-      flex: 0 0 70px;
+    .nav-wrapper, .tags-wrapper {
+      flex: 0 0 60px;
       border-bottom: 1px solid rgba(233, 235, 241, 0.3);
+    }
+
+    .main-wrapper {
+      height: 100%;
     }
   }
 }

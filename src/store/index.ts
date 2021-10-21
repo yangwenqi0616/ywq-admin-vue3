@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import loginStore from "@/views/login/store";
+import tagsView from "./modules/tags-view";
 
 export default createStore<RootState>({
   state: {
@@ -16,7 +17,8 @@ export default createStore<RootState>({
   },
   actions: {},
   modules: {
-    loginStore
+    loginStore,
+    tagsView
   },
   plugins: [createPersistedState({
     storage: sessionStorage,

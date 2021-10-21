@@ -4,6 +4,9 @@
       <el-menu
           :default-active="activeMenu"
           :unique-opened="false"
+          :background-color="variables.menuBg"
+          :text-color="variables.menuText"
+          :active-text-color="variables.menuActiveText"
           mode="vertical">
         <sidebar-item
             v-for="route in routes"
@@ -21,6 +24,7 @@ import SidebarItem from "./SidebarItem.vue";
 import { constantRoutes } from "@/router";
 import { mapState } from "vuex";
 import { defineComponent } from "vue";
+import variables from "@/styles/variables.scss";
 
 export default defineComponent({
   data() {
@@ -31,6 +35,9 @@ export default defineComponent({
     ...mapState("loginStore", {
       routerList: "routerList"
     }),
+    variables() {
+      return variables;
+    },
     routes() {
       return [...constantRoutes, ...this.routerList];
     },
