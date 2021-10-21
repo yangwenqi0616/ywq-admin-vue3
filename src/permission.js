@@ -68,7 +68,6 @@ const permissionList = ["map", "theme", "async"]; // 权限列表,这里写死,�
 const flatView = routerMap(flatRouter(createUid(asyncRouter)), permissionList);
 const permissionView = permissionMenu(flatView);
 permissionView.push({ path: "/:pathMatch(.*)*", redirect: "/404", meta: { hidden: true } }); // 通配路由,这里与vue-router3有区别
-resetRouter();
 addRouter(permissionView);
 store.commit("loginStore/SET_PERMISSION_VIEW", permissionView); // 保存权限路由到store
 

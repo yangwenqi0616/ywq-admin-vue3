@@ -3,8 +3,7 @@
     <el-scrollbar class="slider-bar-scrollbar">
       <el-menu
           :default-active="activeMenu"
-          :collapse-transition="false"
-          :unique-opened="true"
+          :unique-opened="false"
           mode="vertical">
         <sidebar-item
             v-for="route in routes"
@@ -20,9 +19,8 @@
 <script lang="ts">
 import SidebarItem from "./SidebarItem.vue";
 import { constantRoutes } from "@/router";
-import { mapGetters, mapState } from "vuex";
+import { mapState } from "vuex";
 import { defineComponent } from "vue";
-
 
 export default defineComponent({
   data() {
@@ -34,7 +32,7 @@ export default defineComponent({
       routerList: "routerList"
     }),
     routes() {
-      return [...this.routerList, ...constantRoutes];
+      return [...constantRoutes, ...this.routerList];
     },
     activeMenu() {
       const route = this.$route;

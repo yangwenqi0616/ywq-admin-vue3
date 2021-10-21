@@ -5,6 +5,14 @@ import themeConfigRouter from "@/router/modules/theme-config";
 import constModelRouter from "@/router/modules/const-model";
 import asyncModelRouter from "@/router/modules/async-model";
 
+/**
+ * *路由配置一定要有name,该属性是removeRouter的必要条件
+ * *level
+ * *permissionId 权限id 权限路由必须
+ * *icon为element-ui中的图标,见下网址
+ *  https://element.eleme.cn/#/zh-CN/component/icon
+ */
+
 // 权限路由
 export const asyncRouter: Array<RouteRecordRaw> = [
   ...mapRouter,
