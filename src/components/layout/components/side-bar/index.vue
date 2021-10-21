@@ -45,11 +45,7 @@ export default defineComponent({
       return path;
     }
   },
-  methods: {},
-  created() {
-    console.log(constantRoutes, "mounted", this.routerList);
-  },
-  watch: {}
+  methods: {}
 });
 </script>
 
