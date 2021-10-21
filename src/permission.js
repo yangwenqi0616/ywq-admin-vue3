@@ -4,8 +4,6 @@ import router, { addRouter, asyncRouter, resetRouter } from "./router";
 import { getToken } from "@/utils/common";
 import _ from "lodash";
 
-const asyncRouterList = _.cloneDeep(asyncRouter);
-
 /**
  * 用于为权限菜单添加唯一性标识
  * @param {Array} router -路由对象
@@ -67,7 +65,7 @@ const permissionMenu = (router) => {
 
 const whiteList = ["/login", "/404"]; // 白名单
 const permissionList = ["map", "theme", "async"]; // 权限列表,这里写死,一般要配置由接口返回
-const flatView = routerMap(flatRouter(createUid(asyncRouterList)), permissionList);
+const flatView = routerMap(flatRouter(createUid(asyncRouter)), permissionList);
 const permissionView = permissionMenu(flatView);
 permissionView.push({ path: "/:pathMatch(.*)*", redirect: "/404", meta: { hidden: true } }); // 通配路由,这里与vue-router3有区别
 resetRouter();
