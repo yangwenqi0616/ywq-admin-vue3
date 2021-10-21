@@ -28,7 +28,7 @@
 import ScrollPane from "./ScrollPane";
 import { mapState } from "vuex";
 import path from "path";
-import { constantRoutes } from "@/router";
+import { useRouter } from "vue-router";
 
 export default {
   components: { ScrollPane },
@@ -41,10 +41,15 @@ export default {
       affixTags: []
     };
   },
+  setup() {
+    const router = useRouter();
+    return {
+      routes: router.getRoutes()
+    };
+  },
   computed: {
     ...mapState({
-      visitedViews: state => state.tagsView.visitedViews,
-      routes: state => [...state.loginStore.routerList, ...constantRoutes]
+      visitedViews: state => state.tagsView.visitedViews
     })
   },
   watch: {
