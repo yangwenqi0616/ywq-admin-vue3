@@ -1,4 +1,4 @@
-import Layout from "@/components/layout/index.vue";
+import Layout from "@/layout/index.vue";
 
 export default [
   {
@@ -10,8 +10,8 @@ export default [
     children: [{
       path: "/map-display",
       name: "map",
-      component: () => import("../index.vue"),
-      meta: {title: "地图展示", icon: "map", level: true, permissionId: "map"}
+      component: () => import("@/views/map-display/index.vue"),
+      meta: {title: "地图展示", icon: "el-icon-picture-outline-round", level: true, permissionId: "map"}
     }]
   }
 ];

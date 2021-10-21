@@ -1,4 +1,4 @@
-import Layout from "@/components/layout/index.vue";
+import Layout from "@/layout/index.vue";
 
 export default [
   {
@@ -10,10 +10,10 @@ export default [
     children: [{
       path: "dashboard",
       name: "Dashboard",
-      component: () => import("../index.vue"),
+      component: () => import("@/views/dashboard/index.vue"),
       meta: {
         title: "首页",
-        icon: "home",
+        icon: "el-icon-s-home",
         level: true
       }
     }]
