@@ -12,16 +12,16 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { defineComponent } from "vue";
 
-@Options({
-  props: {
-    msg: String
+export default defineComponent({
+  name: "Dashboard",
+  data() {
+    return {
+      show: false
+    };
   }
-})
-export default class HelloWorld extends Vue {
-  private show = true;
-}
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
