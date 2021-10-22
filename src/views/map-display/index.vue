@@ -1,3 +1,3 @@
 <template>
-  map
+  <div>map</div>
 </template>

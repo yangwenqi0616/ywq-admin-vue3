@@ -55,7 +55,6 @@ export default {
   watch: {
     $route() {
       this.addTags();
-      this.moveToCurrentTag();
     },
     visible(value) {
       if (value) {
@@ -79,7 +78,7 @@ export default {
     filterAffixTags(routes, basePath = "/") {
       let tags = [];
       routes.forEach(route => {
-        if (route.meta && route.meta.affix) {
+        if (route?.meta.affix) {
           const tagPath = path.resolve(basePath, route.path);
           tags.push({
             fullPath: tagPath,
@@ -111,29 +110,13 @@ export default {
       if (name) {
         this.$store.dispatch("tagsView/addView", this.$route);
       }
-      return false;
-    },
-    moveToCurrentTag() {
-      const tags = this.$refs.tag;
-      this.$nextTick(() => {
-        for (const tag of tags) {
-          if (tag.to.path === this.$route.path) {
-            this.$refs.scrollPane.moveToTarget(tag);
-            // when query is different then update
-            if (tag.to.fullPath !== this.$route.fullPath) {
-              this.$store.dispatch("tagsView/updateVisitedView", this.$route);
-            }
-            break;
-          }
-        }
-      });
     },
     refreshSelectedTag(view) {
       this.$store.dispatch("tagsView/delCachedView", view).then(() => {
         const { fullPath } = view;
         this.$nextTick(() => {
           this.$router.replace({
-            path: "/redirect" + fullPath
+            path: fullPath
           });
         });
       });
@@ -147,9 +130,7 @@ export default {
     },
     closeOthersTags() {
       this.$router.push(this.selectedTag);
-      this.$store.dispatch("tagsView/delOthersViews", this.selectedTag).then(() => {
-        this.moveToCurrentTag();
-      });
+      this.$store.dispatch("tagsView/delOthersViews", this.selectedTag);
     },
     closeAllTags(view) {
       this.$store.dispatch("tagsView/delAllViews").then(({ visitedViews }) => {
@@ -168,7 +149,7 @@ export default {
         // you can adjust it according to your needs.
         if (view.name === "Dashboard") {
           // to reload home page
-          this.$router.replace({ path: "/redirect" + view.fullPath });
+          this.$router.replace({ path: view.fullPath });
         } else {
           this.$router.push("/");
         }
@@ -176,18 +157,12 @@ export default {
     },
     openMenu(tag, e) {
       const menuMinWidth = 105;
-      const offsetLeft = this.$el.getBoundingClientRect().left; // container margin left
-      const offsetWidth = this.$el.offsetWidth; // container width
-      const maxLeft = offsetWidth - menuMinWidth; // left boundary
-      const left = e.clientX - offsetLeft + 15; // 15: margin right
-
-      if (left > maxLeft) {
-        this.left = maxLeft;
-      } else {
-        this.left = left;
+      let left = e.clientX, top = e.clientY;
+      if (innerWidth - left < menuMinWidth) {
+        left = innerWidth - menuMinWidth;
       }
-
-      this.top = e.clientY;
+      this.top = top + 14;
+      this.left = left;
       this.visible = true;
       this.selectedTag = tag;
     },

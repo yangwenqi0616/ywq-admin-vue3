@@ -14,7 +14,8 @@ export default [
       meta: {
         title: "首页",
         icon: "el-icon-s-home",
-        level: true
+        level: true,
+        affix: true
       }
     }]
   }

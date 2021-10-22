@@ -1,3 +1,3 @@
 <template>
-  theme-config
+  <div>theme</div>
 </template>

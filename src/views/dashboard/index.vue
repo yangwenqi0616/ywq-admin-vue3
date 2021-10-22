@@ -1,7 +1,13 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <el-button type="primary" icon="el-icon-edit"></el-button>
+    <div id="demo">
+      <button @click="show = !show">
+        Toggle
+      </button>
+      <transition name="fade">
+        <p v-if="show">hello</p>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -14,7 +20,7 @@ import { Options, Vue } from "vue-class-component";
   }
 })
 export default class HelloWorld extends Vue {
-  msg!: string;
+  private show = true;
 }
 </script>
 
