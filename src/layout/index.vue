@@ -31,6 +31,7 @@ export default defineComponent({
 
 .app-container {
   display: flex;
+  width: 100%;
   height: 100vh;
 
   .sidebar-container {
@@ -42,9 +43,10 @@ export default defineComponent({
     width: 100%;
     display: flex;
     flex-direction: column;
+    overflow: auto;
 
     .nav-wrapper, .tags-wrapper {
-      flex: 0 0 35px;
+      flex: 0 0 40px;
       border-bottom: 1px solid rgba(233, 235, 241, 0.3);
     }
 

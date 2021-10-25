@@ -52,7 +52,6 @@ const mutations = {
   DEL_ALL_CACHED_VIEWS: (state: any) => {
     state.cachedViews = [];
   },
-
   UPDATE_VISITED_VIEW: (state: any, view: any) => {
     for (let v of state.visitedViews) {
       if (v.path === view.path) {
@@ -140,7 +139,6 @@ const actions = {
       resolve([...state.cachedViews]);
     });
   },
-
   updateVisitedView({commit}: any, view: any) {
     commit("UPDATE_VISITED_VIEW", view);
   }

@@ -1,9 +1,10 @@
 <template>
   <div class="tags-view-container">
-    <scroll-pane class="tags-view-wrapper" @scroll="handleScroll">
+    <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
       <router-link
           class="tags-view-item"
-          v-for="tag in visitedViews"
+          v-for="(tag,i) in visitedViews"
+          :ref="el => { if (el) tags[i] = el }"
           :key="tag.path"
           :class="isActive(tag)?'active':''"
           :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
@@ -24,10 +25,10 @@
 
 <script>
 import ScrollPane from "./ScrollPane";
-import { mapState } from "vuex";
+import { mapState, useStore } from "vuex";
 import path from "path";
-import { useRouter } from "vue-router";
-import { ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { ref, watch, nextTick } from "vue";
 
 export default {
   components: { ScrollPane },
@@ -41,11 +42,41 @@ export default {
     };
   },
   setup() {
+    const store = useStore();
     const router = useRouter();
-    const currentRoute = ref(router.currentRoute);
+    const route = useRoute();
+    const scrollPane = ref(null);
+    const tags = ref([]);
+    const addTags = () => {
+      const { name } = route;
+      if (name) {
+        store.dispatch("tagsView/addView", route);
+      }
+    };
+    const moveToCurrentTag = () => {
+      nextTick(() => {
+        for (const tag of tags.value) {
+          if (tag.to.path === route.path) {
+            scrollPane.value.moveToTarget(tag);
+            if (tag.to.fullPath !== route.fullPath) {
+              store.dispatch("tagsView/updateVisitedView", this.$route);
+            }
+            break;
+          }
+        }
+      });
+    };
+    watch(
+        () => route.path,
+        () => {
+          addTags();
+          moveToCurrentTag();
+        }
+    );
     return {
       routes: router.getRoutes(),
-      currentRoute
+      scrollPane,
+      tags
     };
   },
   computed: {
@@ -57,9 +88,6 @@ export default {
     },
     isActive() {
       return route => route.path === this.$route.path;
-    },
-    currentPath() {
-      return this.currentRoute.path;
     },
     filterAffixTags() {
       return (routes = this.routes, basePath = "/") => {
@@ -86,9 +114,6 @@ export default {
     }
   },
   watch: {
-    currentPath() {
-      this.addTags();
-    },
     visible(value) {
       if (value) {
         document.body.addEventListener("click", this.closeMenu);
@@ -99,7 +124,6 @@ export default {
   },
   mounted() {
     this.initTags();
-    this.addTags();
   },
   methods: {
     initTags() {
@@ -109,12 +133,6 @@ export default {
         if (tag.name) {
           this.$store.dispatch("tagsView/addVisitedView", tag);
         }
-      }
-    },
-    addTags() {
-      const { name } = this.$route;
-      if (name) {
-        this.$store.dispatch("tagsView/addView", this.$route);
       }
     },
     refreshSelectedTag(view) {
