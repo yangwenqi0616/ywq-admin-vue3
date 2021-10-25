@@ -18,7 +18,6 @@
           :is-nest="true"
           :item="child"
           :base-path="resolvePath(child.path)"
-          class="nest-menu"
       />
     </el-sub-menu>
   </div>
@@ -44,7 +43,6 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    // TODO 未知
     basePath: {
       type: String,
       default: ""
@@ -63,28 +61,31 @@ export default defineComponent({
     };
   },
   methods: {
+    /**
+     * 用于判断是否只有一个可显示的子节点
+     * @param {RouteRecordRaw[]} children - 子路由
+     * @param {RouteRecordRaw} parent - 父路由
+     * @return {boolean}
+     */
     hasOneShowingChild(children: RouteRecordRaw[] = [], parent: RouteRecordRaw) {
+      // 可显示的子路由菜单
       const showingChildren = children.filter((item: RouteRecordRaw) => {
         if (item?.meta?.hidden) {
           return false;
         } else {
-          // Temp set(will be used if only has one showing child)
           this.onlyOneChild = item;
           return true;
         }
       });
-      // When there is only one child router, the child router is displayed by default
       if (showingChildren.length === 1) {
-        const {level} = this.onlyOneChild.meta;
-        return level ? true : false;
-      }
-
-      // Show parent if there are no child router to display
-      if (showingChildren.length === 0) {
+        return true;
+      } else if (showingChildren.length === 0) {
+        // 此时basePath已经拼接为最后的路由,故把path清空
         this.onlyOneChild = {...parent, path: "", noShowingChildren: true};
         return true;
+      } else {
+        return false;
       }
-      return false;
     },
     resolvePath(routePath: string) {
       if (isExternal(routePath)) {

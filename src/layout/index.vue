@@ -44,7 +44,7 @@ export default defineComponent({
     flex-direction: column;
 
     .nav-wrapper, .tags-wrapper {
-      flex: 0 0 60px;
+      flex: 0 0 35px;
       border-bottom: 1px solid rgba(233, 235, 241, 0.3);
     }
 

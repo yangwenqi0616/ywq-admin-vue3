@@ -1,14 +1,12 @@
 <template>
   <div class="tags-view-container">
-    <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
+    <scroll-pane class="tags-view-wrapper" @scroll="handleScroll">
       <router-link
+          class="tags-view-item"
           v-for="tag in visitedViews"
-          ref="tag"
           :key="tag.path"
           :class="isActive(tag)?'active':''"
           :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
-          tag="span"
-          class="tags-view-item"
           @click.middle="!isAffix(tag)?closeSelectedTag(tag):''"
           @contextmenu.prevent="openMenu(tag,$event)">
         {{ tag.title }}
@@ -16,10 +14,10 @@
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)">Refresh</li>
-      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">Close</li>
-      <li @click="closeOthersTags">Close Others</li>
-      <li @click="closeAllTags(selectedTag)">Close All</li>
+      <li @click="refreshSelectedTag(selectedTag)">刷新</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">关闭</li>
+      <li @click="closeOthersTags">关闭其他</li>
+      <li @click="closeAllTags(selectedTag)">全部关闭</li>
     </ul>
   </div>
 </template>
@@ -29,6 +27,7 @@ import ScrollPane from "./ScrollPane";
 import { mapState } from "vuex";
 import path from "path";
 import { useRouter } from "vue-router";
+import { ref } from "vue";
 
 export default {
   components: { ScrollPane },
@@ -43,17 +42,51 @@ export default {
   },
   setup() {
     const router = useRouter();
+    const currentRoute = ref(router.currentRoute);
     return {
-      routes: router.getRoutes()
+      routes: router.getRoutes(),
+      currentRoute
     };
   },
   computed: {
     ...mapState({
       visitedViews: state => state.tagsView.visitedViews
-    })
+    }),
+    isAffix() {
+      return tag => tag?.meta?.affix;
+    },
+    isActive() {
+      return route => route.path === this.$route.path;
+    },
+    currentPath() {
+      return this.currentRoute.path;
+    },
+    filterAffixTags() {
+      return (routes = this.routes, basePath = "/") => {
+        let tags = [];
+        routes.forEach(route => {
+          if (route?.meta.affix) {
+            const tagPath = path.resolve(basePath, route.path);
+            tags.push({
+              fullPath: tagPath,
+              path: tagPath,
+              name: route.name,
+              meta: route.meta
+            });
+          }
+          if (route.children) {
+            const tempTags = this.filterAffixTags(route.children, route.path);
+            if (tempTags.length >= 1) {
+              tags = [...tags, ...tempTags];
+            }
+          }
+        });
+        return tags;
+      };
+    }
   },
   watch: {
-    $route() {
+    currentPath() {
       this.addTags();
     },
     visible(value) {
@@ -69,33 +102,6 @@ export default {
     this.addTags();
   },
   methods: {
-    isActive(route) {
-      return route.path === this.$route.path;
-    },
-    isAffix(tag) {
-      return tag.meta && tag.meta.affix;
-    },
-    filterAffixTags(routes, basePath = "/") {
-      let tags = [];
-      routes.forEach(route => {
-        if (route?.meta.affix) {
-          const tagPath = path.resolve(basePath, route.path);
-          tags.push({
-            fullPath: tagPath,
-            path: tagPath,
-            name: route.name,
-            meta: { ...route.meta }
-          });
-        }
-        if (route.children) {
-          const tempTags = this.filterAffixTags(route.children, route.path);
-          if (tempTags.length >= 1) {
-            tags = [...tags, ...tempTags];
-          }
-        }
-      });
-      return tags;
-    },
     initTags() {
       const affixTags = this.affixTags = this.filterAffixTags(this.routes);
       for (const tag of affixTags) {
@@ -145,14 +151,7 @@ export default {
       if (latestView) {
         this.$router.push(latestView.fullPath);
       } else {
-        // now the default is to redirect to the home page if there is no tags-view,
-        // you can adjust it according to your needs.
-        if (view.name === "Dashboard") {
-          // to reload home page
-          this.$router.replace({ path: view.fullPath });
-        } else {
-          this.$router.push("/");
-        }
+        this.$router.push("/");
       }
     },
     openMenu(tag, e) {
@@ -178,16 +177,18 @@ export default {
 
 <style lang="scss" scoped>
 .tags-view-container {
-  height: 34px;
+  height: 35px;
   width: 100%;
   background: #fff;
   border-bottom: 1px solid #d8dce5;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
 
   .tags-view-wrapper {
+    display: flex;
+    align-items: center;
+
     .tags-view-item {
       display: inline-block;
-      position: relative;
       cursor: pointer;
       height: 26px;
       line-height: 26px;
@@ -201,10 +202,6 @@ export default {
 
       &:first-of-type {
         margin-left: 15px;
-      }
-
-      &:last-of-type {
-        margin-right: 15px;
       }
 
       &.active {
@@ -221,6 +218,27 @@ export default {
           border-radius: 50%;
           position: relative;
           margin-right: 2px;
+        }
+      }
+
+      .el-icon-close {
+        width: 16px;
+        height: 16px;
+        vertical-align: 2px;
+        border-radius: 50%;
+        text-align: center;
+        transition: all .3s cubic-bezier(.645, .045, .355, 1);
+        transform-origin: 100% 50%;
+
+        &:before {
+          transform: scale(.6);
+          display: inline-block;
+          vertical-align: -3px;
+        }
+
+        &:hover {
+          background-color: #b4bccc;
+          color: #fff;
         }
       }
     }
@@ -246,34 +264,6 @@ export default {
 
       &:hover {
         background: #eee;
-      }
-    }
-  }
-}
-</style>
-
-<style lang="scss">
-//reset element css of el-icon-close
-.tags-view-wrapper {
-  .tags-view-item {
-    .el-icon-close {
-      width: 16px;
-      height: 16px;
-      vertical-align: 2px;
-      border-radius: 50%;
-      text-align: center;
-      transition: all .3s cubic-bezier(.645, .045, .355, 1);
-      transform-origin: 100% 50%;
-
-      &:before {
-        transform: scale(.6);
-        display: inline-block;
-        vertical-align: -3px;
-      }
-
-      &:hover {
-        background-color: #b4bccc;
-        color: #fff;
       }
     }
   }

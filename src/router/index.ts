@@ -7,7 +7,6 @@ import asyncModelRouter from "@/router/modules/async-model";
 
 /**
  * *路由配置一定要有name,该属性是removeRouter的必要条件
- * *level
  * *affix导航栏常附标签
  * *permissionId 权限id 权限路由必须
  * *icon为element-ui中的图标,见下网址

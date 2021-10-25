@@ -20,9 +20,7 @@ export default defineComponent({
       h("i", {
         class: icon
       }),
-      h("span", {
-        vSlot: "title"
-      }, title)
+      h("span", null, title)
     ]);
   }
 });

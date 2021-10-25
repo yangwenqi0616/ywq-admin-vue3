@@ -18,13 +18,10 @@ export default defineComponent({
   computed: {
     ...mapState("tagsView", {
       cachedViews: "cachedViews"
-    }),
-    key() {
-      return this.$route.path;
-    }
+    })
   },
   mounted() {
-    console.log(this.cachedViews, 34);
+    console.log(this.cachedViews);
   }
 });
 </script>

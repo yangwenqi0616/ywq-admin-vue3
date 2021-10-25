@@ -6,7 +6,7 @@ export default [
     name: "/",
     component: Layout,
     redirect: "/dashboard",
-    meta: {title: "首页", icon: "home", level: true},
+    meta: {title: "首页", icon: "home"},
     children: [{
       path: "dashboard",
       name: "Dashboard",
@@ -14,7 +14,6 @@ export default [
       meta: {
         title: "首页",
         icon: "el-icon-s-home",
-        level: true,
         affix: true
       }
     }]

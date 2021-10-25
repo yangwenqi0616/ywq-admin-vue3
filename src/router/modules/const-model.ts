@@ -6,18 +6,18 @@ export default [
     name: "const",
     component: Layout,
     redirect: "/const-model",
-    meta: {title: "固定路由", icon: "el-icon-s-cooperation", level: true},
+    meta: {title: "固定路由", icon: "el-icon-s-cooperation"},
     children: [{
       path: "/const-model",
       name: "constModel",
       component: () => import("@/views/const-model/index.vue"),
-      meta: {title: "固定路由", icon: "el-icon-present", level: true}
+      meta: {title: "固定路由", icon: "el-icon-present"}
     },
       {
         path: "/const-model1",
         name: "constModel1",
-        component: () => import("@/views/const-model/index.vue"),
-        meta: {title: "固定路由", icon: "el-icon-s-opportunity", level: true}
+        component: () => import("@/views/const-model/index2.vue"),
+        meta: {title: "固定路由2", icon: "el-icon-s-opportunity"}
       }]
   }
 ];
