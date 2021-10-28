@@ -2,6 +2,8 @@ import { ElMessage } from "element-plus";
 import store from "./store";
 import router, { addRouter, asyncRouter } from "./router";
 import { getToken } from "@/utils/common";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 /**
  * 用于为权限菜单添加唯一性标识
@@ -71,6 +73,7 @@ addRouter(permissionView);
 store.commit("loginStore/SET_PERMISSION_VIEW", permissionView); // 保存权限路由到store
 
 router.beforeEach((to, from, next) => {
+  NProgress.start();
   document.title = to.meta.title || "ywq-admin";
   const hasToken = getToken();
   if (whiteList.indexOf(to.path) !== -1) {
@@ -81,6 +84,10 @@ router.beforeEach((to, from, next) => {
     ElMessage.warning("请先登录");
     next({ name: "Login" });
   }
+});
+
+router.afterEach(() => {
+  NProgress.done();
 });
 
 router.onError((error) => {
