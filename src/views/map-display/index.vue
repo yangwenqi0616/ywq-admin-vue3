@@ -15,8 +15,10 @@ let chart: ECharts;
  * 用于绘制echarts
  */
 const renderChart = () => {
-  chart = init(map.value, undefined, {renderer: "svg"});
-  chart.setOption(chartOption);
+  if (map.value) {
+    chart = init(map.value, undefined, {renderer: "svg"});
+    chart.setOption(chartOption);
+  }
 };
 /**
  * 用于销毁echarts实例
@@ -26,25 +28,30 @@ const destroyChart = (echarts: ECharts) => {
   echarts.dispose();
   echarts.clear();
 };
+/**
+ * 用于数据或页面变化后重绘chart
+ */
+const reRenderChart = _.throttle(() => {
+  destroyChart(chart);
+  renderChart();
+}, 200);
 
 onMounted(() => {
-  if (map.value) {
-    registerMap("china", china as any);
-    renderChart(chart);
-  }
+  registerMap("china", china as any);
+  renderChart();
   // 页面大小变动时重绘echarts
-  window.onresize = _.throttle(() => {
-    destroyChart(chart);
-    renderChart(chart);
-  }, 200);
+  window.addEventListener("resize", reRenderChart);
 });
 onUnmounted(() => {
   // 销毁地图实例
   chart && destroyChart(chart);
+  window.removeEventListener("resize", reRenderChart);
+
 });
 </script>
 <style lang="scss" scoped>
 .map {
+  background: #09243e;
   height: 100%;
   width: 100%;
 }

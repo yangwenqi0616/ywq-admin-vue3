@@ -44,6 +44,7 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     overflow: auto;
+    background: #eee;
 
     .nav-wrapper, .tags-wrapper {
       flex: 0 0 40px;

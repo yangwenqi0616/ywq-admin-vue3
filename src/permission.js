@@ -1,8 +1,7 @@
 import { ElMessage } from "element-plus";
 import store from "./store";
-import router, { addRouter, asyncRouter, resetRouter } from "./router";
+import router, { addRouter, asyncRouter } from "./router";
 import { getToken } from "@/utils/common";
-import _ from "lodash";
 
 /**
  * 用于为权限菜单添加唯一性标识

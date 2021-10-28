@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 /**
  * 用于自动适配屏幕大小(多用于可视化大屏)
  * @param {string} dw 设计宽
@@ -13,9 +15,9 @@ export const resetScreenSize = (dw: number, dh: number, needLT = false) => {
     needLT && (_el.style.transformOrigin = "0 0");
   };
   //窗口大小发送改变时自动调整
-  window.onresize = () => {
+  window.onresize = _.throttle(() => {
     init();
-  };
+  }, 200);
   init();
 };
 
