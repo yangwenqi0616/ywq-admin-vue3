@@ -1,6 +1,6 @@
 import { EChartsOption } from "echarts";
 
-const mapData: MapData[] = [
+export const mapData: MapData[] = [
   {value: 2, name: "北京", id: 11},
   {value: 1, name: "天津", id: 12},
   {value: 51, name: "河北", id: 13},
@@ -112,4 +112,9 @@ interface MapData {
   name: string;
   id: number;
   value: number;
+}
+
+export interface TimerList {
+  timer: number;
+  timeOut: number;
 }
