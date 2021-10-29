@@ -21,7 +21,6 @@ const renderChart = (isAutoPlay = true) => {
   if (map.value) {
     chart = init(map.value, undefined, {renderer: "svg"});
     chart.setOption(chartOption);
-    //TODO 是否支持多次new
     player.value = new AutoPlay(chart);
     isAutoPlay && player.value.init();
   }
