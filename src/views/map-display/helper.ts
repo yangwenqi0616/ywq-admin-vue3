@@ -33,7 +33,9 @@ export const mapData: MapData[] = [
   {value: 144, name: "宁夏", id: 64},
   {value: 2, name: "新疆", id: 65},
   {value: 16, name: "台湾", id: 66},
-  {value: 6, name: "南海诸岛", id: 67}
+  {value: 6, name: "南海诸岛", id: 67},
+  {value: 16, name: "香港", id: 68},
+  {value: 88, name: "澳门", id: 69}
 ];
 
 export const chartOption = {
@@ -112,9 +114,4 @@ interface MapData {
   name: string;
   id: number;
   value: number;
-}
-
-export interface TimerList {
-  timer: number;
-  timeOut: number;
 }

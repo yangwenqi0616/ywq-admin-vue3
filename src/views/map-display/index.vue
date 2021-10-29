@@ -5,25 +5,25 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { init, registerMap, ECharts } from "echarts";
 import china from "./MAP_CHINA";
-import { chartOption, mapData, TimerList } from "./helper";
-import { autoTip } from "@/utils/chart-carousel";
+import { chartOption } from "./helper";
+import { AutoPlay } from "@/utils/chart-carousel";
 import _ from "lodash";
 
 const map = ref<HTMLDivElement | null>(null);
 let chart: ECharts;
-const timers: TimerList = {
-  timer: 0,
-  timeOut: 0
-}; // 轮询用的定时器
+let player = ref(); // echarts轮播器
 
 /**
  * 用于绘制echarts
+ * @param {boolean} isAutoPlay - 是否自动轮播,默认为true
  */
-const renderChart = () => {
+const renderChart = (isAutoPlay = true) => {
   if (map.value) {
     chart = init(map.value, undefined, {renderer: "svg"});
     chart.setOption(chartOption);
-    autoTip(chart, timers, "timer", "timeOut", mapData.length - 1);
+    //TODO 是否支持多次new
+    player.value = new AutoPlay(chart);
+    isAutoPlay && player.value.init();
   }
 };
 /**
@@ -39,6 +39,8 @@ const destroyChart = (echarts: ECharts) => {
  */
 const reRenderChart = _.throttle(() => {
   destroyChart(chart);
+  player.value && player.value.destroy();
+  player.value = null;
   renderChart();
 }, 200);
 
@@ -51,9 +53,8 @@ onMounted(() => {
 onUnmounted(() => {
   // 销毁地图实例
   chart && destroyChart(chart);
+  player.value && player.value.destroy();
   window.removeEventListener("resize", reRenderChart);
-  timers.timer && clearInterval(timers.timer);
-  timers.timeOut && clearTimeout(timers.timeOut);
 });
 </script>
 <style lang="scss" scoped>
