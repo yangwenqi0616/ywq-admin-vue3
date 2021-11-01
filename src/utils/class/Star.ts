@@ -1,5 +1,13 @@
 /**
- * 星星类
+ * Class Star - 星星类
+ * 必传参数
+ * ctx - 画笔对象
+ * 可选参数
+ * x - 横坐标;y - 纵坐标;r - 星星半径;speed_x - 横向移动步距;speed_y - 纵向移动步距;ctxConfig - 画笔配置
+ * exm: const star = new Star(ctx) 创建一个位置(0,0),半径为0.5~1.5随机大小,步距为0,颜色为白色的星星
+ * 提供的方法
+ * render: star.render() 将星星绘制在canvas画布上
+ * move: star.move() 移动一步
  * @author Ywq
  * @date 2021/10/31 17:46
  */
@@ -50,7 +58,7 @@ export class Star implements Start {
    * 用于检测星星是否移动到画布边缘
    * 如果到达边缘,反向移动
    */
-  check(): void {
+  private check(): void {
     if (this.x <= 0 || this.x >= this.ctx.canvas.width) {
       this.speed_x = -this.speed_x;
     } else if (this.y <= 0 || this.y >= this.ctx.canvas.height) {
@@ -70,6 +78,4 @@ export interface Start {
   render(): void;
 
   move(): void;
-
-  check(): void;
 }

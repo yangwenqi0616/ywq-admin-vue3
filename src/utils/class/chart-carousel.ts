@@ -2,7 +2,13 @@ import { ECharts } from "echarts";
 import _ from "lodash";
 
 /**
- * Echarts自动轮播
+ * Class AutoPlay - Echarts自动轮播器
+ * 必传参数 chart - 需轮播的echarts实例 exm: const autoPlayChart = new AutoPlay(chart);
+ * 提供的方法
+ * init: 轮播器的初始化
+ * exm: autoPlayChart.init(i = 0, interval = 2000) 参数可选,默认从位置0(第一项),间隔2s开始轮播
+ * destroy: 轮播器的销毁
+ * autoPlayChart.destroy()
  * @author Ywq
  * @date 2021/10/29 15:21
  */
@@ -35,7 +41,7 @@ export class AutoPlay implements ChartPlayer {
    * 用于首次渲染或hover后重置toolTip
    * @param {number} index - 激活项下标
    */
-  public resetTip(index: number): void {
+  private resetTip(index: number): void {
     if (this.chart) {
       this.chart.dispatchAction({
         type: "downplay",
@@ -107,8 +113,6 @@ export interface ChartPlayer {
   chart: ECharts | null;
   length: number;
   indexList: number[];
-
-  resetTip(index: number): void;
 
   init(): void;
 

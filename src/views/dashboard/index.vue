@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
-import { Star } from "@/utils/Star";
+import { Star } from "@/utils/class/Star";
 
 const paperBox = ref<HTMLDivElement | null>(null);
 const paper = ref<HTMLCanvasElement | null>(null);

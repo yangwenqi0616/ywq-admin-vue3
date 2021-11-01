@@ -6,7 +6,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { init, registerMap, ECharts } from "echarts";
 import china from "./MAP_CHINA";
 import { chartOption } from "./helper";
-import { AutoPlay } from "@/utils/chart-carousel";
+import { AutoPlay } from "@/utils/class/chart-carousel";
 import _ from "lodash";
 
 const map = ref<HTMLDivElement | null>(null);
