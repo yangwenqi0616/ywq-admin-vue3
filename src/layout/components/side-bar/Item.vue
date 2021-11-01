@@ -16,7 +16,9 @@ export default defineComponent({
   },
   render() {
     const {icon, title} = this;
-    return h("div", null, [
+    return h("div", {
+      class: "no-select"
+    }, [
       h("i", {
         class: icon
       }),

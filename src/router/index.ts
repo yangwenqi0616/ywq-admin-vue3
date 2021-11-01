@@ -1,21 +1,23 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import dashboardRouter from "@/router/modules/dashboard";
-import mapRouter from "@/router/modules/map-display";
 import themeConfigRouter from "@/router/modules/theme-config";
-import constModelRouter from "@/router/modules/const-model";
+import personalCenterRouter from "@/router/modules/personal-center";
 import asyncModelRouter from "@/router/modules/async-model";
 
 /**
  * *路由配置一定要有name,该属性是removeRouter的必要条件
- * *affix导航栏常附标签
- * *permissionId 权限id 权限路由必须
- * *icon为element-ui中的图标,见下网址
+ * meta - 路由配置
+ * 可选参数
+ * hidden: 是否隐藏
+ * affix: 是否为导航栏常附标签
+ * permissionId: 权限id 权限路由必须
+ * url: 如果是内嵌网页,则为网页地址
+ * icon: element-ui中的图标,见下网址
  *  https://element.eleme.cn/#/zh-CN/component/icon
  */
 
 // 权限路由
 export const asyncRouter: Array<RouteRecordRaw> = [
-  ...mapRouter,
   ...themeConfigRouter,
   ...asyncModelRouter
 ];
@@ -35,7 +37,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     meta: {hidden: true}
   },
   ...dashboardRouter,
-  ...constModelRouter
+  ...personalCenterRouter
 ];
 
 // 创建路由

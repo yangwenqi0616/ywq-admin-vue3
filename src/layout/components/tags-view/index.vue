@@ -2,7 +2,7 @@
   <div class="tags-view-container">
     <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
       <router-link
-          class="tags-view-item"
+          class="tags-view-item no-select"
           v-for="(tag,i) in visitedViews"
           :ref="el => { if (el) tags[i] = el }"
           :key="tag.path"

@@ -71,3 +71,7 @@ export const setKey = (key: string, value: string): void => {
 export const removeKey = (key: string): void => {
   sessionStorage.removeItem(key);
 };
+
+export const clearSession = (): void => {
+  sessionStorage.clear();
+};

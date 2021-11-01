@@ -1,7 +1,7 @@
 import { ElMessage } from "element-plus";
 import store from "./store";
 import router, { addRouter, asyncRouter } from "./router";
-import { getToken } from "@/utils/common";
+import { getToken, clearSession } from "@/utils/common";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 
@@ -65,7 +65,7 @@ const permissionMenu = (router) => {
 };
 
 const whiteList = ["/login", "/404"]; // 白名单
-const permissionList = ["map", "theme", "async"]; // 权限列表,这里写死,一般要配置由接口返回
+const permissionList = ["map", "star", "theme", "async"]; // 权限列表,这里写死,一般要配置由接口返回
 const flatView = routerMap(flatRouter(createUid(asyncRouter)), permissionList);
 const permissionView = permissionMenu(flatView);
 permissionView.push({ path: "/:pathMatch(.*)*", redirect: "/404", meta: { hidden: true } }); // 通配路由,这里与vue-router3有区别
@@ -77,6 +77,9 @@ router.beforeEach((to, from, next) => {
   document.title = to.meta.title || "ywq-admin";
   const hasToken = getToken();
   if (whiteList.indexOf(to.path) !== -1) {
+    if (to.path === "/login") {
+      clearSession();
+    }
     next();
   } else if (hasToken) {
     next();
