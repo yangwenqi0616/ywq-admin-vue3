@@ -29,29 +29,28 @@ const errorLogic = (code: number): void => {
   }
 };
 
-// axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-// axios.defaults.withCredentials = true; // 让ajax携带cookie
+axios.defaults.headers["Content-Type"] = "application/x-www-form-urlencoded";
+axios.defaults.withCredentials = true; // 让ajax携带cookie
 
 // 请求拦截
-// axios.interceptors.request.use(
-//     (config) => {
-//       const token = localStorage.getItem('token');
-//       if (token) {
-//         if (!config.params) {
-//           config.params = {
-//             'access_token': token
-//           };
-//         } else {
-//           // @ts-ignore
-//           config.params.access_token = token;
-//         }
-//       }
-//       return config;
-//     },
-//     (err) => {
-//       return Promise.reject(err);
-//     }
-// );
+axios.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        if (!config.params) {
+          config.params = {
+            "access_token": token
+          };
+        } else {
+          config.params.access_token = token;
+        }
+      }
+      return config;
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+);
 
 //拦截响应，做统一处理
 axios.interceptors.response.use(
@@ -61,10 +60,10 @@ axios.interceptors.response.use(
         return response;
       }
       // errorLogic(code);
+      ElMessage.warning(msg);
       return response;
     },
     function (error) {
-      ElMessage.warning(`${error}`);
       return Promise.reject(error); // 返回接口返回的错误信息
     }
 );
