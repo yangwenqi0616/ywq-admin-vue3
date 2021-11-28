@@ -12,7 +12,7 @@ import { isExternal } from "@/utils/common";
 import { computed } from "vue";
 
 const route = useRoute();
-const iframeUrl = route?.meta?.url || "";
+const iframeUrl = route?.meta?.url as string || "";
 const isExternalUrl = computed(() => isExternal(iframeUrl));
 </script>
 <style lang="scss" scoped>

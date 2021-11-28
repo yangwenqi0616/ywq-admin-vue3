@@ -1,17 +1,52 @@
 <!DOCTYPE html>
 <html lang="">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+    <script>
+      /**
+       * 根据屏幕大小以及设计稿进行rem适配
+       * @param {window} n - window
+       * @param {number} design - 设计稿宽度
+       * @param {number} scale - rem换算比例 exp: scale=10,则1rem=10px
+       */
+      !((n, design, scale) => {
+        const e = n.document,
+          t = e.documentElement,
+          d = design / scale,
+          o = "orientationchange" in n ? "orientationchange" : "resize",
+          a = function () {
+            let n = t.clientWidth || i;
+            n > design * 2 && (n = design * 2);
+            n < design / 2 && (n = design / 2);
+            t.style.fontSize = n / d + "px";
+            const div = document.createElement("div");
+            div.style.width = "1.4rem";
+            div.style.height = "0";
+            document.body.appendChild(div);
+            const ideal = 1.4 * n / d;
+            const rmd = Number.parseFloat(getComputedStyle(div, null).width) / ideal;
+            console.log(rmd, "误差比");
+            if (rmd > 1.1 || rmd < 0.9) {
+              t.style.fontSize = (n / d) / rmd + "px";
+              console.log("修正执行");
+            }
+            document.body.removeChild(div);
+          };
+        e.addEventListener &&
+        (n.addEventListener(o, a, !1), e.addEventListener("DOMContentLoaded", a, !1));
+      })(window, 1920, 10);
+    </script>
+</head>
+<body>
+<noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
+</noscript>
+<div id="app"></div>
+<!-- built files will be auto injected -->
+</body>
 </html>
