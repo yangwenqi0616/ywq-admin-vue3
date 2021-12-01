@@ -49,6 +49,26 @@ export const isExternal = (path: string): boolean => {
   return /^(https?:|mailto:|tel:)/.test(path);
 };
 
+/**
+ * 用于切换目标元素类名
+ * @param {HTMLElement} element - 切换类名的目标元素
+ * @param {string} className - 类名
+ */
+export const toggleClass = (element: HTMLElement, className: string) => {
+  if (!element || !className) {
+    return;
+  }
+  let classString = element.className;
+  const nameIndex = classString.indexOf(className);
+  if (nameIndex === -1) {
+    classString += "" + className;
+  } else {
+    classString = classString.substr(0, nameIndex) +
+        classString.substr(nameIndex + className.length);
+  }
+  element.className = classString;
+};
+
 // sessionStorage操作
 const TokenKey = "token";
 
