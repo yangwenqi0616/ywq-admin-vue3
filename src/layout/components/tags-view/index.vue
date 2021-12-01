@@ -213,8 +213,8 @@ export default {
       height: 30px;
       line-height: 30px;
       border: 1px solid #d8dce5;
-      color: #8b4e4e;
-      background: rgba(255, 255, 255, .5);
+      color: #fff;
+      background: rgba(47, 65, 86, .7);
       padding: 0 8px;
       font-size: 15px;
       margin-left: 5px;
@@ -226,12 +226,12 @@ export default {
       }
 
       &.active {
-        background-color: #b99f42;
-        color: #fff;
+        background-color: #c9d7e1fc;
+        color: #304156;
 
         &::before {
           content: '';
-          background: #fff;
+          background: #304156;
           display: inline-block;
           width: 8px;
           height: 8px;

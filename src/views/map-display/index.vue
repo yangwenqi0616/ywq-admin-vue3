@@ -58,8 +58,20 @@ onUnmounted(() => {
 </script>
 <style lang="scss" scoped>
 .map {
-  background: #09243e;
-  height: 100%;
   width: 100%;
+  height: 100%;
+  background: url("~@/assets/bk_2.jpg") 0 -78px no-repeat;
+  background-size: cover;
+
+  &:before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(47, 65, 86, .7);
+  }
 }
 </style>
