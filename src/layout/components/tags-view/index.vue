@@ -2,14 +2,14 @@
   <div class="tags-view-container">
     <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
       <router-link
-          class="tags-view-item no-select"
-          v-for="(tag,i) in visitedViews"
-          :ref="el => { if (el) tags[i] = el }"
-          :key="tag.path"
-          :class="isActive(tag)?'active':''"
-          :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
-          @click.middle="!isAffix(tag)?closeSelectedTag(tag):''"
-          @contextmenu.prevent="openMenu(tag,$event)">
+        class="tags-view-item no-select"
+        v-for="(tag,i) in visitedViews"
+        :ref="el => { if (el) tags[i] = el }"
+        :key="tag.path"
+        :class="isActive(tag)?'active':''"
+        :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+        @click.middle="!isAffix(tag)?closeSelectedTag(tag):''"
+        @contextmenu.prevent="openMenu(tag,$event)">
         {{ tag.title }}
         <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)"/>
       </router-link>
@@ -67,11 +67,11 @@ export default {
       });
     };
     watch(
-        () => route.path,
-        () => {
-          addTags();
-          moveToCurrentTag();
-        }
+      () => route.path,
+      () => {
+        addTags();
+        moveToCurrentTag();
+      }
     );
     return {
       routes: router.getRoutes(),
@@ -200,6 +200,8 @@ export default {
   background: #fff;
   border-bottom: 1px solid #d8dce5;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
+  background: url("~@/assets/bk_2.jpg") 0 -39px no-repeat;
+  background-size: cover;
 
   .tags-view-wrapper {
     display: flex;
@@ -208,24 +210,24 @@ export default {
     .tags-view-item {
       display: inline-block;
       cursor: pointer;
-      height: 26px;
-      line-height: 26px;
+      height: 30px;
+      line-height: 30px;
       border: 1px solid #d8dce5;
-      color: #495060;
-      background: #fff;
+      color: #8b4e4e;
+      background: rgba(255, 255, 255, .5);
       padding: 0 8px;
-      font-size: 12px;
+      font-size: 15px;
       margin-left: 5px;
       margin-top: 4px;
+      border-radius: 5px;
 
       &:first-of-type {
         margin-left: 15px;
       }
 
       &.active {
-        background-color: #42b983;
+        background-color: #b99f42;
         color: #fff;
-        border-color: #42b983;
 
         &::before {
           content: '';
