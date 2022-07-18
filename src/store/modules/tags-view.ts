@@ -4,8 +4,17 @@ import { RootState } from "../index";
 const mutations = {
   ADD_VISITED_VIEW: (state: any, view: any) => {
     if (state.visitedViews.some((v: { path: any; }) => v.path === view.path)) return;
+    const simpleView = {
+      fullPath: view.fullPath,
+      hash: view.hash,
+      meta: view.meta,
+      name: view.name,
+      params: view.params,
+      path: view.path,
+      query: view.query
+    }
     state.visitedViews.push(
-        Object.assign({}, view, {
+        Object.assign({}, simpleView, {
           title: view.meta.title || "no-name"
         })
     );
