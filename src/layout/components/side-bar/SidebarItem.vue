@@ -1,23 +1,23 @@
 <template>
   <div v-if="!item.meta.hidden">
     <template
-        v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)">
+      v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <item :icon="onlyOneChild?.meta.icon||item?.meta.icon" :title="onlyOneChild.meta.title"/>
+          <item :icon="onlyOneChild?.meta.icon||item?.meta.icon" :title="onlyOneChild.meta.title" />
         </el-menu-item>
       </app-link>
     </template>
     <el-sub-menu v-else :index="resolvePath(item.path)" popper-append-to-body>
       <template #title>
-        <item v-if="item.meta" :icon="item.meta.icon" :title="item.meta.title"/>
+        <item v-if="item.meta" :icon="item.meta.icon" :title="item.meta.title" />
       </template>
       <sidebar-item
-          v-for="child in item.children"
-          :key="child.path"
-          :is-nest="true"
-          :item="child"
-          :base-path="resolvePath(child.path)"
+        v-for="child in item.children"
+        :key="child.path"
+        :is-nest="true"
+        :item="child"
+        :base-path="resolvePath(child.path)"
       />
     </el-sub-menu>
   </div>
@@ -33,7 +33,7 @@ import { RouteRecordRaw } from "vue-router";
 
 export default defineComponent({
   name: "SidebarItem",
-  components: {Item, AppLink},
+  components: { Item, AppLink },
   props: {
     item: {
       type: Object,
@@ -81,7 +81,7 @@ export default defineComponent({
         return true;
       } else if (showingChildren.length === 0) {
         // 此时basePath已经拼接为最后的路由,故把path清空
-        this.onlyOneChild = {...parent, path: "", noShowingChildren: true};
+        this.onlyOneChild = { ...parent, path: "", noShowingChildren: true };
         return true;
       } else {
         return false;
@@ -99,3 +99,9 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="scss">
+.el-sub-menu [class^=el-icon-] {
+  vertical-align: middle !important;
+}
+</style>
