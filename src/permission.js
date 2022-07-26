@@ -110,9 +110,11 @@ router.beforeEach((to, from, next) => {
   if (whiteList.includes(to.path)) {
     if (to.path === "/login") {
       clearSession();
+      store.dispatch("tagsView/delAllViews");
     }
     next();
   } else if (hasToken) {
+    // 登录状态
     let permissionList = ["", "star", "theme", "async"];
     const permissionView = filterAsyncRoutes(permissionList, asyncRouter);
     removeRouter(asyncRouter);
