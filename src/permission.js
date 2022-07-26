@@ -1,6 +1,6 @@
 import { ElMessage } from "element-plus";
 import store from "./store";
-import router, { addRouter, asyncRouter } from "./router";
+import router, { addRouter, removeRouter, asyncRouter } from "./router";
 import { getToken, clearSession } from "@/utils/common";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
@@ -64,10 +64,41 @@ const permissionMenu = (router) => {
   return res;
 };
 
+/**
+ * 过滤异步路由表，返回符合用户角色权限的路由表
+ * @param menus 权限列表
+ * @param routes
+ */
+const filterAsyncRoutes = (menus, routes) => {
+  const ret = [];
+  routes.forEach(v => {
+    if (hasPermission(menus, v)) {
+      ret.push(v);
+      if (v.children) {
+        v.children = filterAsyncRoutes(menus, v.children);
+      }
+    }
+  });
+  return ret;
+};
+
+/**
+ * 根据后台返回的菜单判断当前路由是否有权限
+ * @param menus
+ * @param route
+ * @returns {boolean}
+ */
+function hasPermission(menus, route) {
+  if (route?.meta.permissionId) {
+    return menus.includes(route.meta.permissionId);
+  } else {
+    return true;
+  }
+}
+
 const whiteList = ["/login", "/404"]; // 白名单
 const permissionList = ["map", "star", "theme", "async"]; // 权限列表,这里写死,一般要配置由接口返回
-const flatView = routerMap(flatRouter(createUid(asyncRouter)), permissionList);
-const permissionView = permissionMenu(flatView);
+const permissionView = filterAsyncRoutes(permissionList, asyncRouter);
 permissionView.push({ path: "/:pathMatch(.*)*", redirect: "/404", meta: { hidden: true } }); // 通配路由,这里与vue-router3有区别
 addRouter(permissionView);
 store.commit("loginStore/SET_PERMISSION_VIEW", permissionView); // 保存权限路由到store
@@ -76,13 +107,23 @@ router.beforeEach((to, from, next) => {
   NProgress.start();
   document.title = to.meta.title || "ywq-admin";
   const hasToken = getToken();
-  if (whiteList.indexOf(to.path) !== -1) {
+  if (whiteList.includes(to.path)) {
     if (to.path === "/login") {
       clearSession();
     }
     next();
   } else if (hasToken) {
-    next();
+    let permissionList = ["", "star", "theme", "async"];
+    const permissionView = filterAsyncRoutes(permissionList, asyncRouter);
+    removeRouter(asyncRouter);
+    addRouter(permissionView);
+    store.commit("loginStore/SET_PERMISSION_VIEW", permissionView); // 保存权限路由到store
+    const hasPermission = router.getRoutes().map(v => v.path).includes(to.path);
+    if (hasPermission) {
+      next();
+    } else {
+      next("/404");
+    }
   } else {
     ElMessage.warning("请先登录");
     next({ name: "Login" });

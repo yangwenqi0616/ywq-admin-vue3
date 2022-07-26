@@ -28,13 +28,13 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     path: "/login",
     name: "Login",
     component: () => import(/* webpackChunkName: "login" */ "@/views/login/index.vue"),
-    meta: {hidden: true}
+    meta: { hidden: true }
   },
   {
     path: "/404",
     name: "404",
     component: () => import(/* webpackChunkName: "404" */ "@/views/404.vue"),
-    meta: {hidden: true}
+    meta: { hidden: true }
   },
   ...dashboardRouter,
   ...personalCenterRouter
@@ -62,7 +62,7 @@ export const addRouter = (routerList: RouteRecordRaw[]) => {
  */
 export const removeRouter = (routerList: RouteRecordRaw[]) => {
   routerList.forEach((v: RouteRecordRaw) => {
-    v.name && router.removeRoute(v.name);
+    v.name && router.hasRoute(v.name) && router.removeRoute(v.name);
   });
 };
 
