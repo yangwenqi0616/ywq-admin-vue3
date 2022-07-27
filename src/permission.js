@@ -105,16 +105,15 @@ router.beforeEach((to, from, next) => {
   if (whiteList.includes(to.path)) {
     if (to.path === "/login") {
       clearSession();
-      copyAsyncRouter = _.cloneDeep(asyncRouter);
       store.dispatch("tagsView/delAllViews");
       store.commit("loginStore/SET_PERMISSION_VIEW", []); // 保存权限路由到store
     }
     next();
   } else if (hasToken) {
     let permissionList = ["map", "star", "theme", "async"]; // 一般通过接口获取路由表
-    const permissionView = filterAsyncRoutes(permissionList, copyAsyncRouter);
+    const permissionView = filterAsyncRoutes(permissionList, asyncRouter);
     permissionView.push({ path: "/:pathMatch(.*)*", name: "redirect404", redirect: "/404", meta: { hidden: true } }); // 通配路由,这里与vue-router3有区别
-    removeRouter(asyncRouter);
+    removeRouter(copyAsyncRouter);
     addRouter(permissionView);
     store.commit("loginStore/SET_PERMISSION_VIEW", permissionView); // 保存权限路由到store
     if (to.matched.length === 0) {
