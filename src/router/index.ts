@@ -66,11 +66,4 @@ export const removeRouter = (routerList: RouteRecordRaw[]) => {
   });
 };
 
-/**
- * 用于重置路由
- */
-export const resetRouter = () => {
-  removeRouter(router.getRoutes());
-  addRouter(constantRoutes);
-};
 export default router;

@@ -7,51 +7,51 @@
             <el-tabs>
               <el-tab-pane label="密码登录">
                 <el-form
-                    ref="personPassFrom"
-                    :model="personPassFrom"
-                    :rules="rules"
-                    label-width="100px"
-                    class="demo-ruleForm"
+                  ref="personPassFrom"
+                  :model="personPassFrom"
+                  :rules="rules"
+                  label-width="100px"
+                  class="demo-ruleForm"
                 >
                   <el-form-item prop="tel" label="手机号">
                     <el-input
-                        :maxlength="11"
-                        class="login-input"
-                        v-model="personPassFrom.tel"
-                        placeholder="手机号"
+                      :maxlength="11"
+                      class="login-input"
+                      v-model="personPassFrom.tel"
+                      placeholder="手机号"
                     >
                     </el-input>
                   </el-form-item>
                   <el-form-item prop="pass" label="密码">
                     <el-input
-                        :maxlength="20"
-                        class="login-input"
-                        type="password"
-                        placeholder="6-20位字母、数字、字符组合"
-                        v-model="personPassFrom.pass"
-                        @keyup.enter="submitForm('ruleForm')"
+                      :maxlength="20"
+                      class="login-input"
+                      type="password"
+                      placeholder="6-20位字母、数字、字符组合"
+                      v-model="personPassFrom.pass"
+                      @keyup.enter="submitForm('ruleForm')"
                     ></el-input>
                   </el-form-item>
                   <el-form-item prop="code" label="图形验证码">
                     <el-input
-                        :maxlength="4"
-                        v-model="personPassFrom.code"
-                        class="validate-code"
-                        placeholder="图形验证码"
+                      :maxlength="4"
+                      v-model="personPassFrom.code"
+                      class="validate-code"
+                      placeholder="图形验证码"
                     ></el-input>
                     <div class="code" @click="refreshCode">
                       <img
-                          v-if="personPassFrom.identifyCode"
-                          :src="`${userUrl}xxxUrl${personPassFrom.identifyCode}`"
-                          alt
+                        v-if="personPassFrom.identifyCode"
+                        :src="`${userUrl}xxxUrl${personPassFrom.identifyCode}`"
+                        alt
                       />
                     </div>
                   </el-form-item>
                   <div class="login-btn">
                     <el-button
-                        type="primary"
-                        round
-                        @click="submitForm1('personPassFrom')"
+                      type="primary"
+                      round
+                      @click="submitForm1('personPassFrom')"
                     >登录
                     </el-button
                     >
@@ -60,33 +60,33 @@
               </el-tab-pane>
               <el-tab-pane label="手机号快捷登录">
                 <el-form
-                    :model="personTelFrom"
-                    :rules="rules"
-                    ref="personTelFrom"
-                    label-width="100px"
-                    class="demo-ruleForm"
+                  :model="personTelFrom"
+                  :rules="rules"
+                  ref="personTelFrom"
+                  label-width="100px"
+                  class="demo-ruleForm"
                 >
                   <el-form-item prop="tel" label="手机号">
                     <el-input
-                        :maxlength="11"
-                        class="login-input"
-                        v-model="personTelFrom.tel"
-                        placeholder="手机号"
+                      :maxlength="11"
+                      class="login-input"
+                      v-model="personTelFrom.tel"
+                      placeholder="手机号"
                     ></el-input>
                   </el-form-item>
                   <el-form-item prop="phoneCode" label="短信验证码">
                     <el-input
-                        :maxlength="6"
-                        v-model="personTelFrom.phoneCode"
-                        class="validate-code"
-                        placeholder="短信验证码"
+                      :maxlength="6"
+                      v-model="personTelFrom.phoneCode"
+                      class="validate-code"
+                      placeholder="短信验证码"
                     ></el-input>
                     <div>
                       <el-button
-                          :type="type"
-                          :disabled="!show"
-                          @click="getSmsVerifyCode"
-                          class="show"
+                        :type="type"
+                        :disabled="!show"
+                        @click="getSmsVerifyCode"
+                        class="show"
                       >
                         <span v-show="show">获取验证码</span>
                         <span v-show="!show" class="count"
@@ -97,24 +97,24 @@
                   </el-form-item>
                   <el-form-item prop="code" label="图形验证码">
                     <el-input
-                        :maxlength="4"
-                        v-model="personTelFrom.code"
-                        class="validate-code"
-                        placeholder="图形验证码"
+                      :maxlength="4"
+                      v-model="personTelFrom.code"
+                      class="validate-code"
+                      placeholder="图形验证码"
                     ></el-input>
                     <div class="code" @click="newrefreshCode">
                       <img
-                          v-if="personTelFrom.identifyCode"
-                          :src="`${taxUrl}xxx/image/${personTelFrom.identifyCode}`"
-                          alt
+                        v-if="personTelFrom.identifyCode"
+                        :src="`${taxUrl}xxx/image/${personTelFrom.identifyCode}`"
+                        alt
                       />
                     </div>
                   </el-form-item>
                   <div class="login-btn">
                     <el-button
-                        type="primary"
-                        round
-                        @click="submitForm2('personTelFrom')"
+                      type="primary"
+                      round
+                      @click="submitForm2('personTelFrom')"
                     >登录
                     </el-button
                     >
@@ -127,49 +127,49 @@
             <el-tabs>
               <el-tab-pane label="账户密码登录">
                 <el-form
-                    :model="companyFrom"
-                    :rules="rules"
-                    ref="companyFrom"
-                    label-width="100px"
-                    class="demo-ruleForm"
+                  :model="companyFrom"
+                  :rules="rules"
+                  ref="companyFrom"
+                  label-width="100px"
+                  class="demo-ruleForm"
                 >
                   <el-form-item prop="name" label="用户名">
                     <el-input
-                        class="login-input"
-                        v-model="companyFrom.name"
-                        placeholder="用户名"
+                      class="login-input"
+                      v-model="companyFrom.name"
+                      placeholder="用户名"
                     ></el-input>
                   </el-form-item>
                   <el-form-item prop="pass" label="密码">
                     <el-input
-                        :maxlength="20"
-                        class="login-input"
-                        type="password"
-                        placeholder="6-20位字母、数字、字符组合"
-                        v-model="companyFrom.pass"
-                        @keyup.enter="submitForm('ruleForm')"
+                      :maxlength="20"
+                      class="login-input"
+                      type="password"
+                      placeholder="6-20位字母、数字、字符组合"
+                      v-model="companyFrom.pass"
+                      @keyup.enter="submitForm('ruleForm')"
                     ></el-input>
                   </el-form-item>
                   <el-form-item prop="code" label="图形验证码">
                     <el-input
-                        v-model="companyFrom.code"
-                        :maxlength="4"
-                        class="validate-code"
-                        placeholder="图形验证码"
+                      v-model="companyFrom.code"
+                      :maxlength="4"
+                      class="validate-code"
+                      placeholder="图形验证码"
                     ></el-input>
                     <div class="code" @click="refreshCode">
                       <img
-                          v-if="companyFrom.identifyCode"
-                          :src="`${userUrl}xxxUrl${companyFrom.identifyCode}`"
-                          alt
+                        v-if="companyFrom.identifyCode"
+                        :src="`${userUrl}xxxUrl${companyFrom.identifyCode}`"
+                        alt
                       />
                     </div>
                   </el-form-item>
                   <div class="login-btn">
                     <el-button
-                        type="primary"
-                        round
-                        @click="submitForm3('companyFrom', companyFrom)"
+                      type="primary"
+                      round
+                      @click="submitForm3('companyFrom', companyFrom)"
                     >登录
                     </el-button
                     >
@@ -178,49 +178,49 @@
               </el-tab-pane>
               <el-tab-pane label="邮箱密码登录">
                 <el-form
-                    :model="companyEmailFrom"
-                    :rules="rules"
-                    ref="companyEmailFrom"
-                    label-width="100px"
-                    class="demo-ruleForm"
+                  :model="companyEmailFrom"
+                  :rules="rules"
+                  ref="companyEmailFrom"
+                  label-width="100px"
+                  class="demo-ruleForm"
                 >
                   <el-form-item prop="email" label="邮箱">
                     <el-input
-                        class="login-input"
-                        v-model="companyEmailFrom.email"
-                        placeholder="邮箱"
+                      class="login-input"
+                      v-model="companyEmailFrom.email"
+                      placeholder="邮箱"
                     ></el-input>
                   </el-form-item>
                   <el-form-item prop="pass" label="密码">
                     <el-input
-                        :maxlength="20"
-                        class="login-input"
-                        type="password"
-                        placeholder="6-20位字母、数字、字符组合"
-                        v-model="companyEmailFrom.pass"
-                        @keyup.enter="submitForm('ruleForm')"
+                      :maxlength="20"
+                      class="login-input"
+                      type="password"
+                      placeholder="6-20位字母、数字、字符组合"
+                      v-model="companyEmailFrom.pass"
+                      @keyup.enter="submitForm('ruleForm')"
                     ></el-input>
                   </el-form-item>
                   <el-form-item prop="code" label="图形验证码">
                     <el-input
-                        v-model="companyEmailFrom.code"
-                        :maxlength="4"
-                        class="validate-code"
-                        placeholder="图形验证码"
+                      v-model="companyEmailFrom.code"
+                      :maxlength="4"
+                      class="validate-code"
+                      placeholder="图形验证码"
                     ></el-input>
                     <div class="code" @click="refreshCode">
                       <img
-                          v-if="companyEmailFrom.identifyCode"
-                          :src="`${userUrl}xxxUrl${companyEmailFrom.identifyCode}`"
-                          alt
+                        v-if="companyEmailFrom.identifyCode"
+                        :src="`${userUrl}xxxUrl${companyEmailFrom.identifyCode}`"
+                        alt
                       />
                     </div>
                   </el-form-item>
                   <div class="login-btn">
                     <el-button
-                        type="primary"
-                        round
-                        @click="submitForm3('companyEmailFrom', companyEmailFrom)"
+                      type="primary"
+                      round
+                      @click="submitForm3('companyEmailFrom', companyEmailFrom)"
                     >登录
                     </el-button
                     >
@@ -368,12 +368,12 @@ export default defineComponent({
         identifyCode: ""
       },
       rules: {
-        tel: [{validator: validateTel, trigger: "blur"}],
-        name: [{validator: validateName, trigger: "blur"}],
-        email: [{validator: validateEmail, trigger: "blur"}],
-        pass: [{validator: validatePass, trigger: "blur"}],
-        code: [{validator: validateCode, trigger: "blur"}],
-        phoneCode: [{validator: validateTelCode, trigger: "blur"}]
+        tel: [{ validator: validateTel, trigger: "blur" }],
+        name: [{ validator: validateName, trigger: "blur" }],
+        email: [{ validator: validateEmail, trigger: "blur" }],
+        pass: [{ validator: validatePass, trigger: "blur" }],
+        code: [{ validator: validateCode, trigger: "blur" }],
+        phoneCode: [{ validator: validateTelCode, trigger: "blur" }]
       },
       type: "primary",
       show: true,
@@ -405,13 +405,12 @@ export default defineComponent({
       if (!this.timer) {
         this.count = TIME_COUNT;
         this.show = false;
-        this.timer = setInterval(() => {
+        const timer = setInterval(() => {
           if (this.count > 0 && this.count <= TIME_COUNT) {
             this.count--;
           } else {
             this.show = true;
-            clearInterval(this.timer);
-            this.timer = 0;
+            clearInterval(timer);
           }
         }, 1000);
       }

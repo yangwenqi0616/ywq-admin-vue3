@@ -88,21 +88,14 @@ const filterAsyncRoutes = (menus, routes) => {
  * @param route
  * @returns {boolean}
  */
-function hasPermission(menus, route) {
+const hasPermission = (menus, route) => {
   if (route?.meta.permissionId) {
     return menus.includes(route.meta.permissionId);
   } else {
     return true;
   }
-}
-
+};
 const whiteList = ["/login", "/404"]; // 白名单
-const permissionList = ["map", "star", "theme", "async"]; // 权限列表,这里写死,一般要配置由接口返回
-const permissionView = filterAsyncRoutes(permissionList, asyncRouter);
-permissionView.push({ path: "/:pathMatch(.*)*", redirect: "/404", meta: { hidden: true } }); // 通配路由,这里与vue-router3有区别
-addRouter(permissionView);
-store.commit("loginStore/SET_PERMISSION_VIEW", permissionView); // 保存权限路由到store
-
 router.beforeEach((to, from, next) => {
   NProgress.start();
   document.title = to.meta.title || "ywq-admin";
@@ -117,12 +110,17 @@ router.beforeEach((to, from, next) => {
     // 登录状态
     let permissionList = ["", "star", "theme", "async"];
     const permissionView = filterAsyncRoutes(permissionList, asyncRouter);
+    permissionView.push({ path: "/:pathMatch(.*)*", name: "redirect404", redirect: "/404", meta: { hidden: true } }); // 通配路由,这里与vue-router3有区别
     removeRouter(asyncRouter);
     addRouter(permissionView);
     store.commit("loginStore/SET_PERMISSION_VIEW", permissionView); // 保存权限路由到store
     const hasPermission = router.getRoutes().map(v => v.path).includes(to.path);
     if (hasPermission) {
-      next();
+      if (to.matched.length == 0) {
+        next({ ...to, replace: true });
+      } else {
+        next();
+      }
     } else {
       next("/404");
     }

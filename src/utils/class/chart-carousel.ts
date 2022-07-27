@@ -13,8 +13,8 @@ import _ from "lodash";
  * @date 2021/10/29 15:21
  */
 export class AutoPlay implements ChartPlayer {
-  public timer = 0; // 轮播定时器
-  public timeOut = 0; // 防抖延时器
+  public timer: NodeJS.Timer | null = null; // 轮播定时器
+  public timeOut: NodeJS.Timeout | null = null; // 防抖延时器
   public interval = 2000; // 轮播间隔,默认2秒
   readonly chart: ECharts | null = null; // 需轮播的echarts
   readonly length: number = 0; // 图表数据长度
@@ -107,8 +107,8 @@ export class AutoPlay implements ChartPlayer {
 }
 
 export interface ChartPlayer {
-  timer: number;
-  timeOut: number;
+  timer: NodeJS.Timer | null;
+  timeOut: NodeJS.Timeout | null;
   interval: number;
   chart: ECharts | null;
   length: number;
