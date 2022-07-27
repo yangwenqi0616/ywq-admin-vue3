@@ -3,6 +3,7 @@ import store from "./store";
 import router, { addRouter, removeRouter, asyncRouter } from "./router";
 import { getToken, clearSession } from "@/utils/common";
 import NProgress from "nprogress";
+import _ from "lodash";
 import "nprogress/nprogress.css";
 
 /**
@@ -96,6 +97,7 @@ const hasPermission = (menus, route) => {
   }
 };
 const whiteList = ["/login", "/404"]; // 白名单
+let copyAsyncRouter = _.cloneDeep(asyncRouter);
 router.beforeEach((to, from, next) => {
   NProgress.start();
   document.title = to.meta.title || "ywq-admin";
@@ -103,26 +105,22 @@ router.beforeEach((to, from, next) => {
   if (whiteList.includes(to.path)) {
     if (to.path === "/login") {
       clearSession();
+      copyAsyncRouter = _.cloneDeep(asyncRouter);
       store.dispatch("tagsView/delAllViews");
+      store.commit("loginStore/SET_PERMISSION_VIEW", []); // 保存权限路由到store
     }
     next();
   } else if (hasToken) {
-    // 登录状态
-    let permissionList = ["", "star", "theme", "async"];
-    const permissionView = filterAsyncRoutes(permissionList, asyncRouter);
+    let permissionList = ["map", "star", "theme", "async"]; // 一般通过接口获取路由表
+    const permissionView = filterAsyncRoutes(permissionList, copyAsyncRouter);
     permissionView.push({ path: "/:pathMatch(.*)*", name: "redirect404", redirect: "/404", meta: { hidden: true } }); // 通配路由,这里与vue-router3有区别
     removeRouter(asyncRouter);
     addRouter(permissionView);
     store.commit("loginStore/SET_PERMISSION_VIEW", permissionView); // 保存权限路由到store
-    const hasPermission = router.getRoutes().map(v => v.path).includes(to.path);
-    if (hasPermission) {
-      if (to.matched.length === 0) {
-        next({ ...to, replace: true });
-      } else {
-        next();
-      }
+    if (to.matched.length === 0) {
+      next({ ...to, replace: true });
     } else {
-      next("/404");
+      next();
     }
   } else {
     ElMessage.warning("请先登录");
