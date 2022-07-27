@@ -116,7 +116,7 @@ router.beforeEach((to, from, next) => {
     store.commit("loginStore/SET_PERMISSION_VIEW", permissionView); // 保存权限路由到store
     const hasPermission = router.getRoutes().map(v => v.path).includes(to.path);
     if (hasPermission) {
-      if (to.matched.length == 0) {
+      if (to.matched.length === 0) {
         next({ ...to, replace: true });
       } else {
         next();
