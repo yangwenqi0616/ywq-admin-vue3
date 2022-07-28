@@ -5,7 +5,7 @@ export default [
     path: "/async",
     name: "async",
     component: Layout,
-    meta: {title: "权限路由", icon: "el-icon-s-management", permissionId: "async"},
+    meta: { title: "权限路由", icon: "el-icon-s-management", permissionId: "async", alwaysShow: true },
     children: [
       {
         path: "/star",
@@ -21,7 +21,7 @@ export default [
         path: "/map-display",
         name: "mapDisplay",
         component: () => import("@/views/map-display/index.vue"),
-        meta: {title: "地图展示", icon: "el-icon-data-analysis", permissionId: "map"}
+        meta: { title: "地图展示", icon: "el-icon-data-analysis", permissionId: "map" }
       }]
   }
 ];

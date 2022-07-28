@@ -9,6 +9,7 @@ import asyncModelRouter from "@/router/modules/async-model";
  * meta - 路由配置
  * 可选参数
  * hidden: 是否隐藏
+ * alwaysShow: 是否在只有一个子路由时显示(默认不显示)
  * affix: 是否为导航栏常附标签
  * permissionId: 权限id 权限路由必须
  * url: 如果是内嵌网页,则为网页地址
