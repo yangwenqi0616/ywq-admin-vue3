@@ -43,11 +43,12 @@ axios.interceptors.request.use(
       const key = md5(`${config.url}&${config.method}&${JSON.stringify(config.data)}&${JSON.stringify(config.params)}`);
       config.cancelToken = new CancelToken(c => {
         if (pending[key]) {
-          if (Date.now() - pending[key] > 2000) {
-            // 超过2s，删除对应的请求记录，重新发起请求
+          // 上次接口未返回时走此逻辑
+          if (Date.now() - pending[key] > 5000) {
+            // 超过5s，删除对应的请求记录，重新发起请求
             delete pending[key];
           } else {
-            // 2s以内的已发起请求，取消重复请求
+            // 5s以内的已发起请求，取消重复请求
             c("repeated:" + config.url);
           }
         }
