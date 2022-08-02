@@ -1,5 +1,6 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { ElMessage } from "element-plus";
+import md5 from "js-md5";
 
 const isPro = process.env.NODE_ENV === "production";
 const baseURL = location.origin + (isPro ? process.env.VUE_APP_SERVER_DIR : "");
@@ -32,9 +33,27 @@ const errorLogic = (code: number): void => {
 axios.defaults.headers["Content-Type"] = "application/x-www-form-urlencoded";
 axios.defaults.withCredentials = true; // 让ajax携带cookie
 
+const pending: any = {}; // 网络请求记录map结构
+const CancelToken = axios.CancelToken;
+
 // 请求拦截
 axios.interceptors.request.use(
-    (config) => {
+    (config: AxiosRequestConfig) => {
+      // 通过请求url、method、params、data字段生成md5值
+      const key = md5(`${config.url}&${config.method}&${JSON.stringify(config.data)}&${JSON.stringify(config.params)}`);
+      config.cancelToken = new CancelToken(c => {
+        if (pending[key]) {
+          if (Date.now() - pending[key] > 2000) {
+            // 超过2s，删除对应的请求记录，重新发起请求
+            delete pending[key];
+          } else {
+            // 2s以内的已发起请求，取消重复请求
+            c("repeated:" + config.url);
+          }
+        }
+        // 记录当前的请求，已存在则更新时间戳
+        pending[key] = Date.now();
+      });
       const token = localStorage.getItem("token");
       if (token) {
         if (!config.params) {
@@ -54,8 +73,13 @@ axios.interceptors.request.use(
 
 //拦截响应，做统一处理
 axios.interceptors.response.use(
-    (response) => {
-      const {data: {code, msg}} = response;
+    (response: AxiosResponse) => {
+      const key = md5(`${response.config.url}&${response.config.method}&${JSON.stringify(response.config.data)}&${JSON.stringify(response.config.params)}`);
+      if (pending[key]) {
+        // 请求结束，删除对应的请求记录
+        delete pending[key];
+      }
+      const { data: { code, msg } } = response;
       if (code === 0 || code === 200) {
         return response;
       }
@@ -64,13 +88,17 @@ axios.interceptors.response.use(
       return response;
     },
     function (error) {
+      if (error.message.includes("repeated")) {
+        return Promise.reject(error);
+      }
+      // 除repeated外报错逻辑
       return Promise.reject(error); // 返回接口返回的错误信息
     }
 );
 
 r.interceptors.response.use(
     (response) => {
-      const {data: {code, msg, data}} = response;
+      const { data: { code, msg, data } } = response;
       if (code === 0 || code === 200) {
         return data;
       }
@@ -84,8 +112,8 @@ r.interceptors.response.use(
 );
 
 req.interceptors.response.use(
-    ({data}) => {
-      const {code, msg} = data;
+    ({ data }) => {
+      const { code, msg } = data;
       if (code === 0 || code === 200) {
         return data;
       }

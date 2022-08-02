@@ -9,5 +9,6 @@
   background: url("~@/assets/bk_2.jpg") no-repeat;
   background-size: cover;
   color: #fff;
+  font-size: 3rem;
 }
 </style>
