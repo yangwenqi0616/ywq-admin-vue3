@@ -10,6 +10,7 @@ import asyncModelRouter from "@/router/modules/async-model";
  * 可选参数
  * hidden: 是否隐藏
  * alwaysShow: 是否在只有一个子路由时显示(默认不显示)
+ * noCache: 不缓存路由组件(默认缓存) route的name要和组件name保持一致,否则缓存组件状态将不生效
  * affix: 是否为导航栏常附标签
  * permissionId: 权限id 权限路由必须
  * url: 如果是内嵌网页,则为网页地址

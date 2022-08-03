@@ -25,6 +25,11 @@
     </el-table-pagination>
   </div>
 </template>
+<script lang="ts">
+export default {
+  name: "Dashboard"
+};
+</script>
 <script lang="ts" setup>
 import ElTablePagination from "@/components/ElTablePagination.vue";
 import { ref, onMounted } from "vue";
@@ -91,11 +96,11 @@ const getData = async () => {
   pageParams.value.pageTotal = 30;
 };
 const columns = [
-  {width: "", label: "姓名", prop: "name"},
-  {width: "", label: "性别", prop: "sex"},
-  {width: "", label: "年龄", prop: "age"},
-  {width: "", label: "毕业学校", prop: "university"},
-  {width: "", label: "学历", prop: "education"},
+  { width: "", label: "姓名", prop: "name" },
+  { width: "", label: "性别", prop: "sex" },
+  { width: "", label: "年龄", prop: "age" },
+  { width: "", label: "毕业学校", prop: "university" },
+  { width: "", label: "学历", prop: "education" },
   {
     width: "",
     type: "slot",
