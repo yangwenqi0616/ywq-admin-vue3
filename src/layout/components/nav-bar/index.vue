@@ -1,6 +1,10 @@
 <template>
-  <div class="nav-bar">Y.W.Q-VUE3-ADMIN-PROJECT</div>
-  <el-button @click="setCollapse">{{ isCollapse ? "展开" : "关闭" }}</el-button>
+  <div class="nav-bar">
+    <span class="collapse-btn" @click="setCollapse">
+      <i :class="isCollapse?'el-icon-s-unfold':'el-icon-s-fold'"></i>
+    </span>
+    Y.W.Q-VUE3-ADMIN-PROJECT
+  </div>
 </template>
 <script lang="ts" setup>
 import { useStore } from "vuex";
@@ -17,6 +21,7 @@ const setCollapse = () => {
 </script>
 <style lang="scss" scoped>
 .nav-bar {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,5 +29,11 @@ const setCollapse = () => {
   background-size: cover;
   color: #fff;
   font-size: 3rem;
+
+  .collapse-btn {
+    position: absolute;
+    left: 0;
+    cursor: pointer;
+  }
 }
 </style>
