@@ -32,8 +32,9 @@ export default {
 </script>
 <script lang="ts" setup>
 import ElTablePagination from "@/components/ElTablePagination.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, getCurrentInstance } from "vue";
 
+const { proxy } = getCurrentInstance();
 const loading = ref(false);
 let selection = ref([]);
 const pageParams = ref({
@@ -110,6 +111,7 @@ const columns = [
 ];
 onMounted(() => {
   getData();
+  console.log(proxy.getLocalKeys(), 33);
 });
 </script>
 <style lang="scss" scoped>

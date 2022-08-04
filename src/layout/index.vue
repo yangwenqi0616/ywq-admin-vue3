@@ -35,7 +35,7 @@ export default defineComponent({
   height: 100vh;
 
   .sidebar-container {
-    flex: 0 0 210px;
+    flex: auto;
   }
 
   .main-container {

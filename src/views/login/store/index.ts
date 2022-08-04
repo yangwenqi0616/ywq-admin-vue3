@@ -11,7 +11,8 @@ const loginStore: Module<LoginState, RootState> = {
   state() {
     return {
       userData: null,
-      routerList: []
+      routerList: [],
+      isCollapse: false
     };
   },
   mutations,
@@ -21,4 +22,5 @@ export default loginStore;
 export type LoginState = {
   userData: UserData[] | null;
   routerList: [];
+  isCollapse: boolean;
 };
