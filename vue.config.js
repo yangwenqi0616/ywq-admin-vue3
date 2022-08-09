@@ -1,6 +1,14 @@
 module.exports = {
   publicPath: process.env.BASE_URL,
   devServer: {
-    proxy: process.env.VUE_APP_PROXY // 代理到测试服务器
+    proxy: {
+      "/sp": {
+        target: "http://172.20.96.32:8999/sp/",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/sp": ""
+        }
+      }
+    }
   }
 };

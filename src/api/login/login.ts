@@ -1,4 +1,4 @@
-import { req, Res } from "../axios";
+import { req, Res } from "../http";
 import qs from "qs";
 
 interface LoginParam {
@@ -10,7 +10,7 @@ interface LoginParam {
 
 export const login = (param: LoginParam): Res<any> => {
   return req.post("/login", param, {
-    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
     transformRequest: [data => qs.stringify(data)]
   });
 };
