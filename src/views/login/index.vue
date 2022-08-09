@@ -235,7 +235,7 @@
   </div>
 </template>
 <script lang="ts">
-import { REG_USER_NAME, REG_EMAIL, REG_IS_PHONE } from "@/utils/reg_exp";
+import { REG_USER_NAME, REG_EMAIL, REG_IS_PHONE } from "@/utils/reg-exp";
 import { ElMessage } from "element-plus";
 import { setToken } from "@/utils/common";
 import { useStore } from "vuex";

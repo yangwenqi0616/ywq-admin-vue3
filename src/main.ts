@@ -11,7 +11,7 @@ import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 
 // 配置element主题
-import "@/styles/element/themeConfig.scss";
+import "@/styles/element/theme-config.scss";
 import "@/styles/element/index.scss";
 
 createApp(App).use(store).use(router).use(ElementPlus).mixin(Mixins).mount("#app");
