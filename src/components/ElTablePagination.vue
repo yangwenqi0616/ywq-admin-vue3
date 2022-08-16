@@ -115,6 +115,10 @@ const getRowKeys = (row: any) => {
     display: flex;
     justify-content: flex-end;
     flex: 0 0 52px;
+
+    ::v-deep .el-pager li {
+      margin: 0 1px;
+    }
   }
 }
 </style>

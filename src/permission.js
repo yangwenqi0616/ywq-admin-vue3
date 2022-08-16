@@ -105,8 +105,6 @@ router.beforeEach((to, from, next) => {
   if (whiteList.includes(to.path)) {
     if (to.path === "/login") {
       clearSession();
-      store.dispatch("tagsView/delAllViews");
-      store.commit("loginStore/SET_PERMISSION_VIEW", []); // 保存权限路由到store
     }
     next();
   } else if (hasToken) {
@@ -127,8 +125,13 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-router.afterEach(() => {
+router.afterEach((to, from) => {
   NProgress.done();
+  if (from.path === "/login") {
+    store.dispatch("tagsView/delAllViews");
+    store.commit("loginStore/SET_PERMISSION_VIEW", []);
+    window.location.reload();
+  }
 });
 
 router.onError((error) => {
