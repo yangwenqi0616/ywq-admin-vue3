@@ -1,9 +1,9 @@
-import axios, { AxiosResponse } from "axios";
-import { ElMessage } from "element-plus";
-import Http from "@/utils/class/http-request";
+import axios, { AxiosResponse } from 'axios';
+import { ElMessage } from 'element-plus';
+import Http from '@/utils/class/http-request';
 
-const isPro = process.env.NODE_ENV === "production";
-const baseURL = location.origin + (isPro ? process.env.VUE_APP_SERVER_DIR : "");
+const isPro = process.env.NODE_ENV === 'production';
+const baseURL = location.origin + (isPro ? process.env.VUE_APP_SERVER_DIR : '');
 const options = {
   baseURL,
   timeout: 60000
@@ -14,19 +14,19 @@ const options = {
  */
 const errorLogic = (code: number): void => {
   if (/^8\d{2}$/.test(String(code))) {
-    ElMessage.warning("程序验证已过期，请重新登录");
+    ElMessage.warning('程序验证已过期，请重新登录');
     const timer = setTimeout(() => {
-      if (process.env.NODE_ENV === "production") {
-        location.href = process.env.BASE_URL + "login";
+      if (process.env.NODE_ENV === 'production') {
+        location.href = process.env.BASE_URL + 'login';
       } else {
-        location.href = "/login";
+        location.href = '/login';
       }
       clearTimeout(timer);
     }, 2000);
   }
 };
 
-axios.defaults.headers["Content-Type"] = "application/x-www-form-urlencoded";
+axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.withCredentials = true; // 让ajax携带cookie
 
 const r = new Http(options, {
@@ -85,17 +85,17 @@ const request = new Http(options, {
 /**
  * r实例对应的响应
  */
-type R<T> = Promise<AxiosResponse<T>>;
+type R<T> = Promise<T>;
 
 /**
  * req例对应的响应
  */
-type Res<T> = Promise<AxiosResponse<{ code: number; message: string; data: T }>>;
+type Res<T> = Promise<{ code: number; msg: string; data: T }>;
 
 /**
  * request实例对应的响应
  */
-type Response<T> = Promise<AxiosResponse<Promise<AxiosResponse<T>>>>;
+type Response<T> = Promise<AxiosResponse<T>>;
 
 export { r, req, request, R, Res, Response };
 

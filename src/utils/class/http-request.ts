@@ -1,6 +1,6 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import md5 from "js-md5";
-import { ElMessage } from "element-plus";
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import md5 from 'js-md5';
+import { ElMessage } from 'element-plus';
 
 interface Interceptor {
   onFulfilled: any;
@@ -36,17 +36,17 @@ class Http {
                 delete this.pending[key];
               } else {
                 // 同一请求未返回,5s内再次发送,取消发送
-                c("repeated:" + config.url);
+                c('repeated:' + config.url);
               }
             }
             // 记录当前的请求，已存在则更新时间戳
             this.pending[key] = Date.now();
           });
-          const token = localStorage.getItem("token");
+          const token = localStorage.getItem('token');
           if (token) {
             if (!config.params) {
               config.params = {
-                "access_token": token
+                'access_token': token
               };
             } else {
               config.params.access_token = token;
@@ -79,7 +79,7 @@ class Http {
           return response;
         },
         (err) => {
-          if (err.message.includes("repeated")) {
+          if (err.message.includes('repeated')) {
             // Toast("您的操作过于频繁,请稍后再试");
             return Promise.reject(err);
           }
@@ -104,11 +104,11 @@ class Http {
   }
 
   get(url: string, params: any) {
-    return this.instance.get(url, { params });
+    return this.instance.get(url, { params }) as any;
   }
 
   post(url: string, data: any, config: AxiosRequestConfig | undefined = undefined) {
-    return this.instance.post(url, data, config);
+    return this.instance.post(url, data, config) as any;
   }
 }
 
