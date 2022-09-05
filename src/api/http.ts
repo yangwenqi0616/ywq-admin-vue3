@@ -4,8 +4,13 @@ import Http from '@/utils/class/http-request';
 
 const isPro = process.env.NODE_ENV === 'production';
 const baseURL = location.origin + (isPro ? process.env.VUE_APP_SERVER_DIR : '');
+const headers = {
+  Accept: 'application/json',
+  'Content-Type': 'application/json'
+};
 const options = {
   baseURL,
+  headers,
   timeout: 60000
 };
 /**
