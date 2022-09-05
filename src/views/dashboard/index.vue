@@ -1,5 +1,6 @@
 <template>
   <div class="main-page">
+    <el-button v-permission="'map'">permission test</el-button>
     <el-table-pagination
       :columns="columns"
       v-loading="loading"
@@ -27,13 +28,19 @@
 </template>
 <script lang="ts">
 export default {
-  name: "Dashboard"
+  name: 'Dashboard'
 };
 </script>
 <script lang="ts" setup>
-import ElTablePagination from "@/components/ElTablePagination.vue";
-import { ref, onMounted, getCurrentInstance } from "vue";
+import ElTablePagination from '@/components/ElTablePagination.vue';
+import { ref, onMounted, getCurrentInstance, computed } from 'vue';
+import { useStore } from 'vuex';
 
+const store = useStore();
+const permissionList = computed(() => {
+  return store.state.loginStore.permissionList;
+});
+console.log('permissionList:', permissionList.value);
 const { proxy } = getCurrentInstance();
 const loading = ref(false);
 let selection = ref([]);
@@ -60,32 +67,32 @@ const getData = async () => {
     setTimeout(() => {
       res([
         {
-          name: "ywq",
-          sex: "男",
-          age: "18",
-          university: "大学",
-          education: "本科"
+          name: 'ywq',
+          sex: '男',
+          age: '18',
+          university: '大学',
+          education: '本科'
         },
         {
-          name: "小工",
-          sex: "男",
-          age: "18",
-          university: "大学",
-          education: "本科"
+          name: '小工',
+          sex: '男',
+          age: '18',
+          university: '大学',
+          education: '本科'
         },
         {
-          name: "小红",
-          sex: "女",
-          age: "18",
-          university: "大学",
-          education: "本科"
+          name: '小红',
+          sex: '女',
+          age: '18',
+          university: '大学',
+          education: '本科'
         },
         {
-          name: "小军",
-          sex: "男",
-          age: "26",
-          university: "",
-          education: "本科"
+          name: '小军',
+          sex: '男',
+          age: '26',
+          university: '',
+          education: '本科'
         }
       ]);
     }, 1000);
@@ -97,16 +104,16 @@ const getData = async () => {
   pageParams.value.pageTotal = 30;
 };
 const columns = [
-  { width: "", label: "姓名", prop: "name" },
-  { width: "", label: "性别", prop: "sex" },
-  { width: "", label: "年龄", prop: "age" },
-  { width: "", label: "毕业学校", prop: "university" },
-  { width: "", label: "学历", prop: "education" },
+  { width: '', label: '姓名', prop: 'name' },
+  { width: '', label: '性别', prop: 'sex' },
+  { width: '', label: '年龄', prop: 'age' },
+  { width: '', label: '毕业学校', prop: 'university' },
+  { width: '', label: '学历', prop: 'education' },
   {
-    width: "",
-    type: "slot",
-    label: "操作",
-    slotName: "operate"
+    width: '',
+    type: 'slot',
+    label: '操作',
+    slotName: 'operate'
   }
 ];
 onMounted(() => {

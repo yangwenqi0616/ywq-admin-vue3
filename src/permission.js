@@ -1,10 +1,10 @@
-import { ElMessage } from "element-plus";
-import store from "./store";
-import router, { addRouter, removeRouter, asyncRouter } from "./router";
-import { getToken, clearSession } from "@/utils/common";
-import NProgress from "nprogress";
-import _ from "lodash";
-import "nprogress/nprogress.css";
+import { ElMessage } from 'element-plus';
+import store from './store';
+import router, { addRouter, removeRouter, asyncRouter } from './router';
+import { getToken, clearSession } from '@/utils/common';
+import NProgress from 'nprogress';
+import _ from 'lodash';
+import 'nprogress/nprogress.css';
 
 /**
  * 用于为权限菜单添加唯一性标识
@@ -13,8 +13,8 @@ import "nprogress/nprogress.css";
  */
 const createUid = (router) => {
   router.forEach(e => {
-    Reflect.has(e, "id") || (e.id = `id-${Math.random().toString(16)}`);
-    if (Reflect.has(e, "children")) {
+    Reflect.has(e, 'id') || (e.id = `id-${Math.random().toString(16)}`);
+    if (Reflect.has(e, 'children')) {
       e.children.map(v => v.parentId = e.id);
       createUid(e.children);
     }
@@ -56,8 +56,8 @@ const permissionMenu = (router) => {
     obj[item.id] = item;
   });
   router.forEach(item => {
-    if (Reflect.has(item, "parentId")) {
-      obj[item.parentId]["children"] ? obj[item.parentId]["children"].push(item) : obj[item.parentId]["children"] = [item];
+    if (Reflect.has(item, 'parentId')) {
+      obj[item.parentId]['children'] ? obj[item.parentId]['children'].push(item) : obj[item.parentId]['children'] = [item];
     } else {
       res.push(item);
     }
@@ -96,40 +96,43 @@ const hasPermission = (menus, route) => {
     return true;
   }
 };
-const whiteList = ["/login", "/404"]; // 白名单
+const whiteList = ['/login', '/404']; // 白名单
+let permissionList = []; // 权限列表
 let copyAsyncRouter = _.cloneDeep(asyncRouter);
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  document.title = to.meta.title || "ywq-admin";
+  document.title = to.meta.title || 'ywq-admin';
   const hasToken = getToken();
   if (whiteList.includes(to.path)) {
-    if (to.path === "/login") {
+    if (to.path === '/login') {
       clearSession();
     }
     next();
   } else if (hasToken) {
-    let permissionList = ["map", "star", "theme", "async"]; // 一般通过接口获取路由表
+    // 如果 permissionList.length > 0 ,权限不会动态调整的情况下可不再走此逻辑
+    permissionList = ['map', 'star', 'theme', 'async']; // 一般通过接口获取路由表
+    store.commit('loginStore/SET_PERMISSION', permissionList); // 保存权限列表到store
     const permissionView = filterAsyncRoutes(permissionList, asyncRouter);
-    permissionView.push({ path: "/:pathMatch(.*)*", name: "redirect404", redirect: "/404", meta: { hidden: true } }); // 通配路由,这里与vue-router3有区别
+    permissionView.push({ path: '/:pathMatch(.*)*', name: 'redirect404', redirect: '/404', meta: { hidden: true } }); // 通配路由,这里与vue-router3有区别
     removeRouter(copyAsyncRouter);
     addRouter(permissionView);
-    store.commit("loginStore/SET_PERMISSION_VIEW", permissionView); // 保存权限路由到store
+    store.commit('loginStore/SET_PERMISSION_VIEW', permissionView); // 保存权限路由到store
     if (to.matched.length === 0) {
       next({ ...to, replace: true });
     } else {
       next();
     }
   } else {
-    ElMessage.warning("请先登录");
-    next({ name: "Login" });
+    ElMessage.warning('请先登录');
+    next({ name: 'Login' });
   }
 });
 
 router.afterEach((to, from) => {
   NProgress.done();
-  if (from.path === "/login") {
-    store.dispatch("tagsView/delAllViews");
-    store.commit("loginStore/SET_PERMISSION_VIEW", []);
+  if (from.path === '/login') {
+    store.dispatch('tagsView/delAllViews');
+    store.commit('loginStore/SET_PERMISSION_VIEW', []);
     window.location.reload();
   }
 });
