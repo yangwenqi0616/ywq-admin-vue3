@@ -1,29 +1,34 @@
 <template>
   <div class="main-page">
-    <el-button v-permission="'map'">permission test</el-button>
-    <el-table-pagination
-      :columns="columns"
-      v-loading="loading"
-      element-loading-text="加载中"
-      ref="table"
-      :pageParams="pageParams"
-      :reserveSelection="true"
-      @handleSelectionChange="handleSelectionChange"
-      @handleSizeChange="handleSizeChange"
-      @handleCurrentChange="handleCurrentChange"
-    >
-      <template #operate>
-        <el-table-column
-          label="操作"
-          align="center"
-          width="160"
-        >
-          <template v-slot="scope">
-            <el-button>删除{{ scope.row.name }}</el-button>
-          </template>
-        </el-table-column>
-      </template>
-    </el-table-pagination>
+    <div class="main-page-bgColor"></div>
+    <div class="main-page-inner">
+      <div class="main-page-inner-btn">
+        <el-button v-permission="'map'">树弹框</el-button>
+      </div>
+      <el-table-pagination
+        :columns="columns"
+        v-loading="loading"
+        element-loading-text="加载中"
+        ref="table"
+        :pageParams="pageParams"
+        :reserveSelection="true"
+        @handleSelectionChange="handleSelectionChange"
+        @handleSizeChange="handleSizeChange"
+        @handleCurrentChange="handleCurrentChange"
+      >
+        <template #operate>
+          <el-table-column
+            label="操作"
+            align="center"
+            width="160"
+          >
+            <template v-slot="scope">
+              <el-button size="small">删除{{ scope.row.name }}</el-button>
+            </template>
+          </el-table-column>
+        </template>
+      </el-table-pagination>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -125,7 +130,29 @@ onMounted(() => {
 .main-page {
   width: 100%;
   height: 100%;
+  position: relative;
   background: url("~@/assets/bk_2.jpg") 0 -95px no-repeat;
   background-size: cover;
+
+  &-bgColor {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: rgba(47, 65, 86, .7);
+  }
+
+  &-inner {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+
+    &-btn {
+      text-align: right;
+      margin-bottom: 16px;
+    }
+  }
 }
 </style>
