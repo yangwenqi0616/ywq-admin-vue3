@@ -61,6 +61,7 @@
 import { ref, toRefs, watch, defineProps, defineEmits, computed } from 'vue';
 import { dataModel, smallModel } from './select-tree-data';
 import { ElTree, ElMessage } from 'element-plus';
+import { cloneDeep } from 'lodash';
 
 const props = defineProps({
   title: {
@@ -126,17 +127,18 @@ watch(selectList, (val) => {
  * @param {UserTreeRes} node - 删除的人员数据
  */
 const setCheckedKeys = (node) => {
+  let list = cloneDeep(selectList.value);
   if (node) {
     const index = selectList.value.indexOf(node);
     if (index > -1) {
-      selectList.value.splice(index, 1);
+      list.splice(index, 1);
     } else {
       ElMessage.warning('人员数据有误');
     }
   } else {
-    selectList.value = [];
+    list = [];
   }
-  const keys = selectList.value.map(v => v.code);
+  const keys = list.map(v => v.code);
   treeRef.value!.setCheckedKeys(keys, false);
 };
 // endregion
