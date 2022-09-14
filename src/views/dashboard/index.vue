@@ -3,13 +3,14 @@
     <div class="main-page-bgColor"></div>
     <div class="main-page-inner">
       <div class="main-page-inner-btn">
-        <el-button v-permission="'map'">树弹框</el-button>
+        <el-button v-permission="'map'" @click="openTree">树选择器</el-button>
       </div>
       <el-table-pagination
         :columns="columns"
         v-loading="loading"
         element-loading-text="加载中"
         ref="table"
+        align="center"
         :pageParams="pageParams"
         :reserveSelection="true"
         @handleSelectionChange="handleSelectionChange"
@@ -29,6 +30,25 @@
         </template>
       </el-table-pagination>
     </div>
+    <!--    region 树选择器弹框-->
+    <el-dialog
+      v-model="selectTreeDialogVisible"
+      destroy-on-close
+      title="树选择器"
+      width="700px"
+    >
+      <SelectTree
+        title="角色名：系统管理员"
+        :defaultChecked="defaultChecked"
+        @handleSelectionChange="selectionChange" />
+      <template #footer>
+        <span>
+          <el-button size="small" type="primary" @click="confirmSelect">确定</el-button>
+          <el-button size="small" @click="selectTreeDialogVisible=false">取消</el-button>
+        </span>
+      </template>
+    </el-dialog>
+    <!--    endregion-->
   </div>
 </template>
 <script lang="ts">
@@ -38,7 +58,8 @@ export default {
 </script>
 <script lang="ts" setup>
 import ElTablePagination from '@/components/ElTablePagination.vue';
-import { ref, onMounted, getCurrentInstance, computed } from 'vue';
+import SelectTree from '@/components/SelectTree.vue';
+import { ref, onMounted, getCurrentInstance, computed, nextTick } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -121,6 +142,39 @@ const columns = [
     slotName: 'operate'
   }
 ];
+
+// region 树选择器
+const selectTreeDialogVisible = ref(false);
+const defaultChecked = ref([]);
+const openTree = async () => {
+  selectTreeDialogVisible.value = true;
+  const records = [
+    {
+      'group': 'emp',
+      'code': 'JZ007494',
+      'name': '韦汉翎',
+      'subs': null
+    },
+    {
+      'group': 'emp',
+      'code': 'JZ000449',
+      'name': '王树林',
+      'subs': null
+    }
+  ];
+  nextTick(() => {
+    defaultChecked.value = records;
+  });
+};
+const selectionChange = (roles) => {
+  console.log(roles);
+};
+const confirmSelect = async () => {
+  selectTreeDialogVisible.value = false;
+  await getData();
+};
+// endregion
+
 onMounted(() => {
   getData();
   console.log(proxy.getLocalKeys(), 33);

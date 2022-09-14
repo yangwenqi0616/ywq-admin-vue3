@@ -1,3 +1,52 @@
 #nprogress .bar {
   background: #17baa6 !important;
 }
+
+:root {
+  //--el-color-primary: #0070FF!important;
+}
+
+// 滚动条
+.el-scrollbar__view {
+  //height: 100%;
+}
+
+// button form
+.el-button--primary {
+  --el-button-background-color: #0070FF;
+}
+
+.el-input, .el-textarea {
+  --el-input-background-color: #F7F8FB;
+
+  & .el-input__count, .el-input__count-inner {
+    background: transparent !important;
+  }
+}
+
+// 弹框
+.el-dialog {
+  border-radius: 4px;
+
+  .el-dialog__header {
+    background: #F7F8FB;
+    border-radius: 4px;
+    color: #00244D;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+// 分页
+.el-pager li {
+  margin: 0 1px;
+}
+
+.el-pagination.is-background .el-pager li {
+  background: #fff;
+
+  &:not(.disabled).active {
+    background: #D1E5FF;
+    color: #0070FF;
+  }
+}
