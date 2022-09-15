@@ -63,6 +63,13 @@ import { dataModel, smallModel } from './select-tree-data';
 import { ElTree, ElMessage } from 'element-plus';
 import { cloneDeep } from 'lodash';
 
+interface UserData {
+  code: string;
+  group: string;
+  name: string;
+  subs: UserData[];
+}
+
 const props = defineProps({
   title: {
     type: String,
@@ -90,11 +97,11 @@ const emit = defineEmits(['handleSelectionChange']);
 // region 树结构
 // 筛选
 const filterText = ref('');
-const filterNode = (value: string, data) => {
+const filterNode = (value: string, data: UserData) => {
   if (!value) return true;
   return data.name.includes(value);
 };
-const data = ref([]);
+const data = ref<any[]>([]);
 const treeRef = ref<InstanceType<typeof ElTree>>();
 const { defaultChecked } = toRefs(props);
 const defaultCheckedList = computed(() => {
@@ -110,7 +117,7 @@ watch(defaultChecked, (val: any) => {
   deep: true
 });
 const handleCheckChange = () => {
-  const nodes = treeRef.value!.getCheckedNodes(true, false);
+  const nodes = treeRef.value!.getCheckedNodes(true, false) as any;
   selectList.value = nodes;
 };
 // endregion
@@ -126,10 +133,10 @@ watch(selectList, (val) => {
  * 用于操作已选列表时,联动树结构
  * @param {UserTreeRes} node - 删除的人员数据
  */
-const setCheckedKeys = (node) => {
+const setCheckedKeys = (node: UserData) => {
   let list = cloneDeep(selectList.value);
   if (node) {
-    const index = selectList.value.indexOf(node);
+    const index = selectList.value.indexOf(node as never);
     if (index > -1) {
       list.splice(index, 1);
     } else {
@@ -138,7 +145,7 @@ const setCheckedKeys = (node) => {
   } else {
     list = [];
   }
-  const keys = list.map(v => v.code);
+  const keys = list.map((v: UserData) => v.code);
   treeRef.value!.setCheckedKeys(keys, false);
 };
 // endregion
