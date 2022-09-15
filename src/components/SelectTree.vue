@@ -29,7 +29,7 @@
             :filter-node-method="filterNode"
           >
             <template #default="{ node }">
-              <p class="tree-item">
+              <p class="tree-item text-ellipsis">
                 <span class="prefix" v-show="!node.isLeaf"><i class="iconfont el-icon-folder"></i></span>
                 <span :class="{leaf: node.isLeaf}">{{ node.label }}</span>
               </p>
@@ -235,6 +235,7 @@ getData();
         }
 
         //::v-deep {
+        //  // 让内容出现横向滚动条 el-tree 需加 default-expand-all属性
         //  .el-tree-node {
         //    > .el-tree-node__children {
         //      overflow: visible;
