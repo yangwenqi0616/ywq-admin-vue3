@@ -25,7 +25,7 @@
             :check-on-click-node="true"
             :default-expanded-keys="defaultExpanded"
             :default-checked-keys="defaultCheckedList"
-            @check-change="handleCheckChange"
+            @check="handleCheckChange"
             :filter-node-method="filterNode"
           >
             <template #default="{ node }">
@@ -61,7 +61,6 @@
 import { ref, toRefs, watch, defineProps, defineEmits, computed } from 'vue';
 import { dataModel, smallModel } from './select-tree-data';
 import { ElTree, ElMessage } from 'element-plus';
-import { cloneDeep } from 'lodash';
 
 interface UserData {
   code: string;
@@ -131,21 +130,20 @@ watch(selectList, (val) => {
 });
 /**
  * 用于操作已选列表时,联动树结构
- * @param {UserTreeRes} node - 删除的人员数据
+ * @param {UserData} node - 删除的人员数据
  */
 const setCheckedKeys = (node: UserData) => {
-  let list = cloneDeep(selectList.value);
   if (node) {
     const index = selectList.value.indexOf(node as never);
     if (index > -1) {
-      list.splice(index, 1);
+      selectList.value.splice(index, 1);
     } else {
       ElMessage.warning('人员数据有误');
     }
   } else {
-    list = [];
+    selectList.value = [];
   }
-  const keys = list.map((v: UserData) => v.code);
+  const keys = selectList.value.map((v: UserData) => v.code);
   treeRef.value!.setCheckedKeys(keys, false);
 };
 // endregion
