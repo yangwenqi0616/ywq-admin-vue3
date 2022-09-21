@@ -31,8 +31,8 @@ class Http {
           config.cancelToken = new this.CancelToken(c => {
             if (this.pending[key]) {
               // 上次接口未返回时走此逻辑
-              if (Date.now() - this.pending[key] > 5000) {
-                // 超过5s，删除对应的请求记录，重新发起请求,即使未返回
+              if (Date.now() - this.pending[key] > 3000) {
+                // 超过3s，删除对应的请求记录，重新发起请求,即使未返回
                 delete this.pending[key];
               } else {
                 // 同一请求未返回,5s内再次发送,取消发送
