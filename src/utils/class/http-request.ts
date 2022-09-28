@@ -107,6 +107,14 @@ class Http {
     return this.instance.get(url, { params }) as any;
   }
 
+  put(url: string, params: any) {
+    return this.instance.put(url, params) as any;
+  }
+
+  delete(url: string, params: any) {
+    return this.instance.delete(url, { params }) as any;
+  }
+
   post(url: string, data: any, config: AxiosRequestConfig | undefined = undefined) {
     return this.instance.post(url, data, config) as any;
   }
