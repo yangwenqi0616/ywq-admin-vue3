@@ -1,25 +1,25 @@
-import Layout from "@/layout/index.vue";
+import Layout from '@/layout/index.vue';
 
 export default [
   {
-    path: "/const",
-    name: "const",
+    path: '/const',
+    name: 'const',
     component: Layout,
-    meta: {title: "个人中心", icon: "el-icon-user-solid"},
+    meta: { title: '个人中心', icon: 'el-icon-user-solid' },
     children: [
       {
-        path: "my-blog",
-        name: "myBlog",
-        component: () => import("@/views/Iframe.vue"),
-        meta: {title: "单眼皮丶儿", icon: "el-icon-lollipop", url: "https://blog.csdn.net/Y_wq0616"}
+        path: 'my-blog',
+        name: 'myBlog',
+        component: () => import('@/views/Iframe.vue'),
+        meta: { title: '单眼皮丶儿', icon: 'el-icon-lollipop', url: 'https://blog.csdn.net/Y_wq0616', isIframe: true }
       },
       {
-        path: "https://github.com/yangwenqi0616?tab=repositories",
-        name: "myGithub",
+        path: 'https://github.com/yangwenqi0616?tab=repositories',
+        name: 'myGithub',
         component: {},
         meta: {
-          title: "GitHub",
-          icon: "el-icon-coin"
+          title: 'GitHub',
+          icon: 'el-icon-coin'
         }
       }
     ]

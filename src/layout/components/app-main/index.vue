@@ -1,23 +1,28 @@
 <template>
   <section class="app-main">
-    <router-view v-slot="{ Component }">
+    <router-view v-slot="{ Component }" v-if="!$route.meta.isIframe">
       <transition name="fade-transform" mode="out-in">
         <keep-alive :include="cachedViews">
-          <component :is="Component"/>
+          <component :is="Component" />
         </keep-alive>
       </transition>
     </router-view>
+    <Iframe v-if="cachedViews.includes('myBlog')" v-show="$route.meta.isIframe" />
   </section>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { useStore, mapState } from "vuex";
+import { defineComponent, ref } from 'vue';
+import { useStore, mapState } from 'vuex';
+import Iframe from '@/views/Iframe.vue';
 
 export default defineComponent({
-  name: "AppMain",
+  name: 'AppMain',
+  components: {
+    Iframe
+  },
   computed: {
-    ...mapState("tagsView", {
-      cachedViews: "cachedViews"
+    ...mapState('tagsView', {
+      cachedViews: 'cachedViews'
     })
   },
   mounted() {

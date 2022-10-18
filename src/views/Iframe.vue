@@ -6,13 +6,20 @@
     当前页面未成功配置
   </div>
 </template>
+<script lang="ts">
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+export default {
+  name: 'myBlog'
+};
+</script>
 <script setup lang="ts">
-import { useRoute } from "vue-router";
-import { isExternal } from "@/utils/common";
-import { computed } from "vue";
+import { useRoute } from 'vue-router';
+import { isExternal } from '@/utils/common';
+import { computed } from 'vue';
 
 const route = useRoute();
-const iframeUrl = route?.meta?.url as string || "";
+const iframeUrl = route?.meta?.url as string || '';
 const isExternalUrl = computed(() => isExternal(iframeUrl));
 </script>
 <style lang="scss" scoped>
