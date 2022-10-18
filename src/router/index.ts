@@ -1,8 +1,9 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import dashboardRouter from "@/router/modules/dashboard";
-import themeConfigRouter from "@/router/modules/theme-config";
-import personalCenterRouter from "@/router/modules/personal-center";
-import asyncModelRouter from "@/router/modules/async-model";
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import dashboardRouter from '@/router/modules/dashboard';
+import themeConfigRouter from '@/router/modules/theme-config';
+import personalCenterRouter from '@/router/modules/personal-center';
+import asyncModelRouter from '@/router/modules/async-model';
+import Layout from '@/layout/index.vue';
 
 /**
  * *路由配置一定要有name,该属性是removeRouter的必要条件
@@ -27,16 +28,26 @@ export const asyncRouter: Array<RouteRecordRaw> = [
 // 固定路由
 export const constantRoutes: Array<RouteRecordRaw> = [
   {
-    path: "/login",
-    name: "Login",
-    component: () => import(/* webpackChunkName: "login" */ "@/views/login/index.vue"),
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
     meta: { hidden: true }
   },
   {
-    path: "/404",
-    name: "404",
-    component: () => import(/* webpackChunkName: "404" */ "@/views/404.vue"),
+    path: '/404',
+    name: '404',
+    component: () => import(/* webpackChunkName: "404" */ '@/views/404.vue'),
     meta: { hidden: true }
+  },
+  {
+    path: '/refresh',
+    component: Layout,
+    meta: { hidden: true, title: '' },
+    children: [{
+      path: '/refresh',
+      component: () => import('@/views/to-refresh.vue'),
+      meta: { hidden: true, title: '' }
+    }]
   },
   ...dashboardRouter,
   ...personalCenterRouter

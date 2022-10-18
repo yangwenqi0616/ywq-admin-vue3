@@ -3,7 +3,7 @@
     <router-view v-slot="{ Component }" v-if="!$route.meta.isIframe">
       <transition name="fade-transform" mode="out-in">
         <keep-alive :include="cachedViews">
-          <component :is="Component" />
+          <component :is="Component" :key="key" />
         </keep-alive>
       </transition>
     </router-view>
@@ -11,8 +11,8 @@
   </section>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { useStore, mapState } from 'vuex';
+import { defineComponent } from 'vue';
+import { mapState } from 'vuex';
 import Iframe from '@/views/Iframe.vue';
 
 export default defineComponent({
@@ -23,7 +23,11 @@ export default defineComponent({
   computed: {
     ...mapState('tagsView', {
       cachedViews: 'cachedViews'
-    })
+    }),
+    key() {
+      const key = this.$route.fullPath;
+      return key;
+    }
   },
   mounted() {
     console.log(this.cachedViews);
