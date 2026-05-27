@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import dashboardRouter from '@/router/modules/dashboard';
 import themeConfigRouter from '@/router/modules/theme-config';
 import personalCenterRouter from '@/router/modules/personal-center';
@@ -30,7 +30,8 @@ export const constantRoutes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
+    component: () =>
+        import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
     meta: { hidden: true }
   },
   {
@@ -43,11 +44,13 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     path: '/refresh',
     component: Layout,
     meta: { hidden: true, title: '' },
-    children: [{
-      path: '/refresh',
-      component: () => import('@/views/to-refresh.vue'),
-      meta: { hidden: true, title: '' }
-    }]
+    children: [
+      {
+        path: '/refresh',
+        component: () => import('@/views/to-refresh.vue'),
+        meta: { hidden: true, title: '' }
+      }
+    ]
   },
   ...dashboardRouter,
   ...personalCenterRouter
@@ -55,7 +58,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
 
 // 创建路由
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.VITE_APP_BASE_URL),
   routes: constantRoutes
 });
 

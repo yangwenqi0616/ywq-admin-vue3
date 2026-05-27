@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
-import { Star } from "@/utils/class/star";
+import { onMounted, onUnmounted, ref } from 'vue';
+import { Star } from '@/utils/class/star';
 
 const paperBox = ref<HTMLDivElement | null>(null);
 const paper = ref<HTMLCanvasElement | null>(null);
@@ -22,7 +22,7 @@ onMounted(() => {
   const myCanvas = paper.value;
   myCanvas.height = height;
   myCanvas.width = width;
-  const ctx = myCanvas.getContext("2d") as CanvasRenderingContext2D;
+  const ctx = myCanvas.getContext('2d') as CanvasRenderingContext2D;
   const arr = createStarts(ctx, 100, width, height);
 
   // 将鼠标初始化为一颗星星
@@ -41,7 +41,10 @@ onMounted(() => {
       v.render();
       v.move();
       for (let j = i + 1; j < arr.length; j++) {
-        if (Math.abs(v.x - arr[j].x) < distance && Math.abs(v.y - arr[j].y) < distance) {
+        if (
+          Math.abs(v.x - arr[j].x) < distance &&
+          Math.abs(v.y - arr[j].y) < distance
+        ) {
           ctx.beginPath();
           ctx.moveTo(v.x, v.y);
           ctx.lineTo(arr[j].x, arr[j].y);
@@ -51,8 +54,11 @@ onMounted(() => {
       }
     });
     mouseStar.render();
-    arr.forEach(v => {
-      if (Math.abs(v.x - mouseStar.x) < 100 && Math.abs(v.y - mouseStar.y) < 100) {
+    arr.forEach((v) => {
+      if (
+        Math.abs(v.x - mouseStar.x) < 100 &&
+        Math.abs(v.y - mouseStar.y) < 100
+      ) {
         ctx.beginPath();
         ctx.moveTo(v.x, v.y);
         ctx.lineTo(mouseStar.x, mouseStar.y);
@@ -66,9 +72,11 @@ onMounted(() => {
   myCanvas.onmousedown = (e) => {
     const x = e.offsetX;
     const y = e.offsetY;
-    const newStar = Array(10).fill(undefined).map(() => {
-      return new Star(ctx, x, y);
-    });
+    const newStar = Array(10)
+      .fill(undefined)
+      .map(() => {
+        return new Star(ctx, x, y);
+      });
     arr.push(...newStar);
   };
   // 五秒后将新创建的星星删掉,保持星星总数不变
@@ -91,14 +99,20 @@ onUnmounted(() => {
  * @param {number} h - 画布的高
  * @return {Star[]} 承装星星的数组容器
  */
-const createStarts = (ctx: CanvasRenderingContext2D, counts: number, w: number, h: number): Star[] => {
-  return Array(counts).fill(undefined).map(() => {
-    const x = parseInt(String(Math.random() * w));
-    const y = parseInt(String(Math.random() * h));
-    return new Star(ctx, x, y);
-  });
+const createStarts = (
+  ctx: CanvasRenderingContext2D,
+  counts: number,
+  w: number,
+  h: number
+): Star[] => {
+  return Array(counts)
+    .fill(undefined)
+    .map(() => {
+      const x = parseInt(String(Math.random() * w));
+      const y = parseInt(String(Math.random() * h));
+      return new Star(ctx, x, y);
+    });
 };
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -106,7 +120,13 @@ const createStarts = (ctx: CanvasRenderingContext2D, counts: number, w: number, 
 .wall-paper {
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(to top, #206885, #925454 20%, #141f48 40%, #090e21 60%);
+  background-image: linear-gradient(
+    to top,
+    #206885,
+    #925454 20%,
+    #141f48 40%,
+    #090e21 60%
+  );
   position: relative;
 
   //&:after {

@@ -19,26 +19,17 @@
           width="55"
         >
         </el-table-column>
-        <template v-for="(item, index) in columns">
-          <el-table-column
-            v-if="!item.hidden && item.type !== 'slot'"
-            :key="index"
-            :prop="item.prop"
-            :label="item.label"
-            :align="item.align || align"
-            :render-header="item.renderHeader"
-            :min-width="item.minWidth"
-            :width="item.width"
-            show-overflow-tooltip
-          >
-            <template v-slot="scope">
-              <span>{{ String(scope.row[item.prop]) || '-' }}</span>
-            </template>
-          </el-table-column>
-          <slot v-else-if="item.type === 'slot'" :name="item.slotName" />
-        </template>
+        <TableColumn :columns="columns" :align="align">
+          <template v-for="slot in Object.keys(customSlots)" #[slot]="scope">
+            <!-- 以之前的名字命名插槽，同时把数据原样绑定 -->
+            <slot :name="slot" v-bind="scope" />
+          </template>
+        </TableColumn>
         <template #empty>
-          <div class="">暂无数据</div>
+          <div class="empty">
+            <img src="@/assets/no_data.png" alt="" />
+            <div class="">暂无数据</div>
+          </div>
         </template>
       </el-table>
     </el-scrollbar>
@@ -57,7 +48,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, defineProps, defineEmits } from 'vue';
+import {
+  ref,
+  reactive,
+  watch,
+  defineProps,
+  defineEmits,
+  getCurrentInstance
+} from 'vue';
+import TableColumn from './TableColumn.vue';
+
+const { proxy } = getCurrentInstance();
+const customSlots = reactive({
+  ...proxy.$slots
+});
 
 const props = defineProps({
   columns: Array,
@@ -65,7 +69,7 @@ const props = defineProps({
     default: {}
   },
   selection: {
-    default: true
+    default: false
   },
   reserveSelection: {
     default: false
@@ -78,11 +82,15 @@ const tableParams = ref<any>({});
 const currentPage = ref(1);
 const pageSize = ref(10);
 
-const emit = defineEmits(['handleSelectionChange', 'handleSizeChange', 'handleCurrentChange']);
+const emit = defineEmits([
+  'handleSelectionChange',
+  'handleSizeChange',
+  'handleCurrentChange'
+]);
 
 watch(
   props.pageParams,
-  value => {
+  (value) => {
     tableParams.value = Object.assign({}, value);
     currentPage.value = tableParams.value.currentPage;
     pageSize.value = tableParams.value.pageSize;
@@ -122,15 +130,47 @@ const getRowKeys = (row: any) => {
     border: 1px solid #eee;
     border-bottom: none;
 
+    .empty {
+      font-size: 12px;
+      color: #657b8b;
+      margin-top: 20px;
+
+      img {
+        width: 61.02px;
+        height: 76px;
+      }
+    }
+
     ::v-deep {
       .el-table__cell {
         padding: 0;
       }
 
       .table-header-cell {
-        background: #F7F8FB;
+        background: #f7f8fb;
         height: 40px;
-        color: #657B8B;
+        color: #657b8b;
+      }
+    }
+
+    // 滚动条的宽度
+    ::v-deep {
+      .el-table__body-wrapper::-webkit-scrollbar {
+        width: 6px; // 横向滚动条
+        height: 6px; // 纵向滚动条 必写
+      }
+
+      .el-table__body-wrapper::-webkit-scrollbar-thumb {
+        background-color: #ddd;
+        border-radius: 3px;
+
+        &:hover {
+          background-color: #ccc;
+        }
+      }
+
+      .el-table__fixed-right {
+        height: 100% !important;
       }
     }
   }

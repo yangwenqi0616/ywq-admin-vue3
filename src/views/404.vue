@@ -3,9 +3,10 @@
     <div class="wscn-http404">
       <div class="pic-404">
         <img
-            class="pic-404__parent"
-            src="@/assets/404_images/404.png"
-            alt="404"/>
+          class="pic-404__parent"
+          src="@/assets/404_images/404.png"
+          alt="404"
+        />
       </div>
       <div class="bullshit">
         <div class="bullshit__oops">OOPS!</div>
@@ -21,12 +22,11 @@
 </template>
 
 <script lang="ts">
-
 export default {
-  name: "Page404",
+  name: 'Page404',
   computed: {
     message(): string {
-      return "The webmaster said that you can not enter this page...";
+      return 'The webmaster said that you can not enter this page...';
     }
   }
 };

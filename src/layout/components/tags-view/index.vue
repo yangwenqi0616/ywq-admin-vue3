@@ -1,22 +1,44 @@
 <template>
   <div class="tags-view-container">
-    <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
+    <scroll-pane
+      ref="scrollPane"
+      class="tags-view-wrapper"
+      @scroll="handleScroll"
+    >
       <router-link
         class="tags-view-item no-select"
-        v-for="(tag,i) in visitedViews"
-        :ref="el => { if (el) tags[i] = el }"
+        v-for="(tag, i) in visitedViews"
+        :ref="
+          (el) => {
+            if (el) tags[i] = el;
+          }
+        "
         :key="tag.path"
-        :class="isActive(tag)?'active':''"
+        :class="isActive(tag) ? 'active' : ''"
         :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
-        @click.middle="!isAffix(tag)?closeSelectedTag(tag):''"
-        @contextmenu.prevent="openMenu(tag,$event)">
+        v-show="isShow(tag.path)"
+        @click.middle="!isAffix(tag) ? closeSelectedTag(tag) : ''"
+        @contextmenu.prevent="openMenu(tag, $event)"
+      >
         {{ tag.title }}
-        <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
+        <span
+          v-if="!isAffix(tag)"
+          class="el-icon-close"
+          @click.prevent.stop="closeSelectedTag(tag)"
+        />
       </router-link>
     </scroll-pane>
-    <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-      <li v-if="isActive(selectedTag)" @click="refreshSelectedTag(selectedTag)">刷新</li>
-      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">关闭</li>
+    <ul
+      v-show="visible"
+      :style="{ left: left + 'px', top: top + 'px' }"
+      class="contextmenu"
+    >
+      <li v-if="isActive(selectedTag)" @click="refreshSelectedTag(selectedTag)">
+        刷新
+      </li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">
+        关闭
+      </li>
       <li @click="closeOthersTags">关闭其他</li>
       <li @click="closeAllTags(selectedTag)">全部关闭</li>
     </ul>
@@ -24,11 +46,13 @@
 </template>
 
 <script>
-import ScrollPane from './ScrollPane';
+import ScrollPane from './ScrollPane.vue';
 import { mapState, useStore } from 'vuex';
 import path from 'path';
 import { useRouter, useRoute } from 'vue-router';
-import { ref, watch, nextTick } from 'vue';
+import { ref, watch, nextTick, computed } from 'vue';
+import { flatRouter } from '@/utils/common.ts';
+import { constantRoutes } from '@/router';
 
 export default {
   components: { ScrollPane },
@@ -46,10 +70,18 @@ export default {
     const router = useRouter();
     const route = useRoute();
     const scrollPane = ref(null);
+    const isShow = computed(() => {
+      const list = flatRouter(store.state.loginStore.routerList).concat(
+        flatRouter(constantRoutes)
+      );
+      return (path) => {
+        return list.filter((v) => v.path === path || v?.meta?.isIframe).length;
+      };
+    });
     const tags = ref([]);
     const addTags = () => {
       const { name } = route;
-      if (name) {
+      if (name && name !== '404') {
         store.dispatch('tagsView/addView', route);
       }
     };
@@ -76,23 +108,24 @@ export default {
     return {
       routes: router.getRoutes(),
       scrollPane,
-      tags
+      tags,
+      isShow
     };
   },
   computed: {
     ...mapState({
-      visitedViews: state => state.tagsView.visitedViews
+      visitedViews: (state) => state.tagsView.visitedViews
     }),
     isAffix() {
-      return tag => tag?.meta?.affix;
+      return (tag) => tag?.meta?.affix;
     },
     isActive() {
-      return route => route.path === this.$route.path;
+      return (route) => route.path === this.$route.path;
     },
     filterAffixTags() {
       return (routes = this.routes, basePath = '/') => {
         let tags = [];
-        routes.forEach(route => {
+        routes.forEach((route) => {
           if (route?.meta.affix) {
             const tagPath = path.resolve(basePath, route.path);
             tags.push({
@@ -127,7 +160,7 @@ export default {
   },
   methods: {
     initTags() {
-      const affixTags = this.affixTags = this.filterAffixTags(this.routes);
+      const affixTags = (this.affixTags = this.filterAffixTags(this.routes));
       for (const tag of affixTags) {
         // Must have tag name
         if (tag.name) {
@@ -145,11 +178,13 @@ export default {
       });
     },
     closeSelectedTag(view) {
-      this.$store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
-        if (this.isActive(view)) {
-          this.toLastView(visitedViews, view);
-        }
-      });
+      this.$store
+        .dispatch('tagsView/delView', view)
+        .then(({ visitedViews }) => {
+          if (this.isActive(view)) {
+            this.toLastView(visitedViews, view);
+          }
+        });
     },
     closeOthersTags() {
       this.$router.push(this.selectedTag);
@@ -157,7 +192,7 @@ export default {
     },
     closeAllTags(view) {
       this.$store.dispatch('tagsView/delAllViews').then(({ visitedViews }) => {
-        if (this.affixTags.some(tag => tag.path === view.path)) {
+        if (this.affixTags.some((tag) => tag.path === view.path)) {
           return;
         }
         this.toLastView(visitedViews, view);
@@ -173,7 +208,8 @@ export default {
     },
     openMenu(tag, e) {
       const menuMinWidth = 105;
-      let left = e.clientX, top = e.clientY;
+      let left = e.clientX,
+        top = e.clientY;
       if (innerWidth - left < menuMinWidth) {
         left = innerWidth - menuMinWidth;
       }
@@ -191,15 +227,14 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
 .tags-view-container {
   height: 35px;
   width: 100%;
   background: #fff;
   border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
-  background: url("~@/assets/bk_2.jpg") 0 -39px no-repeat;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
+  background: url('@/assets/bk_2.jpg') 0 -60px no-repeat;
   background-size: cover;
 
   .tags-view-wrapper {
@@ -210,10 +245,10 @@ export default {
       display: inline-block;
       cursor: pointer;
       height: 30px;
-      line-height: 30px;
+      line-height: 27px;
       border: 1px solid #d8dce5;
       color: #fff;
-      background: rgba(47, 65, 86, .7);
+      background: rgba(47, 65, 86, 0.7);
       padding: 0 8px;
       font-size: 15px;
       margin-left: 5px;
@@ -245,11 +280,11 @@ export default {
         height: 16px;
         border-radius: 50%;
         text-align: center;
-        transition: all .3s cubic-bezier(.645, .045, .355, 1);
+        transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
         transform-origin: 100% 50%;
 
         &:before {
-          transform: scale(.6);
+          transform: scale(0.6);
           display: inline-block;
           vertical-align: -1px;
         }
@@ -273,7 +308,7 @@ export default {
     font-size: 12px;
     font-weight: 400;
     color: #333;
-    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
+    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
 
     li {
       margin: 0;

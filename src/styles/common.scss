@@ -15,3 +15,12 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+
+@mixin text-ellipsis-x($row) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp: $row;
+  -webkit-box-orient: vertical;
+}

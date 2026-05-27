@@ -5,10 +5,11 @@
         :default-active="activeMenu"
         :unique-opened="false"
         :collapse="isCollapse"
-        :background-color="variables.menuBg"
-        :text-color="variables.menuText"
-        :active-text-color="variables.menuActiveText"
-        mode="vertical">
+        background-color="#304156"
+        text-color="#bfcbd9"
+        active-text-color="#409EFF"
+        mode="vertical"
+      >
         <sidebar-item
           v-for="route in routes"
           :key="route.path"
@@ -21,12 +22,11 @@
 </template>
 
 <script lang="ts" setup>
-import SidebarItem from "./SidebarItem.vue";
-import variables from "@/styles/variables.scss";
-import { constantRoutes } from "@/router";
-import { useStore } from "vuex";
-import { computed } from "vue";
-import { useRoute } from "vue-router";
+import SidebarItem from './SidebarItem.vue';
+import { constantRoutes } from '@/router';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const store = useStore();
@@ -76,7 +76,8 @@ const activeMenu = computed(() => {
     overflow-x: hidden;
     overflow-y: auto;
 
-    ::v-deep .el-scrollbar__view, .el-menu {
+    ::v-deep .el-scrollbar__view,
+    .el-menu {
       height: 100%;
     }
   }

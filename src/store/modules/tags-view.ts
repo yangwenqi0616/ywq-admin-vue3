@@ -1,9 +1,10 @@
-import { Module } from 'vuex';
-import { RootState } from '../index';
+import type { Module } from 'vuex';
+import type { RootState } from '../index';
 
 const mutations = {
   ADD_VISITED_VIEW: (state: any, view: any) => {
-    if (state.visitedViews.some((v: { path: any; }) => v.path === view.path)) return;
+    if (state.visitedViews.some((v: { path: any }) => v.path === view.path))
+      return;
     const simpleView = {
       fullPath: view.fullPath,
       hash: view.hash,
@@ -40,9 +41,11 @@ const mutations = {
   },
 
   DEL_OTHERS_VISITED_VIEWS: (state: any, view: any) => {
-    state.visitedViews = state.visitedViews.filter((v: { meta: { affix: any; }; path: any; }) => {
-      return v.meta.affix || v.path === view.path;
-    });
+    state.visitedViews = state.visitedViews.filter(
+        (v: { meta: { affix: any }; path: any }) => {
+          return v.meta.affix || v.path === view.path;
+        }
+    );
   },
   DEL_OTHERS_CACHED_VIEWS: (state: any, view: any) => {
     const index = state.cachedViews.indexOf(view.name);
@@ -55,7 +58,9 @@ const mutations = {
   },
   DEL_ALL_VISITED_VIEWS: (state: any) => {
     // keep affix tags
-    const affixTags = state.visitedViews.filter((tag: { meta: { affix: any; }; }) => tag.meta.affix);
+    const affixTags = state.visitedViews.filter(
+        (tag: { meta: { affix: any } }) => tag.meta.affix
+    );
     state.visitedViews = affixTags;
   },
   DEL_ALL_CACHED_VIEWS: (state: any) => {
@@ -83,7 +88,7 @@ const actions = {
     commit('ADD_CACHED_VIEW', view);
   },
   delView({ dispatch, state }: any, view: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       dispatch('delVisitedView', view);
       dispatch('delCachedView', view);
       resolve({
@@ -93,19 +98,19 @@ const actions = {
     });
   },
   delVisitedView({ commit, state }: any, view: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       commit('DEL_VISITED_VIEW', view);
       resolve([...state.visitedViews]);
     });
   },
   delCachedView({ commit, state }: any, view: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       commit('DEL_CACHED_VIEW', view);
       resolve([...state.cachedViews]);
     });
   },
   delOthersViews({ dispatch, state }: any, view: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       dispatch('delOthersVisitedViews', view);
       dispatch('delOthersCachedViews', view);
       resolve({
@@ -115,19 +120,19 @@ const actions = {
     });
   },
   delOthersVisitedViews({ commit, state }: any, view: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       commit('DEL_OTHERS_VISITED_VIEWS', view);
       resolve([...state.visitedViews]);
     });
   },
   delOthersCachedViews({ commit, state }: any, view: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       commit('DEL_OTHERS_CACHED_VIEWS', view);
       resolve([...state.cachedViews]);
     });
   },
   delAllViews({ dispatch, state }: any, view: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       dispatch('delAllVisitedViews', view);
       dispatch('delAllCachedViews', view);
       resolve({
@@ -137,13 +142,13 @@ const actions = {
     });
   },
   delAllVisitedViews({ commit, state }: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       commit('DEL_ALL_VISITED_VIEWS');
       resolve([...state.visitedViews]);
     });
   },
   delAllCachedViews({ commit, state }: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       commit('DEL_ALL_CACHED_VIEWS');
       resolve([...state.cachedViews]);
     });
@@ -171,7 +176,7 @@ const tagsView: Module<TagsViewState, RootState> = {
   actions
 };
 type TagsViewState = {
-  visitedViews: [],
-  cachedViews: []
-}
+  visitedViews: [];
+  cachedViews: [];
+};
 export default tagsView;

@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios from 'axios';
+// import { Blob } from 'node:buffer';
 
 /**
  * 下载工具
@@ -6,13 +7,12 @@ import axios from "axios";
  * @param {any} params - 参数
  */
 export const downloadHelper = async (url: string, params: any) => {
-  const res = await axios.post(url, params, {responseType: "arraybuffer"});
+  const res = await axios.post(url, params, { responseType: 'arraybuffer' });
   const fileName = window.decodeURI(
-      res.headers["content-disposition"].split("=")[1]
+      res.headers['content-disposition'].split('=')[1]
   );
   const data = new Blob([res.data], {
-    type:
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'
   });
   downloadFile(fileName, data);
 };
@@ -23,7 +23,7 @@ export const downloadHelper = async (url: string, params: any) => {
  * @param data 数据
  */
 export const downloadFile = (name: string, data: Blob) => {
-  const link = document.createElement("a");
+  const link = document.createElement('a');
   link.download = name;
   link.href = URL.createObjectURL(data);
   link.click();

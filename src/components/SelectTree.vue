@@ -10,7 +10,8 @@
           suffix-icon="el-icon-search"
           size="small"
           clearable
-          v-model="filterText">
+          v-model="filterText"
+        >
         </el-input>
         <el-scrollbar>
           <el-tree
@@ -29,9 +30,11 @@
             :filter-node-method="filterNode"
           >
             <template #default="{ node }">
-              <p class="tree-item text-ellipsis">
-                <span class="prefix" v-show="!node.isLeaf"><i class="iconfont el-icon-folder"></i></span>
-                <span :class="{leaf: node.isLeaf}">{{ node.label }}</span>
+              <p class="tree-item">
+                <span v-show="!node.isLeaf"
+                ><i class="iconfont el-icon-folder"></i
+                ></span>
+                <span :class="{ leaf: node.isLeaf }">{{ node.label }}</span>
               </p>
             </template>
           </el-tree>
@@ -40,19 +43,40 @@
       <div class="content select-tree-content-select">
         <div class="select-tree-content-select-head">
           <p>已选（{{ selectList.length }}人）</p>
-          <el-button type="text" @click="setCheckedKeys()"><i class="el-icon-delete"></i></el-button>
+          <el-button text @click="setCheckedKeys()">
+            <el-icon>
+              <CircleCloseFilled />
+            </el-icon>
+          </el-button>
         </div>
-        <el-scrollbar>
-          <ul>
-            <li v-for="v in selectList" :key="v.code">
-              <span>{{ v.name }}（{{ v.code }}）</span>
-              <el-button type="text"
-                         @click="setCheckedKeys(v)">
-                <i class="iconfont el-icon-error"></i>
-              </el-button>
-            </li>
-          </ul>
-        </el-scrollbar>
+        <VirtualList
+          :items="selectList"
+          :size="40"
+          :showNumber="9"
+          v-slot="slotProps"
+        >
+          <div class="list-item">
+            <span>
+              <el-tooltip
+                effect="dark"
+                placement="top"
+                :visible-arrow="false"
+                :content="`${slotProps.row.name}（${slotProps.row.code}）`"
+                :hide-after="0"
+                transition=""
+              >
+                <span
+                >{{ slotProps.row.name }}（{{ slotProps.row.code }}）</span
+                >
+              </el-tooltip>
+            </span>
+            <el-button text @click="setCheckedKeys(slotProps.row)">
+              <el-icon>
+                <CircleClose />
+              </el-icon>
+            </el-button>
+          </div>
+        </VirtualList>
       </div>
     </section>
   </div>
@@ -61,6 +85,7 @@
 import { ref, toRefs, watch, defineProps, defineEmits, computed } from 'vue';
 import { dataModel, smallModel } from './select-tree-data';
 import { ElTree, ElMessage } from 'element-plus';
+import VirtualList from '@/components/VirtualList.vue';
 
 interface UserData {
   code: string;
@@ -98,7 +123,7 @@ const emit = defineEmits(['handleSelectionChange']);
 const filterText = ref('');
 const filterNode = (value: string, data: UserData) => {
   if (!value) return true;
-  return data.name.includes(value);
+  return data.name.includes(value) || data.code === value;
 };
 const data = ref<any[]>([]);
 const treeRef = ref<InstanceType<typeof ElTree>>();
@@ -110,41 +135,51 @@ const defaultExpanded = ref<string[]>([]); // 默认展开项
 watch(filterText, (val) => {
   treeRef.value!.filter(val);
 });
-watch(defaultChecked, (val: any) => {
-  selectList.value = val;
-}, {
-  deep: true
-});
+watch(
+  defaultChecked,
+  (val: any) => {
+    selectList.value = val;
+  },
+  {
+    deep: true
+  }
+);
 const handleCheckChange = () => {
-  const nodes = treeRef.value!.getCheckedNodes(true, false) as any;
+  const nodes = treeRef.value!.getCheckedNodes(true, false) as UserData[];
   selectList.value = nodes;
 };
 // endregion
 
 // region 选中列表
-const selectList = ref([]);
-watch(selectList, (val) => {
-  emit('handleSelectionChange', val);
-}, {
-  deep: true
-});
+const selectList = ref<UserData[]>([]);
+watch(
+  selectList,
+  (val) => {
+    emit('handleSelectionChange', val);
+  },
+  {
+    deep: true
+  }
+);
 /**
  * 用于操作已选列表时,联动树结构
  * @param {UserData} node - 删除的人员数据
  */
 const setCheckedKeys = (node: UserData) => {
   if (node) {
-    const index = selectList.value.indexOf(node as never);
+    const index = selectList.value.indexOf(node);
     if (index > -1) {
       selectList.value.splice(index, 1);
     } else {
       ElMessage.warning('人员数据有误');
     }
+    treeRef.value!.setChecked(node.code, false, false);
   } else {
+    selectList.value.forEach((v) => {
+      treeRef.value!.setChecked(v.code, false, false);
+    });
     selectList.value = [];
   }
-  const keys = selectList.value.map((v: UserData) => v.code);
-  treeRef.value!.setCheckedKeys(keys, false);
 };
 // endregion
 
@@ -156,10 +191,10 @@ const getData = async () => {
   loading.value = true;
   try {
     // const result = await getUserTree({});
-    // const result = dataModel;
-    const result = smallModel;
+    const result = dataModel;
+    // const result = smallModel;
     // 默认展开第一层
-    defaultExpanded.value = result.map(v => v.code);
+    defaultExpanded.value = result.map((v) => v.code);
     data.value = result;
   } catch (e) {
     console.log(e);
@@ -182,7 +217,7 @@ getData();
     font-weight: 600;
     font-size: 16px;
     line-height: 24px;
-    color: #00244D;
+    color: #00244d;
     margin-bottom: 15px;
 
     &:before {
@@ -190,7 +225,7 @@ getData();
       display: inline-block;
       width: 2px;
       height: 10px;
-      background: #0070FF;
+      background: #0070ff;
       margin-right: 8px;
     }
   }
@@ -221,10 +256,10 @@ getData();
         .tree-item {
           font-size: 14px;
           line-height: 22px;
-          color: #00244D;
+          color: #00244d;
 
           .iconfont {
-            color: #657B8B;
+            color: #657b8b;
             margin-right: 5px;
           }
         }
@@ -246,7 +281,7 @@ getData();
     }
 
     &-select {
-      border-left: 1px solid #E5EAEC;
+      border-left: 1px solid #e5eaec;
       display: flex;
       flex-direction: column;
       padding-left: 8px;
@@ -257,7 +292,7 @@ getData();
         justify-content: space-between;
         font-weight: 600;
         font-size: 16px;
-        color: #00244D;
+        color: #00244d;
         padding: 0 16px;
 
         p:before {
@@ -265,38 +300,42 @@ getData();
           display: inline-block;
           width: 2px;
           height: 13px;
-          background: #0070FF;
+          background: #0070ff;
           margin-right: 8px;
         }
       }
 
-      .el-icon-delete, .iconfont {
+      .el-icon-delete,
+      .iconfont {
         font-size: 16px;
-        color: #ADB1B3;
+        color: #adb1b3;
         font-weight: bold;
 
         &:hover {
-          color: #0070FF;
+          color: #0070ff;
         }
 
         &:active {
-          color: #D1E5FF;
+          color: #d1e5ff;
         }
       }
 
-      li {
+      .list-item {
         width: 100%;
-        height: 36px;
+        height: 40px;
         border-radius: 4px;
         font-size: 14px;
-        color: #657B8B;
+        color: #657b8b;
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 0 16px;
+        font-weight: bold;
+        line-height: 60px;
+        text-align: center;
 
         &:hover {
-          background: #F2F4FA;
+          background: #f2f4fa;
         }
 
         span {

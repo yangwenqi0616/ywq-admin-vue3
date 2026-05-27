@@ -1,15 +1,15 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { type AxiosResponse } from 'axios';
 import { ElMessage } from 'element-plus';
-import Http from '@/utils/class/http-request';
+import Http from '@/utils/http-request';
 
-const isPro = process.env.NODE_ENV === 'production';
-const baseURL = location.origin + (isPro ? process.env.VUE_APP_SERVER_DIR : '');
+const isPro = import.meta.env.PROD;
+const baseURL = import.meta.env.VITE_APP_BASE_URL;
 const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json'
 };
 const options = {
-  baseURL,
+  baseURL: isPro ? baseURL : '',
   headers,
   timeout: 60000
 };
@@ -21,8 +21,8 @@ const errorLogic = (code: number): void => {
   if (/^8\d{2}$/.test(String(code))) {
     ElMessage.warning('程序验证已过期，请重新登录');
     const timer = setTimeout(() => {
-      if (process.env.NODE_ENV === 'production') {
-        location.href = process.env.BASE_URL + 'login';
+      if (import.meta.env.PROD) {
+        location.href = import.meta.env.VITE_APP_BASE_URL + 'login';
       } else {
         location.href = '/login';
       }
@@ -34,13 +34,17 @@ const errorLogic = (code: number): void => {
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.withCredentials = true; // 让ajax携带cookie
 
-const r = new Http(options, {
+const r = new Http(
+    options,
+    {
       onFulfilled: null,
       onRejected: null
     },
     {
       onFulfilled: (response: AxiosResponse) => {
-        const { data: { code, message, data } } = response;
+        const {
+          data: { code, message, data }
+        } = response;
         if (code === 0 || code === 200) {
           return data;
         }
@@ -51,38 +55,55 @@ const r = new Http(options, {
     }
 );
 
-const req = new Http(options, {
+const req = new Http(
+    options,
+    {
       onFulfilled: null,
       onRejected: null
     },
     {
-      onFulfilled:
-          (response: AxiosResponse) => {
-            const { data } = response;
-            const { code, message } = data;
-            if (code === 0 || code === 200) {
-              return data;
-            }
-            ElMessage.warning(message);
-            return Promise.reject(data);
-          },
+      onFulfilled: (response: AxiosResponse) => {
+        const { data } = response;
+        const { code, message } = data;
+        if (code === 0 || code === 200) {
+          return data;
+        }
+        ElMessage.warning(message);
+        return Promise.reject(data);
+      },
       onRejected: null
     }
 );
 
-const request = new Http(options, {
+const request = new Http(
+    options,
+    {
       onFulfilled: null,
       onRejected: null
     },
     {
       onFulfilled: (response: any) => {
-        const { data: { code, message } } = response;
+        const {
+          data: { code, message }
+        } = response;
         if (code === 0 || code === 200) {
           return response;
         }
         ElMessage.warning(message);
         return Promise.reject(response);
       },
+      onRejected: null
+    }
+);
+
+const commonRequest = new Http(
+    options,
+    {
+      onFulfilled: null,
+      onRejected: null
+    },
+    {
+      onFulfilled: null,
       onRejected: null
     }
 );
@@ -102,7 +123,7 @@ type Res<T> = Promise<{ code: number; msg: string; data: T }>;
  */
 type Response<T> = Promise<AxiosResponse<T>>;
 
-export { r, req, request, R, Res, Response };
+export { r, req, request, commonRequest, R, Res, Response };
 
 // #utf8 编码否则会出现中文乱码
 // 200=成功

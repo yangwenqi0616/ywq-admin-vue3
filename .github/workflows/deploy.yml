@@ -1,0 +1,42 @@
+name: 自动部署 GitHub Pages
+
+on:
+  push:
+    branches: [ "main" ]  # 推送到 main 分支时触发
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Node.js 环境
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'  # 设置为 yarn 缓存
+
+      - name: 安装依赖
+        run: yarn install --frozen-lockfile  # 使用 yarn，--frozen-lockfile 类似 npm ci
+
+      - name: 构建项目
+        run: yarn build  # 执行构建命令
+
+      - name: 上传构建产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist  # Vue 项目构建输出目录
+
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

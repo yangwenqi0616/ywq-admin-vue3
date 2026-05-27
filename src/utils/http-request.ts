@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios';
 import md5 from 'js-md5';
 import { ElMessage } from 'element-plus';
 
@@ -22,17 +22,21 @@ class Http {
   private pending: any = {}; // 网络请求记录map结构
   private CancelToken = axios.CancelToken;
 
-  constructor(config: AxiosRequestConfig, reqInterceptor: Interceptor, resInterceptor: Interceptor) {
+  constructor(
+      config: AxiosRequestConfig,
+      reqInterceptor: Interceptor,
+      resInterceptor: Interceptor
+  ) {
     this.instance = axios.create(config);
     this.instance.interceptors.request.use(
         (config) => {
           // 通过请求url、method、params、data字段生成md5值
           const key = this.getMd5String(config);
-          config.cancelToken = new this.CancelToken(c => {
+          config.cancelToken = new this.CancelToken((c) => {
             if (this.pending[key]) {
               // 上次接口未返回时走此逻辑
-              if (Date.now() - this.pending[key] > 3000) {
-                // 超过3s，删除对应的请求记录，重新发起请求,即使未返回
+              if (Date.now() - this.pending[key] > 1000) {
+                // 超过1s，删除对应的请求记录，重新发起请求,即使未返回或报错
                 delete this.pending[key];
               } else {
                 // 同一请求未返回,5s内再次发送,取消发送
@@ -46,7 +50,7 @@ class Http {
           if (token) {
             if (!config.params) {
               config.params = {
-                'access_token': token
+                access_token: token
               };
             } else {
               config.params.access_token = token;
@@ -62,7 +66,7 @@ class Http {
           if (reqInterceptor.onRejected) {
             error = reqInterceptor.onRejected(err);
           }
-          ElMessage.warning(error);
+          ElMessage.error(error);
           return Promise.reject(error);
         }
     );
@@ -93,18 +97,22 @@ class Http {
           if (resInterceptor.onRejected) {
             error = resInterceptor.onRejected(err);
           }
-          ElMessage.warning(error?.message || error);
+          ElMessage.error(error?.message || error);
           return Promise.reject(error); // 返回接口返回的错误信息
         }
     );
   }
 
   private getMd5String(config: AxiosRequestConfig): string {
-    return md5(`${config.url}&${config.method}&${JSON.stringify(config.data)}&${JSON.stringify(config.params)}`);
+    return md5(
+        `${config.url}&${config.method}&${JSON.stringify(
+            config.data
+        )}&${JSON.stringify(config.params)}`
+    );
   }
 
-  get(url: string, params: any) {
-    return this.instance.get(url, { params }) as any;
+  get(url: string, params: any, config = {}) {
+    return this.instance.get(url, { params, ...config }) as any;
   }
 
   put(url: string, params: any) {
@@ -115,7 +123,11 @@ class Http {
     return this.instance.delete(url, { params }) as any;
   }
 
-  post(url: string, data: any, config: AxiosRequestConfig | undefined = undefined) {
+  post(
+      url: string,
+      data: any,
+      config: AxiosRequestConfig | undefined = undefined
+  ) {
     return this.instance.post(url, data, config) as any;
   }
 }

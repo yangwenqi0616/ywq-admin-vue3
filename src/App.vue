@@ -6,9 +6,9 @@
   </el-config-provider>
 </template>
 <script>
-import { ElConfigProvider } from "element-plus";
-import zhCn from "element-plus/lib/locale/lang/zh-cn";
-import { defineComponent } from "vue";
+import { ElConfigProvider } from 'element-plus';
+import zhCn from 'element-plus/lib/locale/lang/zh-cn';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   components: {

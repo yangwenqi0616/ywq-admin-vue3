@@ -52,9 +52,8 @@
                       type="primary"
                       round
                       @click="submitForm1('personPassFrom')"
-                    >登录
-                    </el-button
-                    >
+                      >登录
+                    </el-button>
                   </div>
                 </el-form>
               </el-tab-pane>
@@ -90,7 +89,7 @@
                       >
                         <span v-show="show">获取验证码</span>
                         <span v-show="!show" class="count"
-                        >{{ count }}s后重新发送</span
+                          >{{ count }}s后重新发送</span
                         >
                       </el-button>
                     </div>
@@ -115,9 +114,8 @@
                       type="primary"
                       round
                       @click="submitForm2('personTelFrom')"
-                    >登录
-                    </el-button
-                    >
+                      >登录
+                    </el-button>
                   </div>
                 </el-form>
               </el-tab-pane>
@@ -170,9 +168,8 @@
                       type="primary"
                       round
                       @click="submitForm3('companyFrom', companyFrom)"
-                    >登录
-                    </el-button
-                    >
+                      >登录
+                    </el-button>
                   </div>
                 </el-form>
               </el-tab-pane>
@@ -221,9 +218,8 @@
                       type="primary"
                       round
                       @click="submitForm3('companyEmailFrom', companyEmailFrom)"
-                    >登录
-                    </el-button
-                    >
+                      >登录
+                    </el-button>
                   </div>
                 </el-form>
               </el-tab-pane>
@@ -235,10 +231,10 @@
   </div>
 </template>
 <script lang="ts">
-import { REG_USER_NAME, REG_EMAIL, REG_IS_PHONE } from "@/utils/reg-exp";
-import { ElMessage } from "element-plus";
-import { setToken } from "@/utils/common";
-import { useStore } from "vuex";
+import { REG_USER_NAME, REG_EMAIL, REG_IS_PHONE } from '@/utils/reg-exp';
+import { ElMessage } from 'element-plus';
+import { setToken } from '@/utils/common';
+import { useStore } from 'vuex';
 import {
   computed,
   defineComponent,
@@ -246,11 +242,11 @@ import {
   PropType,
   ref,
   watch
-} from "vue";
+} from 'vue';
 
 const TIME_COUNT = 60;
 export default defineComponent({
-  name: "login",
+  name: 'login',
   // setup() {
   //   const store = useStore();
   //   const personPassFrom = ref();
@@ -264,122 +260,122 @@ export default defineComponent({
   // },
   data() {
     let validateName = (rule: any, value: any, callback: any) => {
-      if (value === "") {
-        callback(new Error("请输入用户名"));
+      if (value === '') {
+        callback(new Error('请输入用户名'));
       } else {
         let reg = REG_USER_NAME;
         if (reg.test(value)) {
           callback();
         } else {
-          callback(new Error("6-20位字母、数字、字符组合"));
+          callback(new Error('6-20位字母、数字、字符组合'));
         }
       }
     };
     let validateEmail = (rule: any, value: any, callback: any) => {
-      if (value === "") {
-        callback(new Error("请输入邮箱"));
+      if (value === '') {
+        callback(new Error('请输入邮箱'));
       } else {
         if (REG_EMAIL.test(value)) {
           callback();
         } else {
-          callback(new Error("邮箱格式错误"));
+          callback(new Error('邮箱格式错误'));
         }
       }
     };
     let validatePass = (rule: any, value: any, callback: any) => {
       value = value.trim();
-      if (value === "") {
-        callback(new Error("请输入密码"));
+      if (value === '') {
+        callback(new Error('请输入密码'));
       } else {
         if (REG_USER_NAME.test(value)) {
           callback();
         } else {
-          callback(new Error("6-20位字母、数字、字符组合"));
+          callback(new Error('6-20位字母、数字、字符组合'));
         }
       }
     };
     let validateTel = (rule: any, value: any, callback: any) => {
-      if (value === "") {
-        callback(new Error("请输入手机号"));
+      if (value === '') {
+        callback(new Error('请输入手机号'));
       } else {
         let reg = REG_IS_PHONE;
         if (reg.test(value)) {
           callback();
         } else {
-          callback(new Error("手机号格式有误"));
+          callback(new Error('手机号格式有误'));
         }
       }
     };
     let validateTelCode = (rule: any, value: any, callback: any) => {
-      if (value === "") {
-        callback(new Error("请输入验证码"));
+      if (value === '') {
+        callback(new Error('请输入验证码'));
       } else {
         callback();
       }
     };
     let validateCode = (rule: any, value: any, callback: any) => {
-      if (value === "") {
-        callback(new Error("请输入验证码"));
+      if (value === '') {
+        callback(new Error('请输入验证码'));
       } else {
         callback();
       }
     };
     return {
-      userUrl: "/api/xx/",
-      taxUrl: "/api/xx/",
-      codeImg: "",
+      userUrl: '/api/xx/',
+      taxUrl: '/api/xx/',
+      codeImg: '',
       personPassFrom: {
         //个人密码登录
-        loginType: "BY_PASSWORD",
-        userType: "PERSONAL",
-        tel: "",
-        pass: "",
-        identifyCode: "",
-        code: "",
+        loginType: 'BY_PASSWORD',
+        userType: 'PERSONAL',
+        tel: '',
+        pass: '',
+        identifyCode: '',
+        code: '',
         agreement: true
       },
       personTelFrom: {
         //个人手机号登录
-        loginType: "BY_PHONE_CODE",
-        userType: "PERSONAL",
-        tel: "",
-        name: "",
-        pass: "",
-        code: "",
-        identifyCode: "",
-        phoneCode: ""
+        loginType: 'BY_PHONE_CODE',
+        userType: 'PERSONAL',
+        tel: '',
+        name: '',
+        pass: '',
+        code: '',
+        identifyCode: '',
+        phoneCode: ''
       },
       companyFrom: {
         //企业登录
-        loginType: "passType",
-        userType: "ENTERPRISE",
-        name: "",
-        pass: "",
-        code: "",
-        identifyCode: ""
+        loginType: 'passType',
+        userType: 'ENTERPRISE',
+        name: '',
+        pass: '',
+        code: '',
+        identifyCode: ''
       },
       companyEmailFrom: {
         //企业邮箱登录
-        loginType: "BY_EMAIL",
-        userType: "ENTERPRISE",
-        email: "",
-        pass: "",
-        code: "",
-        identifyCode: ""
+        loginType: 'BY_EMAIL',
+        userType: 'ENTERPRISE',
+        email: '',
+        pass: '',
+        code: '',
+        identifyCode: ''
       },
       rules: {
-        tel: [{ validator: validateTel, trigger: "blur" }],
-        name: [{ validator: validateName, trigger: "blur" }],
-        email: [{ validator: validateEmail, trigger: "blur" }],
-        pass: [{ validator: validatePass, trigger: "blur" }],
-        code: [{ validator: validateCode, trigger: "blur" }],
-        phoneCode: [{ validator: validateTelCode, trigger: "blur" }]
+        tel: [{ validator: validateTel, trigger: 'blur' }],
+        name: [{ validator: validateName, trigger: 'blur' }],
+        email: [{ validator: validateEmail, trigger: 'blur' }],
+        pass: [{ validator: validatePass, trigger: 'blur' }],
+        code: [{ validator: validateCode, trigger: 'blur' }],
+        phoneCode: [{ validator: validateTelCode, trigger: 'blur' }]
       },
-      type: "primary",
+      type: 'primary',
       show: true,
       count: 0,
       timer: 0,
-      userToken: "" // 用户token
+      userToken: '' // 用户token
     };
   },
   methods: {
@@ -391,13 +387,13 @@ export default defineComponent({
     submitForm2(formName: any) {
       (this.$refs[formName] as HTMLFormElement).validate((valid: any) => {
         if (valid) {
-          console.log("个人手机号登录");
+          console.log('个人手机号登录');
         }
       });
     },
     submitForm3(formName: string, sendFrom: any) {
       //企业登录
-      formName == "companyEmailFrom" ? (sendFrom.name = sendFrom.email) : "";
+      formName == 'companyEmailFrom' ? (sendFrom.name = sendFrom.email) : '';
       this.submitForm(formName, sendFrom);
     },
     // 手机短信验证码倒计时
@@ -417,35 +413,35 @@ export default defineComponent({
     },
     //发送短信验证码
     getSmsVerifyCode() {
-      if (this.personTelFrom.tel != "") {
+      if (this.personTelFrom.tel != '') {
         this.send();
-        console.log("send");
+        console.log('send');
       } else {
-        ElMessage.warning("请输入电话号");
+        ElMessage.warning('请输入电话号');
       }
     },
     // 个人手机号快捷登录   获取最新的图片验证码
     newrefreshCode() {
-      console.log("get");
+      console.log('get');
     },
     refreshCode() {
-      console.log("refresh");
+      console.log('refresh');
     },
     submitForm: function (formName: any, param: any = {}) {
       (this.$refs[formName] as HTMLFormElement).validate((valid: any) => {
         if (valid) {
-          param["pass"] = param["pass"].trim();
-          this.$router.push("/dashboard");
-          setToken("111");
+          param['pass'] = param['pass'].trim();
+          this.$router.push('/dashboard');
+          setToken('111');
         } else {
-          console.log("loginErr");
+          console.log('loginErr');
         }
       });
     },
     formatPhone(phone: string) {
       if (phone) {
         const pat = /(\d{3})\d*(\d{4})/;
-        let newPhone = phone.replace(pat, "$1****$2");
+        let newPhone = phone.replace(pat, '$1****$2');
         return newPhone;
       } else {
         return phone;

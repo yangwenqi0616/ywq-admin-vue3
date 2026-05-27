@@ -1,29 +1,34 @@
 # ywq-admin-vue3
 
-## Project setup
-```
+####这是一款vue3+pinia+ts的后台管理系统框架, 并且底层脚手架从vue-cli切换至vite,大大提升了开发幸福感
+#### master分支依然保留着vue-cli的配置
+
+## Project Setup
+
+```sh
 yarn install
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn serve
+### Compile and Hot-Reload for Development
+
+```sh
+yarn dev
 ```
 
-### Compiles and minifies for production
-```
+### Type-Check, Compile and Minify for Production
+
+```sh
 yarn build
 ```
 
-### Run your unit tests
-```
+### Run Unit Tests with [Vitest](https://vitest.dev/)
+
+```sh
 yarn test:unit
 ```
 
-### Lints and fixes files
-```
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
 yarn lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

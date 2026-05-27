@@ -1,5 +1,5 @@
 export default {
-  permissList: state => state.permissList,
-  menuList: state => state.menuList,
-  permissView: state => state.permissView// 获取页面显示的权限 菜单
+  permissList: (state: any) => state.permissList,
+  menuList: (state: any) => state.menuList,
+  permissView: (state: any) => state.permissView // 获取页面显示的权限 菜单
 };

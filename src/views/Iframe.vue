@@ -1,10 +1,13 @@
 <template>
-  <iframe v-if="isExternalUrl" class="my-iframe" name="myIframe" :src="iframeUrl">
+  <iframe
+    v-if="isExternalUrl"
+    class="my-iframe"
+    name="myIframe"
+    :src="iframeUrl"
+  >
     抱歉,您的浏览器暂不支持iframe
   </iframe>
-  <div v-else>
-    当前页面未成功配置
-  </div>
+  <div v-else>当前页面未成功配置</div>
 </template>
 <script lang="ts">
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -19,7 +22,7 @@ import { isExternal } from '@/utils/common';
 import { computed } from 'vue';
 
 const route = useRoute();
-const iframeUrl = route?.meta?.url as string || '';
+const iframeUrl = (route?.meta?.url as string) || '';
 const isExternalUrl = computed(() => isExternal(iframeUrl));
 </script>
 <style lang="scss" scoped>
@@ -28,4 +31,3 @@ const isExternalUrl = computed(() => isExternal(iframeUrl));
   height: 100%;
 }
 </style>
-

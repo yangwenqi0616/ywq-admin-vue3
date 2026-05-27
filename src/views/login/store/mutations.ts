@@ -1,5 +1,5 @@
 import * as AT from './action-type';
-import { LoginState } from './index';
+import type { LoginState } from './index';
 
 export default {
   // 保存权限点

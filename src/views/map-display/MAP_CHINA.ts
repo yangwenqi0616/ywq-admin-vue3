@@ -1,15 +1,15 @@
 export default {
-  type: "FeatureCollection",
+  type: 'FeatureCollection',
   features: [
     {
-      type: "Feature",
-      id: "xin_jiang",
+      type: 'Feature',
+      id: 'xin_jiang',
       properties: {
-        name: "新疆",
+        name: '新疆',
         cp: [84.9023, 41.748]
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [96.416, 42.7588],
@@ -168,11 +168,11 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "xi_zang",
-      properties: {name: "西藏", cp: [88.7695, 31.6846], childNum: 7},
+      type: 'Feature',
+      id: 'xi_zang',
+      properties: { name: '西藏', cp: [88.7695, 31.6846], childNum: 7 },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [79.0137, 34.3213],
@@ -327,15 +327,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "nei_meng_gu",
+      type: 'Feature',
+      id: 'nei_meng_gu',
       properties: {
-        name: "内蒙古",
+        name: '内蒙古',
         cp: [117.5977, 44.3408],
         childNum: 12
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [97.207, 42.8027],
@@ -568,11 +568,11 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "qing_hai",
-      properties: {name: "青海", cp: [96.2402, 35.4199]},
+      type: 'Feature',
+      id: 'qing_hai',
+      properties: { name: '青海', cp: [96.2402, 35.4199] },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [89.7363, 36.0791],
@@ -715,15 +715,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "si_chuan",
+      type: 'Feature',
+      id: 'si_chuan',
       properties: {
-        name: "四川",
+        name: '四川',
         cp: [102.9199, 30.1904],
         childNum: 21
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [101.7773, 33.5303],
@@ -859,15 +859,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "hei_long_jiang",
+      type: 'Feature',
+      id: 'hei_long_jiang',
       properties: {
-        name: "黑龙江",
+        name: '黑龙江',
         cp: [128.1445, 48.5156],
         childNum: 13
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [121.4648, 53.3496],
@@ -996,11 +996,11 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "gan_su",
-      properties: {name: "甘肃", cp: [95.7129, 40.166], childNum: 14},
+      type: 'Feature',
+      id: 'gan_su',
+      properties: { name: '甘肃', cp: [95.7129, 40.166], childNum: 14 },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [96.416, 42.7148],
@@ -1183,15 +1183,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "yun_nan",
+      type: 'Feature',
+      id: 'yun_nan',
       properties: {
-        name: "云南",
+        name: '云南',
         cp: [101.8652, 25.1807],
         childNum: 16
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [98.1738, 28.125],
@@ -1325,15 +1325,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "guang_xi",
+      type: 'Feature',
+      id: 'guang_xi',
       properties: {
-        name: "广西",
+        name: '广西',
         cp: [108.2813, 23.6426],
         childNum: 14
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [104.502, 24.7412],
@@ -1426,15 +1426,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "hu_nan",
+      type: 'Feature',
+      id: 'hu_nan',
       properties: {
-        name: "湖南",
+        name: '湖南',
         cp: [111.5332, 27.3779],
         childNum: 14
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [109.248, 28.4766],
@@ -1517,15 +1517,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "shan_xi_1",
+      type: 'Feature',
+      id: 'shan_xi_1',
       properties: {
-        name: "陕西",
+        name: '陕西',
         cp: [109.5996, 35.6396],
         childNum: 10
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [105.4688, 32.915],
@@ -1617,15 +1617,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "guang_dong",
+      type: 'Feature',
+      id: 'guang_dong',
       properties: {
-        name: "广东",
+        name: '广东',
         cp: [113.4668, 22.8076],
         childNum: 21
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [109.7754, 21.4014],
@@ -1725,11 +1725,11 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "ji_lin",
-      properties: {name: "吉林", cp: [126.4746, 43.5938], childNum: 9},
+      type: 'Feature',
+      id: 'ji_lin',
+      properties: { name: '吉林', cp: [126.4746, 43.5938], childNum: 9 },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [123.2227, 46.2305],
@@ -1816,15 +1816,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "he_bei",
+      type: 'Feature',
+      id: 'he_bei',
       properties: {
-        name: "河北",
+        name: '河北',
         cp: [115.4004, 37.9688],
         childNum: 11
       },
       geometry: {
-        type: "MultiPolygon",
+        type: 'MultiPolygon',
         coordinates: [
           [
             [
@@ -1947,15 +1947,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "hu_bei",
+      type: 'Feature',
+      id: 'hu_bei',
       properties: {
-        name: "湖北",
+        name: '湖北',
         cp: [112.2363, 31.1572],
         childNum: 17
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [110.2148, 31.1572],
@@ -2040,15 +2040,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "gui_zhou",
+      type: 'Feature',
+      id: 'gui_zhou',
       properties: {
-        name: "贵州",
+        name: '贵州',
         cp: [106.6113, 26.9385],
         childNum: 9
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [104.1504, 27.2461],
@@ -2135,15 +2135,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "shan_dong",
+      type: 'Feature',
+      id: 'shan_dong',
       properties: {
-        name: "山东",
+        name: '山东',
         cp: [118.7402, 36.4307],
         childNum: 17
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [115.4883, 36.167],
@@ -2216,15 +2216,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "jiang_xi",
+      type: 'Feature',
+      id: 'jiang_xi',
       properties: {
-        name: "江西",
+        name: '江西',
         cp: [116.0156, 27.29],
         childNum: 11
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [114.2578, 28.3447],
@@ -2294,15 +2294,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "he_nan",
+      type: 'Feature',
+      id: 'he_nan',
       properties: {
-        name: "河南",
+        name: '河南',
         cp: [113.4668, 33.8818],
         childNum: 17
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [110.3906, 34.585],
@@ -2373,15 +2373,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "liao_ning",
+      type: 'Feature',
+      id: 'liao_ning',
       properties: {
-        name: "辽宁",
+        name: '辽宁',
         cp: [122.3438, 41.0889],
         childNum: 14
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [119.2676, 41.3086],
@@ -2442,15 +2442,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "shan_xi_2",
+      type: 'Feature',
+      id: 'shan_xi_2',
       properties: {
-        name: "山西",
+        name: '山西',
         cp: [112.4121, 37.6611],
         childNum: 11
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [110.918, 38.7158],
@@ -2510,15 +2510,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "an_hui",
+      type: 'Feature',
+      id: 'an_hui',
       properties: {
-        name: "安徽",
+        name: '安徽',
         cp: [117.2461, 32.0361],
         childNum: 17
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [116.6309, 33.9258],
@@ -2594,15 +2594,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "fu_jian",
+      type: 'Feature',
+      id: 'fu_jian',
       properties: {
-        name: "福建",
+        name: '福建',
         cp: [118.3008, 25.9277],
         childNum: 9
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [118.4766, 28.3008],
@@ -2666,15 +2666,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "zhe_jiang",
+      type: 'Feature',
+      id: 'zhe_jiang',
       properties: {
-        name: "浙江",
+        name: '浙江',
         cp: [120.498, 29.0918],
         childNum: 11
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [118.2129, 29.3994],
@@ -2729,11 +2729,11 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "jiang_su",
-      properties: {name: "江苏", cp: [120.0586, 32.915], childNum: 13},
+      type: 'Feature',
+      id: 'jiang_su',
+      properties: { name: '江苏', cp: [120.0586, 32.915], childNum: 13 },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [116.3672, 34.6289],
@@ -2797,15 +2797,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "chong_qing",
+      type: 'Feature',
+      id: 'chong_qing',
       properties: {
-        name: "重庆",
+        name: '重庆',
         cp: [107.7539, 30.1904],
         childNum: 40
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [108.5449, 31.6846],
@@ -2879,15 +2879,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "ning_xia",
+      type: 'Feature',
+      id: 'ning_xia',
       properties: {
-        name: "宁夏",
+        name: '宁夏',
         cp: [105.9961, 37.3096],
         childNum: 5
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [104.3262, 37.4414],
@@ -2934,15 +2934,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "hai_nan",
+      type: 'Feature',
+      id: 'hai_nan',
       properties: {
-        name: "海南",
+        name: '海南',
         cp: [109.9512, 19.2041],
         childNum: 18
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [108.6328, 19.3799],
@@ -2969,15 +2969,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "tai_wan",
+      type: 'Feature',
+      id: 'tai_wan',
       properties: {
-        name: "台湾",
+        name: '台湾',
         cp: [121.0254, 23.5986],
         childNum: 1
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [121.9043, 25.0488],
@@ -3001,15 +3001,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "bei_jing",
+      type: 'Feature',
+      id: 'bei_jing',
       properties: {
-        name: "北京",
+        name: '北京',
         cp: [116.4551, 40.2539],
         childNum: 19
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [117.4219, 40.21],
@@ -3041,15 +3041,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "tian_jin",
+      type: 'Feature',
+      id: 'tian_jin',
       properties: {
-        name: "天津",
+        name: '天津',
         cp: [117.4219, 39.4189],
         childNum: 18
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [116.8066, 39.5947],
@@ -3080,15 +3080,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "shang_hai",
+      type: 'Feature',
+      id: 'shang_hai',
       properties: {
-        name: "上海",
+        name: '上海',
         cp: [121.4648, 31.2891],
         childNum: 19
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [120.9375, 31.0254],
@@ -3106,15 +3106,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "xiang_gang",
+      type: 'Feature',
+      id: 'xiang_gang',
       properties: {
-        name: "香港",
+        name: '香港',
         cp: [114.2578, 22.3242],
         childNum: 1
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [114.6094, 22.4121],
@@ -3133,15 +3133,15 @@ export default {
       }
     },
     {
-      type: "Feature",
-      id: "ao_men",
+      type: 'Feature',
+      id: 'ao_men',
       properties: {
-        name: "澳门",
+        name: '澳门',
         cp: [113.5547, 22.1484],
         childNum: 1
       },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [113.5986, 22.1649],

@@ -1,5 +1,5 @@
-import { ECharts } from "echarts";
-import _ from "lodash";
+import type { ECharts } from 'echarts';
+import _ from 'lodash';
 
 /**
  * Class AutoPlay - Echarts自动轮播器
@@ -24,17 +24,22 @@ export class AutoPlay implements ChartPlayer {
     const series: any = chart?.getOption()?.series;
     this.length = series[0]?.data?.length;
     this.chart = chart;
-    this.indexList = Array(this.length).fill(undefined).map((v, i) => i);
+    this.indexList = Array(this.length)
+        .fill(undefined)
+        .map((v, i) => i);
     // 鼠标移动停止轮播,接下来从最后停留位置继续轮播
-    chart.on("mouseover", _.throttle((e: any) => {
-      this.timer && clearInterval(this.timer);
-      const dataIndex = e.dataIndex;
-      this.resetTip(dataIndex); // 激活鼠标停留项
-      this.timeOut && clearTimeout(this.timeOut);
-      this.timeOut = setTimeout(() => {
-        this.init(dataIndex + 1);
-      }, this.interval);
-    }, 200));
+    chart.on(
+        'mouseover',
+        _.throttle((e: any) => {
+          this.timer && clearInterval(this.timer);
+          const dataIndex = e.dataIndex;
+          this.resetTip(dataIndex); // 激活鼠标停留项
+          this.timeOut && clearTimeout(this.timeOut);
+          this.timeOut = setTimeout(() => {
+            this.init(dataIndex + 1);
+          }, this.interval);
+        }, 200)
+    );
   }
 
   /**
@@ -44,17 +49,17 @@ export class AutoPlay implements ChartPlayer {
   private resetTip(index: number): void {
     if (this.chart) {
       this.chart.dispatchAction({
-        type: "downplay",
+        type: 'downplay',
         seriesIndex: 0,
         dataIndex: this.indexList
       });
       this.chart.dispatchAction({
-        type: "highlight",
+        type: 'highlight',
         seriesIndex: 0,
         dataIndex: index
       });
       this.chart.dispatchAction({
-        type: "showTip",
+        type: 'showTip',
         seriesIndex: 0,
         dataIndex: index
       });
@@ -71,24 +76,24 @@ export class AutoPlay implements ChartPlayer {
     const chart = this.chart;
     // 如果index过大,超过最大index,则归零
     i = i >= this.length ? 0 : i;
-    this.resetTip(i);  // 激活i项,首次默认第一项
+    this.resetTip(i); // 激活i项,首次默认第一项
     // 设表先关,防止多次设置
     this.timer && clearInterval(this.timer);
     if (chart) {
       this.timer = setInterval(() => {
         chart.dispatchAction({
-          type: "downplay",
+          type: 'downplay',
           seriesIndex: 0,
           dataIndex: i
         });
         i = i >= this.length - 1 ? 0 : ++i;
         chart.dispatchAction({
-          type: "highlight",
+          type: 'highlight',
           seriesIndex: 0,
           dataIndex: i
         });
         chart.dispatchAction({
-          type: "showTip",
+          type: 'showTip',
           seriesIndex: 0,
           dataIndex: i
         });
@@ -102,7 +107,7 @@ export class AutoPlay implements ChartPlayer {
   public destroy(): void {
     this.timer && clearInterval(this.timer);
     this.timeOut && clearTimeout(this.timeOut);
-    console.log("chartPlayer has been destroyed");
+    console.log('chartPlayer has been destroyed');
   }
 }
 

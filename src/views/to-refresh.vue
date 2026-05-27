@@ -9,9 +9,10 @@ export default {
     return {};
   },
   beforeRouteEnter(to, from, next) {
-    next(vm => {
+    next((vm) => {
       vm.$router.replace({
-        path: from.path, query: from.query
+        path: from.path,
+        query: from.query
       });
     });
   }

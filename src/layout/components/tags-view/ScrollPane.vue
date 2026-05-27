@@ -1,6 +1,11 @@
 <template>
-  <el-scrollbar ref="scrollContainer" :vertical="false" class="scroll-container" @wheel.prevent="handleScroll">
-    <slot/>
+  <el-scrollbar
+    ref="scrollContainer"
+    :vertical="false"
+    class="scroll-container"
+    @wheel.prevent="handleScroll"
+  >
+    <slot />
   </el-scrollbar>
 </template>
 
@@ -8,17 +13,17 @@
 const tagAndTagSpacing = 4; // tagAndTagSpacing
 
 export default {
-  name: "ScrollPane",
+  name: 'ScrollPane',
   computed: {
     scrollWrapper() {
-      return this.$refs.scrollContainer.$refs.wrap;
+      return this.$refs.scrollContainer.$refs.wrapRef;
     }
   },
   mounted() {
-    this.scrollWrapper.addEventListener("scroll", this.emitScroll, true);
+    this.scrollWrapper.addEventListener('scroll', this.emitScroll, true);
   },
   beforeUnmount() {
-    this.scrollWrapper.removeEventListener("scroll", this.emitScroll);
+    this.scrollWrapper.removeEventListener('scroll', this.emitScroll);
   },
   methods: {
     handleScroll(e) {
@@ -27,7 +32,7 @@ export default {
       $scrollWrapper.scrollLeft = $scrollWrapper.scrollLeft + eventDelta / 4;
     },
     emitScroll() {
-      this.$emit("scroll");
+      this.$emit('scroll');
     },
     moveToTarget(currentTag) {
       const $container = this.$refs.scrollContainer.$el;
@@ -43,15 +48,22 @@ export default {
           $scrollWrapper.scrollLeft = 0;
         } else if (lastTag === currentTag) {
           // 当前活动路由为最后一个标签,则scrollLeft为可滚动最大距离
-          $scrollWrapper.scrollLeft = $scrollWrapper.scrollWidth - $containerWidth;
+          $scrollWrapper.scrollLeft =
+            $scrollWrapper.scrollWidth - $containerWidth;
         } else {
-          const currentIndex = tagList.findIndex(item => item === currentTag);
+          const currentIndex = tagList.findIndex((item) => item === currentTag);
           const prevTag = tagList[currentIndex - 1];
           const nextTag = tagList[currentIndex + 1];
-          const afterNextTagOffsetLeft = nextTag.$el.offsetLeft + nextTag.$el.offsetWidth + tagAndTagSpacing;
-          const beforePrevTagOffsetLeft = prevTag.$el.offsetLeft - tagAndTagSpacing;
-          if (afterNextTagOffsetLeft > $scrollWrapper.scrollLeft + $containerWidth) {
-            $scrollWrapper.scrollLeft = afterNextTagOffsetLeft - $containerWidth;
+          const afterNextTagOffsetLeft =
+            nextTag.$el.offsetLeft + nextTag.$el.offsetWidth + tagAndTagSpacing;
+          const beforePrevTagOffsetLeft =
+            prevTag.$el.offsetLeft - tagAndTagSpacing;
+          if (
+            afterNextTagOffsetLeft >
+            $scrollWrapper.scrollLeft + $containerWidth
+          ) {
+            $scrollWrapper.scrollLeft =
+              afterNextTagOffsetLeft - $containerWidth;
           } else if (beforePrevTagOffsetLeft < $scrollWrapper.scrollLeft) {
             $scrollWrapper.scrollLeft = beforePrevTagOffsetLeft;
           }

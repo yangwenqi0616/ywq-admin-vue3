@@ -12,10 +12,10 @@ import 'nprogress/nprogress.css';
  * @return {Array} 添加了唯一id后的路由对象
  */
 const createUid = (router) => {
-  router.forEach(e => {
+  router.forEach((e) => {
     Reflect.has(e, 'id') || (e.id = `id-${Math.random().toString(16)}`);
     if (Reflect.has(e, 'children')) {
-      e.children.map(v => v.parentId = e.id);
+      e.children.map((v) => (v.parentId = e.id));
       createUid(e.children);
     }
   });
@@ -29,7 +29,7 @@ const createUid = (router) => {
  * @return {Array}获得拍平后的路由数组
  */
 const flatRouter = (router, t = []) => {
-  router.forEach(item => {
+  router.forEach((item) => {
     const { children, ...other } = item;
     t.push(other);
     !!children && flatRouter(children, t);
@@ -43,7 +43,10 @@ const flatRouter = (router, t = []) => {
  * @param {Array} list - 权限列表
  * @return {Array} 取得权限的路由
  */
-const routerMap = (router, list) => router.filter(e => list.filter(item => item === e.meta.permissionId).length > 0);
+const routerMap = (router, list) =>
+  router.filter(
+    (e) => list.filter((item) => item === e.meta.permissionId).length > 0
+  );
 
 /**
  * 用于将路由菜单拼装成标准路由
@@ -52,12 +55,14 @@ const routerMap = (router, list) => router.filter(e => list.filter(item => item 
 const permissionMenu = (router) => {
   const obj = {};
   const res = [];
-  router.forEach(item => {
+  router.forEach((item) => {
     obj[item.id] = item;
   });
-  router.forEach(item => {
+  router.forEach((item) => {
     if (Reflect.has(item, 'parentId')) {
-      obj[item.parentId]['children'] ? obj[item.parentId]['children'].push(item) : obj[item.parentId]['children'] = [item];
+      obj[item.parentId]['children']
+        ? obj[item.parentId]['children'].push(item)
+        : (obj[item.parentId]['children'] = [item]);
     } else {
       res.push(item);
     }
@@ -72,7 +77,7 @@ const permissionMenu = (router) => {
  */
 const filterAsyncRoutes = (menus, routes) => {
   const ret = [];
-  routes.forEach(v => {
+  routes.forEach((v) => {
     if (hasPermission(menus, v)) {
       ret.push(v);
       if (v.children) {
@@ -98,7 +103,7 @@ const hasPermission = (menus, route) => {
 };
 const whiteList = ['/login', '/404']; // 白名单
 let permissionList = []; // 权限列表
-let copyAsyncRouter = _.cloneDeep(asyncRouter);
+const copyAsyncRouter = _.cloneDeep(asyncRouter);
 router.beforeEach((to, from, next) => {
   NProgress.start();
   document.title = to.meta.title || 'ywq-admin';
@@ -113,7 +118,12 @@ router.beforeEach((to, from, next) => {
     permissionList = ['map', 'star', 'theme', 'async']; // 一般通过接口获取路由表
     store.commit('loginStore/SET_PERMISSION', permissionList); // 保存权限列表到store
     const permissionView = filterAsyncRoutes(permissionList, asyncRouter);
-    permissionView.push({ path: '/:pathMatch(.*)*', name: 'redirect404', redirect: '/404', meta: { hidden: true } }); // 通配路由,这里与vue-router3有区别
+    permissionView.push({
+      path: '/:pathMatch(.*)*',
+      name: 'redirect404',
+      redirect: '/404',
+      meta: { hidden: true }
+    }); // 通配路由,这里与vue-router3有区别
     removeRouter(copyAsyncRouter);
     addRouter(permissionView);
     store.commit('loginStore/SET_PERMISSION_VIEW', permissionView); // 保存权限路由到store

@@ -1,17 +1,28 @@
 <template>
   <div v-if="!item.meta.hidden">
     <template
-      v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren) && !item.meta.alwaysShow">
+      v-if="
+        hasOneShowingChild(item.children, item) &&
+        (!onlyOneChild.children || onlyOneChild.noShowingChildren) &&
+        !item.meta.alwaysShow
+      "
+    >
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)">
-          <i :class="onlyOneChild?.meta.icon||item?.meta.icon"></i>
-          <template #title><span>{{ onlyOneChild.meta.title }}</span></template>
+          <item :icon="onlyOneChild?.meta.icon || item?.meta.icon" />
+          <template #title
+            ><span>{{ onlyOneChild.meta.title }}</span></template
+          >
         </el-menu-item>
       </app-link>
     </template>
     <el-sub-menu v-else :index="resolvePath(item.path)" popper-append-to-body>
       <template #title>
-        <item v-if="item.meta" :icon="item.meta.icon" :title="item.meta.title" />
+        <item
+          v-if="item.meta"
+          :icon="item.meta.icon"
+          :title="item.meta.title"
+        />
       </template>
       <sidebar-item
         v-for="child in item.children"
@@ -25,15 +36,15 @@
 </template>
 
 <script lang="ts">
-import path from "path";
-import { isExternal } from "@/utils/common";
-import Item from "./Item.vue";
-import AppLink from "./Link.vue";
-import { defineComponent } from "vue";
-import { RouteRecordRaw } from "vue-router";
+import path from 'path';
+import { isExternal } from '@/utils/common';
+import Item from './Item.vue';
+import AppLink from './Link.vue';
+import { defineComponent } from 'vue';
+import type { RouteRecordRaw } from 'vue-router';
 
 export default defineComponent({
-  name: "SidebarItem",
+  name: 'SidebarItem',
   components: { Item, AppLink },
   props: {
     item: {
@@ -46,13 +57,13 @@ export default defineComponent({
     },
     basePath: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   data() {
     let itemModel: RouteRecordRaw | any = {
-      path: "",
-      name: "",
+      path: '',
+      name: '',
       children: [],
       meta: {},
       component: {}
@@ -68,7 +79,10 @@ export default defineComponent({
      * @param {RouteRecordRaw} parent - 父路由
      * @return {boolean}
      */
-    hasOneShowingChild(children: RouteRecordRaw[] = [], parent: RouteRecordRaw) {
+    hasOneShowingChild(
+      children: RouteRecordRaw[] = [],
+      parent: RouteRecordRaw
+    ) {
       // 可显示的子路由菜单
       const showingChildren = children.filter((item: RouteRecordRaw) => {
         if (item?.meta?.hidden) {
@@ -82,7 +96,7 @@ export default defineComponent({
         return true;
       } else if (showingChildren.length === 0) {
         // 此时basePath已经拼接为最后的路由,故把path清空
-        this.onlyOneChild = { ...parent, path: "", noShowingChildren: true };
+        this.onlyOneChild = { ...parent, path: '', noShowingChildren: true };
         return true;
       } else {
         return false;
@@ -102,7 +116,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.el-sub-menu [class^=el-icon-] {
+.el-sub-menu [class^='el-icon-'] {
   vertical-align: middle !important;
+}
+
+.el-menu--inline {
+  background: #30424c !important;
 }
 </style>
