@@ -1,4 +1,8 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+import {
+  createRouter,
+  createWebHistory,
+  type RouteRecordRaw
+} from 'vue-router';
 import dashboardRouter from '@/router/modules/dashboard';
 import themeConfigRouter from '@/router/modules/theme-config';
 import personalCenterRouter from '@/router/modules/personal-center';
@@ -31,7 +35,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'Login',
     component: () =>
-        import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
+      import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
     meta: { hidden: true }
   },
   {

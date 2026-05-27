@@ -27,10 +27,10 @@ Object.keys(ElIcon).forEach((key) => {
 const pinia = createPinia();
 pinia.use(piniaPluginPersist);
 app
-    .use(store)
-    .use(pinia)
-    .use(router)
-    .use(ElementPlus)
-    .use(directive)
-    .mixin(Mixins)
-    .mount('#app');
+  .use(store)
+  .use(pinia)
+  .use(router)
+  .use(ElementPlus)
+  .use(directive)
+  .mixin(Mixins)
+  .mount('#app');
