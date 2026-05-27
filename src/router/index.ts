@@ -1,6 +1,7 @@
 import {
   createRouter,
   createWebHistory,
+  createWebHashHistory,
   type RouteRecordRaw
 } from 'vue-router';
 import dashboardRouter from '@/router/modules/dashboard';
@@ -62,7 +63,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
 
 // 创建路由
 const router = createRouter({
-  history: createWebHistory(import.meta.env.VITE_APP_BASE_URL),
+  history: createWebHashHistory(import.meta.env.VITE_APP_BASE_URL),
   routes: constantRoutes
 });
 
