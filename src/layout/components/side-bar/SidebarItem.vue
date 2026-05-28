@@ -25,15 +25,15 @@
 </template>
 
 <script lang="ts">
-import path from "path";
-import { isExternal } from "@/utils/common";
-import Item from "./Item.vue";
-import AppLink from "./Link.vue";
-import { defineComponent } from "vue";
-import { RouteRecordRaw } from "vue-router";
+import path from 'path';
+import { isExternal } from '@/utils/common';
+import Item from './Item.vue';
+import AppLink from './Link.vue';
+import { defineComponent } from 'vue';
+import { RouteRecordRaw } from 'vue-router';
 
 export default defineComponent({
-  name: "SidebarItem",
+  name: 'SidebarItem',
   components: { Item, AppLink },
   props: {
     item: {
@@ -46,13 +46,13 @@ export default defineComponent({
     },
     basePath: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   data() {
     let itemModel: RouteRecordRaw | any = {
-      path: "",
-      name: "",
+      path: '',
+      name: '',
       children: [],
       meta: {},
       component: {}
@@ -82,7 +82,7 @@ export default defineComponent({
         return true;
       } else if (showingChildren.length === 0) {
         // 此时basePath已经拼接为最后的路由,故把path清空
-        this.onlyOneChild = { ...parent, path: "", noShowingChildren: true };
+        this.onlyOneChild = { ...parent, path: '', noShowingChildren: true };
         return true;
       } else {
         return false;
@@ -104,5 +104,9 @@ export default defineComponent({
 <style lang="scss">
 .el-sub-menu [class^=el-icon-] {
   vertical-align: middle !important;
+}
+
+.el-menu--inline {
+  background: #30424c !important;
 }
 </style>

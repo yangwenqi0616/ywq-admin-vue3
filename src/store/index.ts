@@ -1,31 +1,17 @@
-import { createStore } from "vuex";
-import createPersistedState from "vuex-persistedstate";
-import loginStore from "@/views/login/store";
-import tagsView from "./modules/tags-view";
-import theme from "@/store/modules/theme";
+import { createStore } from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
+import loginStore from '@/views/login/store';
+import tagsView from './modules/tags-view';
 
-export default createStore<RootState>({
-  state: {
-    user: undefined
-  },
-  mutations: {
-    /**
-     * 修改用户
-     */
-    changeUser(state, payload?: User) {
-      state.user = payload;
-    }
-  },
-  actions: {},
+export default createStore({
   modules: {
     loginStore,
-    tagsView,
-    theme
+    tagsView
   },
   plugins: [createPersistedState({
     storage: sessionStorage,
     reducer(val) {
-      const {...modules} = val;
+      const { ...modules } = val;
       return modules;
     }
   })]
@@ -44,6 +30,6 @@ export type User = {
   photo: string; // 照片
   type: number;
   authorities: {
-    authority: "ADMIN" | "USER"; // ADMIN 为管理员 USER 普通用户
+    authority: 'ADMIN' | 'USER'; // ADMIN 为管理员 USER 普通用户
   }[];
 };

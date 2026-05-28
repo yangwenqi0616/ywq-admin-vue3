@@ -21,12 +21,12 @@
 </template>
 
 <script lang="ts" setup>
-import SidebarItem from "./SidebarItem.vue";
-import variables from "@/styles/variables.scss";
-import { constantRoutes } from "@/router";
-import { useStore } from "vuex";
-import { computed } from "vue";
-import { useRoute } from "vue-router";
+import SidebarItem from './SidebarItem.vue';
+import variables from '@/styles/variables.scss';
+import { constantRoutes } from '@/router';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const store = useStore();

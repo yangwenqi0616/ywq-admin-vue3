@@ -14,7 +14,7 @@ export default [
         meta: { title: '单眼皮丶儿', icon: 'el-icon-lollipop', url: 'https://blog.csdn.net/Y_wq0616', isIframe: true }
       },
       {
-        path: 'https://github.com/yangwenqi0616?tab=repositories',
+        path: 'https://gitee.com/y-wq/ywq-admin-vue3',
         name: 'myGithub',
         component: {},
         meta: {

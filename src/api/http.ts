@@ -1,15 +1,15 @@
 import axios, { AxiosResponse } from 'axios';
 import { ElMessage } from 'element-plus';
-import Http from '@/utils/class/http-request';
+import Http from '@/utils/http-request';
 
 const isPro = process.env.NODE_ENV === 'production';
-const baseURL = location.origin + (isPro ? process.env.VUE_APP_SERVER_DIR : '');
+const baseURL = process.env['VUE_APP_SERVER'];
 const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json'
 };
 const options = {
-  baseURL,
+  baseURL: isPro ? baseURL : '',
   headers,
   timeout: 60000
 };
@@ -87,6 +87,16 @@ const request = new Http(options, {
     }
 );
 
+const commonRequest = new Http(options, {
+      onFulfilled: null,
+      onRejected: null
+    },
+    {
+      onFulfilled: null,
+      onRejected: null
+    }
+);
+
 /**
  * r实例对应的响应
  */
@@ -102,7 +112,7 @@ type Res<T> = Promise<{ code: number; msg: string; data: T }>;
  */
 type Response<T> = Promise<AxiosResponse<T>>;
 
-export { r, req, request, R, Res, Response };
+export { r, req, request, commonRequest, R, Res, Response };
 
 // #utf8 编码否则会出现中文乱码
 // 200=成功

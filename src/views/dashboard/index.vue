@@ -17,6 +17,17 @@
         @handleSizeChange="handleSizeChange"
         @handleCurrentChange="handleCurrentChange"
       >
+        <template #name>
+          <el-table-column
+            label="(曾用名)"
+            align="center"
+            width="160"
+          >
+            <template v-slot="scope">
+              {{ scope.row.name }}
+            </template>
+          </el-table-column>
+        </template>
         <template #operate>
           <el-table-column
             label="操作"
@@ -57,7 +68,7 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import ElTablePagination from '@/components/ElTablePagination.vue';
+import ElTablePagination from '@/components/ElTablePagination/index.vue';
 import SelectTree from '@/components/SelectTree.vue';
 import { ref, onMounted, getCurrentInstance, computed, nextTick } from 'vue';
 import { useStore } from 'vuex';
@@ -130,9 +141,20 @@ const getData = async () => {
   pageParams.value.pageTotal = 30;
 };
 const columns = [
-  { width: '', label: '姓名', prop: 'name' },
-  { width: '', label: '性别', prop: 'sex' },
-  { width: '', label: '年龄', prop: 'age' },
+  {
+    width: '',
+    label: '个人信息',
+    children: [
+      {
+        width: '', label: '姓名', prop: 'name',
+        children: [
+          { width: '', label: '(曾用名)', prop: 'name', type: 'slot', slotName: 'name' }
+        ]
+      },
+      { width: '', label: '性别', prop: 'sex' },
+      { width: '', label: '年龄', prop: 'age' }
+    ]
+  },
   { width: '', label: '毕业学校', prop: 'university' },
   { width: '', label: '学历', prop: 'education' },
   {
@@ -185,7 +207,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   position: relative;
-  background: url("~@/assets/bk_2.jpg") 0 -95px no-repeat;
+  background: url("~@/assets/bk_2.jpg") 0 -100px no-repeat;
   background-size: cover;
 
   &-bgColor {

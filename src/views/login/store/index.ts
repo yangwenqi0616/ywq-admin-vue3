@@ -10,7 +10,9 @@ const loginStore: Module<LoginState, RootState> = {
   namespaced: true,
   state() {
     return {
-      userData: null,
+      userData: {
+        name: '单眼皮'
+      },
       routerList: [],
       isCollapse: false,
       permissionList: []
@@ -21,7 +23,7 @@ const loginStore: Module<LoginState, RootState> = {
 };
 export default loginStore;
 export type LoginState = {
-  userData: UserData[] | null;
+  userData: UserData | null;
   routerList: [];
   isCollapse: boolean;
   permissionList: [];

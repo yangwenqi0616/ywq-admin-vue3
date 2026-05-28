@@ -1,29 +1,34 @@
 <script lang="ts">
-import { defineComponent } from "vue";
-import { h } from "vue";
+import { defineComponent } from 'vue';
+import { h } from 'vue';
 
 export default defineComponent({
-  name: "MenuItem",
+  name: 'MenuItem',
   props: {
     icon: {
       type: String,
-      default: ""
+      default: ''
     },
     title: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   render() {
-    const {icon, title} = this;
-    return h("div", {
-      class: "no-select"
+    const { icon, title } = this;
+    return h('div', {
+      class: 'no-select'
     }, [
-      h("i", {
+      h('i', {
         class: icon
       }),
-      h("span", null, title)
+      h('span', null, title)
     ]);
   }
 });
 </script>
+<style lang="scss" scoped>
+.iconfont {
+  margin: 0 8px 0 3px;
+}
+</style>

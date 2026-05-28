@@ -29,8 +29,8 @@
             :filter-node-method="filterNode"
           >
             <template #default="{ node }">
-              <p class="tree-item text-ellipsis">
-                <span class="prefix" v-show="!node.isLeaf"><i class="iconfont el-icon-folder"></i></span>
+              <p class="tree-item">
+                <span v-show="!node.isLeaf"><i class="iconfont el-icon-folder"></i></span>
                 <span :class="{leaf: node.isLeaf}">{{ node.label }}</span>
               </p>
             </template>
@@ -42,17 +42,31 @@
           <p>已选（{{ selectList.length }}人）</p>
           <el-button type="text" @click="setCheckedKeys()"><i class="el-icon-delete"></i></el-button>
         </div>
-        <el-scrollbar>
-          <ul>
-            <li v-for="v in selectList" :key="v.code">
-              <span>{{ v.name }}（{{ v.code }}）</span>
-              <el-button type="text"
-                         @click="setCheckedKeys(v)">
-                <i class="iconfont el-icon-error"></i>
-              </el-button>
-            </li>
-          </ul>
-        </el-scrollbar>
+        <VirtualList
+          :items="selectList"
+          :size="40"
+          :showNumber="9"
+          v-slot="slotProps"
+        >
+          <div class="list-item">
+             <span>
+                 <el-tooltip
+                   effect="dark"
+                   placement="top"
+                   :visible-arrow="false"
+                   :content="`${slotProps.row.name}（${ slotProps.row.code}）`"
+                   :hide-after="0"
+                   transition=""
+                 >
+                    <span>{{ slotProps.row.name }}（{{ slotProps.row.code }}）</span>
+                  </el-tooltip>
+            </span>
+            <el-button type="text"
+                       @click="setCheckedKeys(slotProps.row)">
+              <i class="iconfont el-icon-error"></i>
+            </el-button>
+          </div>
+        </VirtualList>
       </div>
     </section>
   </div>
@@ -61,6 +75,7 @@
 import { ref, toRefs, watch, defineProps, defineEmits, computed } from 'vue';
 import { dataModel, smallModel } from './select-tree-data';
 import { ElTree, ElMessage } from 'element-plus';
+import VirtualList from '@/components/VirtualList.vue';
 
 interface UserData {
   code: string;
@@ -98,7 +113,7 @@ const emit = defineEmits(['handleSelectionChange']);
 const filterText = ref('');
 const filterNode = (value: string, data: UserData) => {
   if (!value) return true;
-  return data.name.includes(value);
+  return data.name.includes(value) || data.code === value;
 };
 const data = ref<any[]>([]);
 const treeRef = ref<InstanceType<typeof ElTree>>();
@@ -116,13 +131,13 @@ watch(defaultChecked, (val: any) => {
   deep: true
 });
 const handleCheckChange = () => {
-  const nodes = treeRef.value!.getCheckedNodes(true, false) as any;
+  const nodes = treeRef.value!.getCheckedNodes(true, false) as UserData[];
   selectList.value = nodes;
 };
 // endregion
 
 // region 选中列表
-const selectList = ref([]);
+const selectList = ref<UserData[]>([]);
 watch(selectList, (val) => {
   emit('handleSelectionChange', val);
 }, {
@@ -134,17 +149,19 @@ watch(selectList, (val) => {
  */
 const setCheckedKeys = (node: UserData) => {
   if (node) {
-    const index = selectList.value.indexOf(node as never);
+    const index = selectList.value.indexOf(node);
     if (index > -1) {
       selectList.value.splice(index, 1);
     } else {
       ElMessage.warning('人员数据有误');
     }
+    treeRef.value!.setChecked(node.code, false, false);
   } else {
+    selectList.value.forEach((v) => {
+      treeRef.value!.setChecked(v.code, false, false);
+    });
     selectList.value = [];
   }
-  const keys = selectList.value.map((v: UserData) => v.code);
-  treeRef.value!.setCheckedKeys(keys, false);
 };
 // endregion
 
@@ -156,8 +173,8 @@ const getData = async () => {
   loading.value = true;
   try {
     // const result = await getUserTree({});
-    // const result = dataModel;
-    const result = smallModel;
+    const result = dataModel;
+    // const result = smallModel;
     // 默认展开第一层
     defaultExpanded.value = result.map(v => v.code);
     data.value = result;
@@ -284,9 +301,9 @@ getData();
         }
       }
 
-      li {
+      .list-item {
         width: 100%;
-        height: 36px;
+        height: 40px;
         border-radius: 4px;
         font-size: 14px;
         color: #657B8B;
@@ -294,6 +311,9 @@ getData();
         align-items: center;
         justify-content: space-between;
         padding: 0 16px;
+        font-weight: bold;
+        line-height: 60px;
+        text-align: center;
 
         &:hover {
           background: #F2F4FA;

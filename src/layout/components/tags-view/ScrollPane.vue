@@ -1,6 +1,6 @@
 <template>
   <el-scrollbar ref="scrollContainer" :vertical="false" class="scroll-container" @wheel.prevent="handleScroll">
-    <slot/>
+    <slot />
   </el-scrollbar>
 </template>
 
@@ -8,17 +8,17 @@
 const tagAndTagSpacing = 4; // tagAndTagSpacing
 
 export default {
-  name: "ScrollPane",
+  name: 'ScrollPane',
   computed: {
     scrollWrapper() {
       return this.$refs.scrollContainer.$refs.wrap;
     }
   },
   mounted() {
-    this.scrollWrapper.addEventListener("scroll", this.emitScroll, true);
+    this.scrollWrapper.addEventListener('scroll', this.emitScroll, true);
   },
   beforeUnmount() {
-    this.scrollWrapper.removeEventListener("scroll", this.emitScroll);
+    this.scrollWrapper.removeEventListener('scroll', this.emitScroll);
   },
   methods: {
     handleScroll(e) {
@@ -27,7 +27,7 @@ export default {
       $scrollWrapper.scrollLeft = $scrollWrapper.scrollLeft + eventDelta / 4;
     },
     emitScroll() {
-      this.$emit("scroll");
+      this.$emit('scroll');
     },
     moveToTarget(currentTag) {
       const $container = this.$refs.scrollContainer.$el;

@@ -18,6 +18,8 @@
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
     "path": "^0.12.7",
+    "pinia": "^2.0.28",
+    "pinia-plugin-persist": "^1.0.0",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
     "vue-property-decorator": "^9.1.2",

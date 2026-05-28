@@ -8,6 +8,7 @@
         :key="tag.path"
         :class="isActive(tag)?'active':''"
         :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+        v-show="isShow(tag.path)"
         @click.middle="!isAffix(tag)?closeSelectedTag(tag):''"
         @contextmenu.prevent="openMenu(tag,$event)">
         {{ tag.title }}
@@ -28,7 +29,9 @@ import ScrollPane from './ScrollPane';
 import { mapState, useStore } from 'vuex';
 import path from 'path';
 import { useRouter, useRoute } from 'vue-router';
-import { ref, watch, nextTick } from 'vue';
+import { ref, watch, nextTick, computed } from 'vue';
+import { flatRouter } from '@/utils/common.ts';
+import { constantRoutes } from '@/router';
 
 export default {
   components: { ScrollPane },
@@ -46,10 +49,16 @@ export default {
     const router = useRouter();
     const route = useRoute();
     const scrollPane = ref(null);
+    const isShow = computed(() => {
+      const list = flatRouter(store.state.loginStore.routerList).concat(flatRouter(constantRoutes));
+      return (path) => {
+        return list.filter(v => v.path === path || v?.meta?.isIframe).length;
+      };
+    });
     const tags = ref([]);
     const addTags = () => {
       const { name } = route;
-      if (name) {
+      if (name && name !== '404') {
         store.dispatch('tagsView/addView', route);
       }
     };
@@ -76,7 +85,8 @@ export default {
     return {
       routes: router.getRoutes(),
       scrollPane,
-      tags
+      tags,
+      isShow
     };
   },
   computed: {
@@ -191,7 +201,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
 .tags-view-container {
   height: 35px;
@@ -199,7 +208,7 @@ export default {
   background: #fff;
   border-bottom: 1px solid #d8dce5;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
-  background: url("~@/assets/bk_2.jpg") 0 -39px no-repeat;
+  background: url("~@/assets/bk_2.jpg") 0 -60px no-repeat;
   background-size: cover;
 
   .tags-view-wrapper {
@@ -210,7 +219,7 @@ export default {
       display: inline-block;
       cursor: pointer;
       height: 30px;
-      line-height: 30px;
+      line-height: 27px;
       border: 1px solid #d8dce5;
       color: #fff;
       background: rgba(47, 65, 86, .7);

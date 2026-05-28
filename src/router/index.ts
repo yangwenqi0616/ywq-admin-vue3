@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw, createWebHashHistory } from 'vue-router';
 import dashboardRouter from '@/router/modules/dashboard';
 import themeConfigRouter from '@/router/modules/theme-config';
 import personalCenterRouter from '@/router/modules/personal-center';
@@ -55,7 +55,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
 
 // 创建路由
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes: constantRoutes
 });
 

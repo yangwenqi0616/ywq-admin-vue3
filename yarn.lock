@@ -1867,6 +1867,11 @@
   resolved "https://registry.npmmirror.com/@vue/devtools-api/-/devtools-api-6.2.1.tgz#6f2948ff002ec46df01420dfeff91de16c5b4092"
   integrity sha512-OEgAMeQXvCoJ+1x8WyQuVZzFo0wcyCmUR3baRVLmKBo1LmYZWMlRiXlux5jd0fqVJu6PfDbOrZItVqUEzLobeQ==
 
+"@vue/devtools-api@^6.4.5":
+  version "6.4.5"
+  resolved "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.4.5.tgz#d54e844c1adbb1e677c81c665ecef1a2b4bb8380"
+  integrity sha512-JD5fcdIuFxU4fQyXUu3w2KpAJHzTVdN+p4iOX2lMWSHMOoQdMAcpFLZzm9Z/2nmsoZ1a96QEhZ26e50xLBsgOQ==
+
 "@vue/eslint-config-prettier@^6.0.0":
   version "6.0.0"
   resolved "https://registry.npmmirror.com/@vue/eslint-config-prettier/-/eslint-config-prettier-6.0.0.tgz#ad5912b308f4ae468458e02a2b05db0b9d246700"
@@ -7748,6 +7753,21 @@ pify@^4.0.1:
   resolved "https://registry.npmmirror.com/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
 
+pinia-plugin-persist@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/pinia-plugin-persist/-/pinia-plugin-persist-1.0.0.tgz#fc696f225527f30bd5955109fafadd43c725e888"
+  integrity sha512-M4hBBd8fz/GgNmUPaaUsC29y1M09lqbXrMAHcusVoU8xlQi1TqgkWnnhvMikZwr7Le/hVyMx8KUcumGGrR6GVw==
+  dependencies:
+    vue-demi "^0.12.1"
+
+pinia@^2.0.28:
+  version "2.0.28"
+  resolved "https://registry.npmjs.org/pinia/-/pinia-2.0.28.tgz#887c982d854972042d9bdfd5bc4fad3b9d6ab02a"
+  integrity sha512-YClq9DkqCblq9rlyUual7ezMu/iICWdBtfJrDt4oWU9Zxpijyz7xB2xTwx57DaBQ96UGvvTMORzALr+iO5PVMw==
+  dependencies:
+    "@vue/devtools-api" "^6.4.5"
+    vue-demi "*"
+
 pinkie-promise@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npmmirror.com/pinkie-promise/-/pinkie-promise-2.0.1.tgz#2135d6dfa7a358c069ac9b178776288228450ffa"
@@ -10138,6 +10158,11 @@ vue-demi@*:
   version "0.13.5"
   resolved "https://registry.npmmirror.com/vue-demi/-/vue-demi-0.13.5.tgz#d5eddbc9eaefb89ce5995269d1fa6b0486312092"
   integrity sha512-tO3K2bML3AwiHmVHeKCq6HLef2st4zBXIV5aEkoJl6HZ+gJWxWv2O8wLH8qrA3SX3lDoTDHNghLX1xZg83MXvw==
+
+vue-demi@^0.12.1:
+  version "0.12.5"
+  resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.12.5.tgz#8eeed566a7d86eb090209a11723f887d28aeb2d1"
+  integrity sha512-BREuTgTYlUr0zw0EZn3hnhC3I6gPWv+Kwh4MCih6QcAeaTlaIX0DwOVN0wHej7hSvDPecz4jygy/idsgKfW58Q==
 
 vue-eslint-parser@^7.0.0, vue-eslint-parser@^7.10.0:
   version "7.11.0"

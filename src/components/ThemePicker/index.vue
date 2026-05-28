@@ -6,19 +6,19 @@
   />
 </template>
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
-import { useStore } from "vuex";
+import { onMounted, computed } from 'vue';
+import { useThemeStore } from '@/stores/theme';
 
-const store = useStore();
-const theme = ref(store.state.theme.themeColor);
-const el = document.getElementById("nav") as HTMLDivElement;
+const themeStore = useThemeStore();
+const theme = computed(() => themeStore.themeColor);
+const el = document.getElementById('nav') as HTMLDivElement;
 
 const configTheme = (val: string) => {
-  store.dispatch("theme/changeTheme", val);
-  el.style.setProperty("--mainColor", theme.value);
+  themeStore.changeTheme(val);
+  el.style.setProperty('--mainColor', theme.value);
   // const defaultColor = getComputedStyle(el).getPropertyValue("--mainColor");
 };
 onMounted(() => {
-  el.style.setProperty("--mainColor", theme.value);
+  el.style.setProperty('--mainColor', theme.value);
 });
 </script>
